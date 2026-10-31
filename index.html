@@ -192,20 +192,6 @@
   footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
   footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
 
-  .follows{margin:16px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:10px}
-  .follows .fh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin-bottom:4px}
-  .follows .fh b{font-family:var(--serif);font-size:15px}
-  .follows .fh span{font-size:12.5px;color:var(--muted)}
-  .follows ol{margin:0;padding:0;list-style:none;counter-reset:f}
-  .follows li{counter-increment:f;position:relative;padding:12px 0 12px 24px;border-top:1px dashed var(--line)}
-  .follows li:first-child{border-top:none}
-  .follows li::before{content:counter(f);position:absolute;left:0;top:13px;font-family:var(--serif);font-size:12px;font-weight:700;color:var(--accent)}
-  .follows .flink{display:inline-block;padding:9px 0;font-family:var(--serif);font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
-  .follows .flink:hover{border-bottom-color:var(--accent)}
-  .follows .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
-  .follows .fn{display:block;margin-top:2px;font-size:13px;color:var(--muted);line-height:1.8}
-  .follows .fn b{color:var(--warn);font-weight:600}
-
   .variants{margin:14px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:12px}
   .variants .vh{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:6px}
   .variants .vh b{font-family:var(--serif);font-size:15px}
@@ -223,22 +209,6 @@
   .variants .vn b{color:var(--ink);font-weight:600}
   .variants .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
 
-  .buy{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:26px 28px}
-  .buy .bk{font-size:11.5px;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
-  .buy h3{font-family:var(--serif);font-size:clamp(20px,3.2vw,26px);margin:0 0 10px;font-weight:700}
-  .buy .bm{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.6}
-  .buy .bm span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 9px;white-space:nowrap}
-  .buy .bprice{margin:0 0 16px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
-  .buy .bprice b{font-family:var(--serif);font-size:23px;font-weight:700;color:var(--accent);letter-spacing:-.01em}
-  .buy .bprice s{text-decoration:none;font-size:12.5px;color:var(--ok)}
-  .buy .bw{margin:0 0 16px;font-size:15px;color:#4a443d;line-height:1.85}
-  .buy .bn{margin:0 0 20px;padding:13px 16px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:8px;font-size:13.5px;color:var(--warn);line-height:1.8}
-  .buy .bn b{color:var(--ink);font-weight:600}
-  .buy .cta{display:inline-block;text-decoration:none;background:var(--ink);color:#fff;font-size:15px;padding:12px 24px;border-radius:999px;transition:.18s}
-  .buy .cta:hover{transform:translateY(-2px);background:var(--accent)}
-  .buy .cta .ext{font-size:12px;margin-left:5px;vertical-align:.14em}
-  .buy .cnote{display:block;margin-top:12px;font-size:12.5px;color:var(--muted)}
-
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
@@ -252,8 +222,6 @@
     .nav{gap:8px 6px}
     .grid2,.grid3{grid-template-columns:1fr}
     .links2{grid-template-columns:1fr}
-    .buy{padding:20px 18px}
-    .buy .cta{display:block;text-align:center;padding:14px 20px}
     .sec-sub{padding-left:0}
     .arrow{transform:rotate(90deg);width:100%;padding:2px 0}
     .hero{padding:42px 0 26px}
@@ -276,7 +244,8 @@
       <a class="on" href="./index.html">溯源核查</a>
       <a href="./anti-scam.html">防骗钱指南</a>
       <a href="./rules.html">行动守则</a>
-      <a href="./expectations.html">双向约定</a>
+      <a href="./expectations.html">双向约定</a> ·
+      <a href="./picks.html">推荐</a>
     </nav>
   </div>
 </header>
@@ -459,37 +428,13 @@
       </ol>
     </div>
 
-    <div class="follows reveal">
-      <div class="fh"><b>站长推荐关注</b><span>抖音账号 · 后续新增只往这个列表里加</span></div>
-      <ol>
-        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">新收录。该账号的昵称、内容方向与更新情况，<b>本站未作核实</b>（抖音用户页不向程序返回任何公开资料），点开请自行判断。</span></li>
-        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">同样<b>未作核实</b>。理由同上，不代写介绍。</span></li>
-      </ol>
-    </div>
-
   </div>
 </section>
 
-<section id="recommend">
-  <div class="wrap">
-    <div class="sec-head"><span class="sec-num">06</span><h2>推荐</h2></div>
-    <p class="sec-sub">站内目前唯一一条会花钱的链接，所以单独标出来。</p>
-    <div class="buy reveal">
-      <div class="bk">互动影像游戏 · 反捞题材</div>
-      <h3>《捞女游戏》</h3>
-      <p class="bm"><span>前方工作室</span><span>胡耀辉 导演</span><span>2025-06-19 发售</span><span>Windows / macOS / Linux</span></p>
-      <p class="bprice">Steam 国区<b>¥33</b><s>一次买断 · 无内购</s></p>
-      <p class="bw">它和本站做的是同一件事的两种做法：把「以爱为名的算计」拆开给人看。文字守则只能告诉你该警惕什么，这款游戏练的是<b>当场</b>的反应——200 多个抉择、38 个结局，糖衣递到面前那一次你得自己判断接不接。附带的「恋情档案」有 105 个情景剖析、14 万字，其中「反捞篇」专讲识别陷阱与自我保护。</p>
-      <p class="bn"><b>关于名字：</b>Steam 商店页第一行自己写着「原名：《捞女游戏》」。本站沿用原名，不作回避。</p>
-      <a class="cta" href="https://store.steampowered.com/app/3350200/?l=schinese" target="_blank" rel="noopener noreferrer nofollow">在 Steam 购买正版<span class="ext">↗</span></a>
-      <span class="cnote">非affiliate链接，本站不从中获得任何分成。价格以商店页实时显示为准。</span>
-    </div>
-  </div>
-</section>
 
 <section style="border-bottom:none">
   <div class="wrap">
-    <div class="sec-head"><span class="sec-num">07</span><h2>延伸阅读</h2></div>
+    <div class="sec-head"><span class="sec-num">06</span><h2>延伸阅读</h2></div>
     <p class="sec-sub">以下内容各自独立成页，首页只提供入口。</p>
     <a class="crosslink reveal" href="./anti-scam.html">
       <div class="k">独立专题 · 具体处境</div>
@@ -524,7 +469,8 @@
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗钱指南</a> ·
       <a href="./rules.html">行动守则</a> ·
-      <a href="./expectations.html">双向约定</a>
+      <a href="./expectations.html">双向约定</a> ·
+    <a href="./picks.html">推荐</a>
     </div>
   </div>
 </footer>

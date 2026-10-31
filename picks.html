@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>推荐 - 相关视频与站长关注账号 - 捞女游戏正版</title>
+<meta name="description" content="婚恋数据核查台的推荐页：相关短视频（彩礼与婚恋市场经济面）、付费推荐 Steam《捞女游戏》正版、站长推荐关注的抖音账号。所有推荐类链接集中在此页持续新增，不占用首页与导航。">
+<link rel="canonical" href="./picks.html">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1c1815; --muted:#6d655c;
+    --line:#e5ded3; --line-strong:#d3cabb;
+    --accent:#c9502a;
+    --danger:#b23a2b; --danger-bg:#fdf0ed; --danger-line:#f0cdc6;
+    --warn:#9a6a12;  --warn-bg:#fdf6e7;  --warn-line:#eeddb8;
+    --ok:#2c6f4f;    --ok-bg:#eef6f1;    --ok-line:#c9e2d4;
+    --live:#2f8f5b;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  .article{max-width:720px;margin:0 auto;padding:0 22px}
+
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .site-head .wrap{display:flex;align-items:center;justify-content:space-between;min-height:60px;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.02em;text-decoration:none}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--live);flex:none}
+  .brand small{font-family:var(--sans);font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em}
+  .nav{display:flex;flex-wrap:wrap;gap:4px;font-size:14px}
+  .nav a{text-decoration:none;padding:7px 13px;border-radius:999px;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:.18s}
+  .nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+  .nav a.on{color:#fff;background:var(--ink);border-color:var(--ink)}
+
+  .hero{padding:60px 0 30px;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--muted);border:1px solid var(--line-strong);background:#fff;padding:5px 12px;border-radius:999px;margin-bottom:20px}
+  h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,44px);line-height:1.3;margin:0 0 18px;font-weight:700}
+  .lede{font-size:17px;color:var(--muted);margin:0 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:13px;color:var(--muted)}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+
+  section.grp{padding:44px 0 8px;border-bottom:1px solid var(--line)}
+  section.grp:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .sec-num{font-family:var(--serif);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--accent);flex:none}
+  h2{font-family:var(--serif);font-size:clamp(20px,3.1vw,26px);margin:0;font-weight:700}
+  .sec-sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;padding-left:38px}
+
+  /* 视频条目 */
+  .vid{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:14px}
+  .vid .play{width:56px;height:44px;flex:none;border-radius:8px;background:linear-gradient(160deg,#f6d9b8,#e08a5a 55%,#8a4a34);display:flex;align-items:center;justify-content:center;color:#fff;font-size:14px;text-decoration:none;transition:.18s}
+  .vid .play:hover{transform:translateY(-2px);outline:2px solid var(--ink);outline-offset:2px}
+  .vid .play:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+  .vid .vb{flex:1 1 240px;min-width:0}
+  .vid h3{font-family:var(--serif);font-size:16.5px;margin:0 0 6px;font-weight:700;line-height:1.55}
+  .vid h3 a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .vid h3 a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  .vid .src{font-size:13px;color:var(--muted);margin:0 0 9px}
+  .tags{display:flex;flex-wrap:wrap;gap:4px 10px;margin:0 0 10px;font-size:12px;color:var(--muted)}
+  .tags i{font-style:normal;white-space:nowrap}
+  .vid .why{margin:0;font-size:14px;color:#4a443d;line-height:1.85}
+  .vid .why b{font-weight:600;color:var(--ink)}
+  .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
+
+  /* 付费推荐 */
+  .buy{background:#fff;border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;padding:26px 28px}
+  .buy .bk{font-size:11.5px;letter-spacing:.14em;color:var(--accent);margin-bottom:12px}
+  .buy h3{font-family:var(--serif);font-size:clamp(20px,3.2vw,26px);margin:0 0 10px;font-weight:700}
+  .buy .bm{display:flex;flex-wrap:wrap;gap:6px 8px;font-size:13px;color:var(--muted);margin:0 0 14px;line-height:1.6}
+  .buy .bm span{background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:3px 9px;white-space:nowrap}
+  .buy .bprice{margin:0 0 16px;font-size:14px;color:var(--muted);display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+  .buy .bprice b{font-family:var(--serif);font-size:23px;font-weight:700;color:var(--accent);letter-spacing:-.01em}
+  .buy .bprice s{text-decoration:none;font-size:12.5px;color:var(--ok)}
+  .buy .bw{margin:0 0 16px;font-size:15px;color:#4a443d;line-height:1.85}
+  .buy .bw b{font-weight:600;color:var(--ink)}
+  .buy .bn{margin:0 0 20px;padding:13px 16px;background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:8px;font-size:13.5px;color:var(--warn);line-height:1.8}
+  .buy .bn b{color:var(--ink);font-weight:600}
+  .buy .cta{display:inline-block;text-decoration:none;background:var(--ink);color:#fff;font-size:15px;padding:14px 24px;border-radius:999px;transition:.18s}
+  .buy .cta:hover{transform:translateY(-2px);background:var(--accent)}
+  .buy .cta:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+  .buy .cnote{display:block;margin-top:12px;font-size:12.5px;color:var(--muted)}
+
+  /* 关注列表 */
+  .follows{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+  .follows ol{margin:0;padding:0;list-style:none;counter-reset:f}
+  .follows li{counter-increment:f;position:relative;padding:12px 0 12px 24px;border-top:1px dashed var(--line)}
+  .follows li:first-child{border-top:none;padding-top:2px}
+  .follows li::before{content:counter(f);position:absolute;left:0;top:13px;font-family:var(--serif);font-size:12px;font-weight:700;color:var(--accent)}
+  .follows li:first-child::before{top:3px}
+  .follows .flink{display:inline-block;padding:9px 0;font-family:var(--serif);font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
+  .follows .flink:hover{border-bottom-color:var(--accent)}
+  .follows .flink:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+  .follows .fn{display:block;margin-top:2px;font-size:13px;color:var(--muted);line-height:1.8}
+  .follows .fn b{color:var(--warn);font-weight:600}
+
+  .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+  .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
+  .lcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .lcard .k{font-size:11px;letter-spacing:.13em;color:var(--muted);margin-bottom:7px}
+  .lcard h3{font-family:var(--serif);font-size:16px;margin:0 0 5px;font-weight:700}
+  .lcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+  .lcard .go{color:var(--accent);font-size:15px}
+
+  footer{padding:40px 0 60px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:44px}
+  footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
+  footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .vid .play,.buy .cta,.lcard,.nav a,.brand,a{transition:none}
+  }
+
+  @media(max-width:760px){
+    .hero{padding:40px 0 26px}
+    .site-head .wrap{padding-top:8px;padding-bottom:8px}
+    .nav{font-size:12.5px;gap:8px 6px}
+    .nav a{padding:10px 12px;font-size:13px}
+    .brand small{display:none}
+    .sec-sub{padding-left:0}
+    .links2{grid-template-columns:1fr}
+    .vid{flex-direction:column;gap:12px}
+    .vid .play{width:100%;height:44px}
+    .buy{padding:20px 18px}
+    .buy .cta{display:block;text-align:center;padding:14px 20px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <span class="dot"></span>
+      <span>婚恋数据核查台 <small>FACT&nbsp;CHECK</small></span>
+    </a>
+    <nav class="nav">
+      <a href="./index.html">溯源核查</a>
+      <a href="./anti-scam.html">防骗钱指南</a>
+      <a href="./rules.html">行动守则</a>
+      <a href="./expectations.html">双向约定</a>
+      <a class="on" href="./picks.html">推荐</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="article">
+    <span class="eyebrow">推荐 · 集中在此页</span>
+    <h1>推荐</h1>
+    <p class="lede">所有对外推荐——相关视频、付费内容、关注账号——都收在这一页。首页只讲核查与标准本身，不堆链接；以后新增也只往这里加条目，导航不再变长。</p>
+    <div class="meta">
+      <span>相关视频 <b>1</b></span>
+      <span>付费推荐 <b>1</b></span>
+      <span>关注账号 <b>2</b></span>
+      <span>最后更新 2026-10-31</span>
+    </div>
+  </div>
+</div>
+
+<article>
+<div class="article">
+
+  <section class="grp" id="videos">
+    <div class="sec-head"><span class="sec-num">01</span><h2>相关视频</h2></div>
+    <p class="sec-sub">与首页核查同一个市场，但讲的是原因侧。</p>
+
+    <div class="vid reveal">
+      <a class="play" href="https://v.douyin.com/DhNwKgozuNI/" target="_blank" rel="noopener noreferrer" aria-label="在抖音观看：三四线城市的男孩，为啥不愿为高彩礼买单了">▶</a>
+      <div class="vb">
+        <h3><a href="https://v.douyin.com/DhNwKgozuNI/" target="_blank" rel="noopener noreferrer">三四线城市的男孩，为啥不愿为高彩礼买单了？</a><span class="ext">↗</span></h3>
+        <p class="src">抖音短视频 · 财经类内容 · 收录于 2026-10-31</p>
+        <div class="tags"><i># 燃起来了大国重器</i><i># 真财实学计划</i><i># 零距离看懂财经</i></div>
+        <p class="why"><b>为什么收进来：</b>首页核查的是婚恋市场的<b>数字</b>，这条讲的是同一市场的<b>定价机制</b>——三四线城市的男孩为什么开始拒绝高彩礼。它不涉及本站核查过的那两个百分比，所以不算「同一说法的其他版本」，而是补上原因侧的一块拼图。看完它再回看首页第 03 节那三个有名有姓的数字，会更容易理解「房子和彩礼是硬门槛」这个方向性结论从哪来。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="grp" id="paid">
+    <div class="sec-head"><span class="sec-num">02</span><h2>付费推荐</h2></div>
+    <p class="sec-sub">站内唯一一条要点开就花钱的链接。</p>
+
+    <div class="buy reveal">
+      <div class="bk">互动影像游戏 · 反捞题材</div>
+      <h3>《捞女游戏》</h3>
+      <p class="bm"><span>前方工作室</span><span>胡耀辉 导演</span><span>2025-06-19 发售</span><span>Windows / macOS / Linux</span></p>
+      <p class="bprice">Steam 国区<b>¥33</b><s>一次买断 · 无内购</s></p>
+      <p class="bw">它和本站做的是同一件事的两种做法：把「以爱为名的算计」拆开给人看。文字守则只能告诉你该警惕什么，这款游戏练的是<b>当场</b>的反应——200 多个抉择、38 个结局，糖衣递到面前那一次你得自己判断接不接。附带的「恋情档案」有 105 个情景剖析、14 万字，其中「反捞篇」专讲识别陷阱与自我保护。</p>
+      <p class="bn"><b>关于名字：</b>Steam 商店页第一行自己写着「原名：《捞女游戏》」。本站沿用原名，不作回避。</p>
+      <a class="cta" href="https://store.steampowered.com/app/3350200/?l=schinese" target="_blank" rel="noopener noreferrer nofollow">在 Steam 购买正版<span class="ext">↗</span></a>
+      <span class="cnote">非 affiliate 链接，本站不从中获得任何分成。价格以商店页实时显示为准。</span>
+    </div>
+  </section>
+
+  <section class="grp" id="accounts">
+    <div class="sec-head"><span class="sec-num">03</span><h2>站长推荐关注</h2></div>
+    <p class="sec-sub">抖音账号，最新在前。后续新增只往这个列表里加条目。</p>
+
+    <div class="follows reveal">
+      <ol>
+        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">该账号的昵称、内容方向与更新情况，<b>本站未作核实</b>——抖音用户页为纯客户端渲染，服务端不向程序返回任何公开资料，故无法在此显示昵称与简介。点开请自行判断。</span></li>
+        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">同样<b>未作核实</b>，理由同上。</span></li>
+      </ol>
+    </div>
+  </section>
+
+  <div class="links2">
+    <a class="lcard reveal" href="./index.html">
+      <div class="k">首页 · 数据层面</div>
+      <h3>一句婚恋数据的「溯源核查」 <span class="go">→</span></h3>
+      <p>12% 与 45% 查无实据；67%、48%、42.7% 有名有姓。</p>
+    </a>
+    <a class="lcard reveal" href="./rules.html">
+      <div class="k">阅读顺序第三页</div>
+      <h3>既要反捞，也要反龟 <span class="go">→</span></h3>
+      <p>七条可直接执行的自我保护阈值。</p>
+    </a>
+  </div>
+
+</div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      <b>说明：</b>本页只做索引与链接，不复制、不转载原视频与原作品内容，观点归属各原作者。付费推荐为第三方商品，本站不获得任何分成，购买前请自行判断。链接可能因平台调整而失效，本站不因此改变已有结论。
+    </div>
+    <div>
+      婚恋数据核查台 · 最后更新 2026-10-31 ·
+      <a href="./index.html">溯源核查</a> ·
+      <a href="./anti-scam.html">防骗钱指南</a> ·
+      <a href="./rules.html">行动守则</a> ·
+      <a href="./expectations.html">双向约定</a> ·
+      <a href="./picks.html">推荐</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+})();
+</script>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</body>
+</html>
