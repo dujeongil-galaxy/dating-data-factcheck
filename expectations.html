@@ -79,6 +79,12 @@
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .fill,.lcard,.crosslink,.nav a,.brand,a.thumb,.entry .play,.watch,.item,.rule,.convention{transition:none}
+  }
+
   @media(max-width:760px){
     .hero{padding:40px 0 26px}
     .site-head .wrap{padding-top:8px;padding-bottom:8px}
@@ -103,6 +109,7 @@
       <a href="./anti-scam.html">防骗钱指南</a>
       <a href="./rules.html">行动守则</a>
       <a class="on" href="./expectations.html">双向约定</a>
+    <a href="./references.html">资料库</a>
     </nav>
   </div>
 </header>
@@ -229,7 +236,8 @@
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗钱指南</a> ·
       <a href="./rules.html">行动守则</a> ·
-      <a href="./expectations.html">双向约定</a>
+      <a href="./expectations.html">双向约定</a> ·
+    <a href="./references.html">资料库</a>
     </div>
   </div>
 </footer>

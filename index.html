@@ -186,6 +186,12 @@
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .fill,.lcard,.crosslink,.nav a,.brand,a.thumb{transition:none}
+  }
+
   @media(max-width:760px){
     .grid2,.grid3{grid-template-columns:1fr}
     .links2{grid-template-columns:1fr}
@@ -212,6 +218,7 @@
       <a href="./anti-scam.html">防骗钱指南</a>
       <a href="./rules.html">行动守则</a>
       <a href="./expectations.html">双向约定</a>
+    <a href="./references.html">资料库</a>
     </nav>
   </div>
 </header>
@@ -387,6 +394,7 @@
         <p class="by" style="margin:14px 0 0">作者声明：个人观点，仅供参考。收藏数与分享数接近，说明它被当作「可转述的结论」在传播——这恰恰是精确数字最容易脱离出处的那一步。</p>
       </div>
     </div>
+    <p class="by" style="margin:16px 0 0;font-size:13.5px;color:var(--muted)">全部引用资料见 <a href="./references.html" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)">资料库</a>，后续新增的视频与报道只在那一页加条目，不再增加导航项。</p>
   </div>
 </section>
 
@@ -427,7 +435,8 @@
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗钱指南</a> ·
       <a href="./rules.html">行动守则</a> ·
-      <a href="./expectations.html">双向约定</a>
+      <a href="./expectations.html">双向约定</a> ·
+    <a href="./references.html">资料库</a>
     </div>
   </div>
 </footer>

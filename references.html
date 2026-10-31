@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>资料库 · 参考来源</title>
+<meta name="description" content="本站引用的外部视频与资料清单：每条给出原始链接、标签、收录理由与站内关联页。新增资料只往本页加条目，不增加导航项。">
+<link rel="canonical" href="./references.html">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1c1815; --muted:#6d655c;
+    --line:#e5ded3; --line-strong:#d3cabb;
+    --accent:#c9502a;
+    --danger:#b23a2b; --danger-bg:#fdf0ed; --danger-line:#f0cdc6;
+    --warn:#9a6a12;  --warn-bg:#fdf6e7;  --warn-line:#eeddb8;
+    --ok:#2c6f4f;    --ok-bg:#eef6f1;    --ok-line:#c9e2d4;
+    --live:#2f8f5b;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  .article{max-width:720px;margin:0 auto;padding:0 22px}
+
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .site-head .wrap{display:flex;align-items:center;justify-content:space-between;min-height:60px;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.02em;text-decoration:none}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--live);flex:none}
+  .brand small{font-family:var(--sans);font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em}
+  .nav{display:flex;gap:4px;font-size:14px}
+  .nav a{text-decoration:none;padding:7px 13px;border-radius:999px;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:.18s}
+  .nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+  .nav a.on{color:#fff;background:var(--ink);border-color:var(--ink)}
+
+  .hero{padding:60px 0 30px;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--muted);border:1px solid var(--line-strong);background:#fff;padding:5px 12px;border-radius:999px;margin-bottom:20px}
+  h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,44px);line-height:1.3;margin:0 0 18px;font-weight:700}
+  .lede{font-size:17px;color:var(--muted);margin:0 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:13px;color:var(--muted)}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+
+  .convention{
+    margin:30px 0 0;padding:18px 20px;border:1px dashed var(--line-strong);border-radius:10px;
+    background:#fff;font-size:14px;color:var(--muted);line-height:1.85;
+  }
+  .convention b{color:var(--ink);font-weight:600}
+  .convention ul{margin:10px 0 0;padding-left:20px}
+  .convention li{margin:5px 0}
+
+  /* entries */
+  .entries{padding:40px 0 6px}
+  .entry{
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px 24px;margin-bottom:16px;
+    display:flex;gap:18px;align-items:flex-start;
+  }
+  .entry .play{
+    width:64px;height:44px;flex:none;border-radius:8px;border:1px solid var(--line);
+    background:linear-gradient(160deg,#f6d9b8,#e08a5a 55%,#8a4a34);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:15px;
+    text-decoration:none;transition:.18s;
+  }
+  .entry .play:hover{transform:translateY(-2px);outline:2px solid var(--ink);outline-offset:2px}
+  .entry .play:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+  .entry .body{flex:1 1 260px;min-width:0}
+  .entry h2{font-family:var(--serif);font-size:17px;margin:0 0 6px;font-weight:700;line-height:1.5}
+  .entry h2 a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .entry h2 a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  .entry .src{font-size:13px;color:var(--muted);margin:0 0 10px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
+  .tag{font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:3px 9px;color:var(--muted)}
+  .why{margin:0 0 12px;font-size:14.5px;color:#4a443d;line-height:1.8}
+  .why b{font-weight:600;color:var(--ink)}
+  .relate{display:flex;flex-wrap:wrap;gap:8px;font-size:13px}
+  .relate a{text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:4px 10px;color:var(--muted);transition:.18s}
+  .relate a:hover{color:var(--ink);border-color:var(--ink);background:var(--paper)}
+  .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
+
+  .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
+  .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
+  .lcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .lcard .k{font-size:11px;letter-spacing:.13em;color:var(--muted);margin-bottom:7px}
+  .lcard h3{font-family:var(--serif);font-size:16px;margin:0 0 5px;font-weight:700}
+  .lcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+  .lcard .go{color:var(--accent);font-size:15px}
+
+  footer{padding:40px 0 60px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:44px}
+  footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
+  footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .fill,.lcard,.crosslink,.nav a,.brand,a.thumb,.entry .play,.watch,.item,.rule,.convention{transition:none}
+  }
+
+  @media(max-width:760px){
+    .hero{padding:40px 0 26px}
+    .site-head .wrap{padding-top:8px;padding-bottom:8px}
+    .nav{font-size:12.5px;gap:3px}
+    .nav a{padding:5px 9px}
+    .brand small{display:none}
+    .links2{grid-template-columns:1fr}
+    .entry{flex-direction:column;gap:14px}
+    .entry .play{width:100%;height:40px}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <span class="dot"></span>
+      <span>婚恋数据核查台 <small>FACT&nbsp;CHECK</small></span>
+    </a>
+    <nav class="nav">
+      <a href="./index.html">溯源核查</a>
+      <a href="./anti-scam.html">防骗钱指南</a>
+      <a href="./rules.html">行动守则</a>
+      <a href="./expectations.html">双向约定</a>
+      <a class="on" href="./references.html">资料库</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="article">
+    <span class="eyebrow">附录 · 参考来源</span>
+    <h1>资料库</h1>
+    <p class="lede">本站引用的外部视频与资料统一收在这里。每条给出原始链接、标签、为什么收进来，以及它对应站内的哪一页。</p>
+    <div class="meta">
+      <span>当前条目：<b>2</b></span>
+      <span>排序：最新在前</span>
+      <span>最后更新：2026-10-31</span>
+    </div>
+    <div class="convention reveal">
+      <b>收录约定。</b>这一页是本站唯一的资料增长点，目的是让导航栏不再变长：
+      <ul>
+        <li>新来的视频、报道、外部链接，一律在本页<b>加一条条目</b>，不新增导航项、不新增页面。</li>
+        <li>只有当某份资料带来了<b>成篇的文字内容</b>，才为它单独开一页，并回到本页登记一条，指过去。</li>
+        <li>条目按收录时间倒序排列，最新的在最上面；旧条目不删除，只往下沉。</li>
+        <li>外链一律新标签页打开。站内不加载任何外部资源，链接失效不影响本站阅读。</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<article>
+<div class="article">
+
+  <div class="entries">
+
+    <div class="entry reveal">
+      <a class="play" href="https://v.douyin.com/jpS_GNvXTEk/" target="_blank" rel="noopener noreferrer" aria-label="在抖音观看：女人结婚仅仅73天就闪离，居然还要分走丈夫1500万的房产">▶</a>
+      <div class="body">
+        <h2><a href="https://v.douyin.com/jpS_GNvXTEk/" target="_blank" rel="noopener noreferrer">女人结婚仅仅 73 天就闪离，居然还要分走丈夫 1500 万的房产？</a><span class="ext">↗</span></h2>
+        <p class="src">抖音短视频 · 普法类内容 · 收录于 2026-10-31</p>
+        <div class="tags">
+          <span class="tag"># 法律</span>
+          <span class="tag"># 抖来普法 2026</span>
+          <span class="tag"># 房产纠纷</span>
+        </div>
+        <p class="why"><b>为什么收进来：</b>它讲的是这段关系走到尽头时，钱和房子会怎么被算清楚。这和「事前留证」是同一件事的两端——守则与防骗页负责让你不往里搭钱，这一条负责让你知道真到分割那天，规则是怎么运转的。闪离 73 天、1500 万房产，说明争议金额可以大到什么量级，不是靠感觉能估的。</p>
+        <div class="relate">
+          <span>站内关联：</span>
+          <a href="./anti-scam.html">防骗钱指南 · 止损与取证</a>
+          <a href="./expectations.html">双向约定 · 底线原则</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="entry reveal">
+      <a class="play" href="https://v.douyin.com/jF8pfxKiCsI/" target="_blank" rel="noopener noreferrer" aria-label="在抖音观看：婚恋市场变身女儿国，男人都跑哪去了">▶</a>
+      <div class="body">
+        <h2><a href="https://v.douyin.com/jF8pfxKiCsI/" target="_blank" rel="noopener noreferrer">婚恋市场变身「女儿国」，男人都跑哪去了？</a><span class="ext">↗</span></h2>
+        <p class="src">@刘小财 · 发布于 2026-09-17 · 时长 05:12 · 第 2 章：男性退出婚恋市场的原因</p>
+        <div class="tags">
+          <span class="tag"># 婚恋市场</span>
+          <span class="tag"># 相亲</span>
+          <span class="tag"># 财经</span>
+          <span class="tag"># 经济</span>
+        </div>
+        <p class="why"><b>为什么收进来：</b>首页核查的那句「无房无车男性相亲成功率 12%、有房以后 45%」就出自这条视频，是本站的直接来源。它的点赞 2.8 万、收藏 5130、分享 5981——收藏与分享几乎持平，说明它被当成「可转述的结论」在传播，而那正是精确数字脱离出处的第一步。</p>
+        <div class="relate">
+          <span>站内关联：</span>
+          <a href="./index.html">首页 · 一句婚恋数据的溯源核查</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="links2">
+    <a class="lcard reveal" href="./index.html">
+      <div class="k">首页 · 数据层面</div>
+      <h3>一句婚恋数据的「溯源核查」 <span class="go">→</span></h3>
+      <p>12% 与 45% 查无实据；67%、48%、42.7% 有名有姓。</p>
+    </a>
+    <a class="lcard reveal" href="./expectations.html">
+      <div class="k">阅读顺序最后一页</div>
+      <h3>我想要的关系 <span class="go">→</span></h3>
+      <p>金钱与付出、情感与尊重、自我成长、底线原则四组约定。</p>
+    </a>
+  </div>
+
+</div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      <b>说明：</b>本页仅提供外部资料的索引与链接，不复制、不转载原视频内容；观点归属各原作者。链接可能因平台调整而失效，本站不会因此改变已有结论。涉及法律相关的表述属一般性常识，实际操作以现行法律法规与专业律师意见为准。
+    </div>
+    <div>
+      婚恋数据核查台 · 最后更新 2026-10-31 ·
+      <a href="./index.html">溯源核查</a> ·
+      <a href="./anti-scam.html">防骗钱指南</a> ·
+      <a href="./rules.html">行动守则</a> ·
+      <a href="./expectations.html">双向约定</a> ·
+      <a href="./references.html">资料库</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+})();
+</script>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</body>
+</html>
