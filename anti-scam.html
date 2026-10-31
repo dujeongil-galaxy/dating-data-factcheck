@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>怎么防止自己被骗钱？· 识别、止损与法律手段</title>
+<meta name="description" content="亲密关系中的金钱陷阱：认识没多久就要钱、以爱之名的隐性捞钱、说不清的憋屈感，以及正在被骗时如何及时止损、如何用转账备注与诉讼把钱追回。">
+<link rel="canonical" href="./anti-scam.html">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1c1815; --muted:#6d655c;
+    --line:#e5ded3; --line-strong:#d3cabb;
+    --accent:#c9502a;
+    --danger:#b23a2b; --danger-bg:#fdf0ed; --danger-line:#f0cdc6;
+    --warn:#9a6a12;  --warn-bg:#fdf6e7;  --warn-line:#eeddb8;
+    --ok:#2c6f4f;    --ok-bg:#eef6f1;    --ok-line:#c9e2d4;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  a{color:inherit}
+  .article{max-width:720px;margin:0 auto;padding:0 22px}
+
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .site-head .wrap{display:flex;align-items:center;justify-content:space-between;height:60px;max-width:940px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.02em;text-decoration:none}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
+  .brand small{font-family:var(--sans);font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em}
+  .nav{display:flex;gap:4px;font-size:14px}
+  .nav a{text-decoration:none;padding:7px 13px;border-radius:999px;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:.18s}
+  .nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+  .nav a.on{color:#fff;background:var(--ink);border-color:var(--ink)}
+
+  .hero{padding:60px 0 30px;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--accent);border:1px solid var(--danger-line);background:var(--danger-bg);padding:5px 12px;border-radius:999px;margin-bottom:20px}
+  h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,44px);line-height:1.3;margin:0 0 18px;font-weight:700}
+  .lede{font-size:17px;color:var(--muted);margin:0 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:13px;color:var(--muted)}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+
+  /* TOC */
+  .toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;margin:34px 0 0}
+  .toc h4{font-family:var(--serif);margin:0 0 12px;font-size:14px;letter-spacing:.06em;color:var(--muted);font-weight:600}
+  .toc ol{margin:0;padding-left:20px;font-size:14.5px}
+  .toc li{margin:5px 0}
+  .toc a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .toc a:hover{color:var(--accent);border-color:var(--accent)}
+
+  article{padding:14px 0 20px}
+  section.blk{padding:44px 0 6px;border-bottom:1px solid var(--line)}
+  section.blk:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .sec-num{font-family:var(--serif);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--accent);flex:none}
+  h2{font-family:var(--serif);font-size:clamp(20px,3.1vw,26px);margin:0;font-weight:700;line-height:1.45}
+  h3{font-family:var(--serif);font-size:18px;margin:34px 0 12px;font-weight:700}
+  p{margin:0 0 16px}
+  em{font-style:normal;background:linear-gradient(transparent 62%,#f6dfc9 62%);padding:0 1px}
+  strong{font-weight:600}
+
+  .box{border-radius:12px;padding:20px 22px;margin:22px 0;border:1px solid var(--line);background:#fff}
+  .box.no{background:var(--danger-bg);border-color:var(--danger-line)}
+  .box.diff{background:var(--warn-bg);border-color:var(--warn-line)}
+  .box.ok{background:var(--ok-bg);border-color:var(--ok-line)}
+  .box .tag{display:inline-block;font-size:11.5px;letter-spacing:.1em;padding:3px 9px;border-radius:5px;font-weight:600;margin-bottom:12px;color:#fff}
+  .box.no .tag{background:var(--danger)}
+  .box.diff .tag{background:var(--warn)}
+  .box.ok .tag{background:var(--ok)}
+  .box h4{font-family:var(--serif);margin:0 0 10px;font-size:16.5px}
+  .box p:last-child{margin-bottom:0}
+  .box p{font-size:15px}
+
+  blockquote{
+    margin:26px 0;padding:4px 0 4px 22px;border-left:3px solid var(--accent);
+    font-family:var(--serif);font-size:18px;line-height:1.75;color:var(--ink);
+  }
+  blockquote cite{display:block;font-family:var(--sans);font-size:13px;color:var(--muted);margin-top:10px;font-style:normal}
+
+  ul.dots{margin:0 0 16px;padding-left:20px}
+  ul.dots li{margin:7px 0}
+  ol.steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  ol.steps li{
+    counter-increment:s;position:relative;padding:14px 16px 14px 50px;
+    background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;
+  }
+  ol.steps li::before{
+    content:counter(s,decimal-leading-zero);position:absolute;left:15px;top:14px;
+    font-family:var(--serif);font-size:13px;font-weight:700;color:var(--accent);
+  }
+  ol.steps li b{display:block;margin-bottom:3px}
+  ol.steps li span{color:#4a443d;font-size:14.5px}
+
+  .law{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 22px 20px;margin:22px 0}
+  .law h4{font-family:var(--serif);font-size:16.5px;margin:18px 0 6px;display:flex;gap:9px;align-items:baseline}
+  .law h4 i{font-style:normal;color:var(--ok);font-size:13px;flex:none}
+  .law p{font-size:14.5px;color:#4a443d;margin:0}
+  .law p.warnline{color:var(--danger)}
+
+  .qa{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;padding:20px 22px;margin:22px 0}
+  .qa p{font-size:15px;margin:0 0 10px}
+  .qa p:last-child{margin:0}
+
+  .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
+  .lcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .lcard .k{font-size:11px;letter-spacing:.13em;color:var(--muted);margin-bottom:7px}
+  .lcard h3{font-family:var(--serif);font-size:16px;margin:0 0 5px;font-weight:700}
+  .lcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+  .lcard .go{color:var(--accent);font-size:15px}
+  .crosslink{display:block;text-decoration:none;background:var(--ink);color:#fff;border-radius:14px;padding:28px 52px 28px 26px;position:relative;transition:.2s;margin-top:44px}
+  .crosslink:hover{transform:translateY(-2px)}
+  .crosslink .k{font-size:11.5px;letter-spacing:.16em;color:#d9a488;margin-bottom:9px}
+  .crosslink h3{font-family:var(--serif);font-size:clamp(18px,2.8vw,22px);margin:0 0 9px}
+  .crosslink p{margin:0;color:rgba(255,255,255,.72);font-size:14.5px;max-width:56ch}
+  .crosslink .go{position:absolute;right:26px;top:50%;transform:translateY(-50%);font-size:26px;color:#d9a488}
+
+  footer{padding:40px 0 60px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:44px}
+  footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
+  footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    .hero{padding:40px 0 26px}
+    section.blk{padding:34px 0 4px}
+    .nav a{padding:6px 10px;font-size:13px}
+    .links2{grid-template-columns:1fr}
+    .crosslink .go{position:static;transform:none;display:block;margin-top:12px}
+    blockquote{font-size:16.5px}
+  }
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <span class="dot"></span>
+      <span>婚恋数据核查台 <small>FACT&nbsp;CHECK</small></span>
+    </a>
+    <nav class="nav">
+      <a href="./index.html">溯源核查</a>
+      <a class="on" href="./anti-scam.html">防骗钱指南</a>
+      <a href="./rules.html">行动守则</a>
+      <a href="./expectations.html">双向约定</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="article">
+    <span class="eyebrow">独立专题 · 亲密关系中的金钱</span>
+    <h1>怎么防止自己被骗钱？</h1>
+    <p class="lede">这一页不谈数据，谈具体的处境：钱已经张口了，你还没想清楚要不要给；或者你已经给了很多次，心里有点不对劲，但说不清哪里不对。</p>
+    <div class="meta">
+      <span>识别三类情形</span>
+      <span>两条止损路径</span>
+      <span>可执行的取证细节</span>
+    </div>
+    <div class="toc">
+      <h4>目录</h4>
+      <ol>
+        <li><a href="#s1">认识没多久，直接要钱 / 借钱</a></li>
+        <li><a href="#s2">以爱之名——隐性捞钱</a></li>
+        <li><a href="#s3">你觉得憋屈、哪里不对劲，又说不上来时</a></li>
+        <li><a href="#s4">如果你正在被骗，怎么及时止损</a></li>
+        <li><a href="#s5">当我掏钱的时候，我在想什么</a></li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<article>
+<div class="article">
+
+<section class="blk" id="s1">
+  <div class="sec-head"><span class="sec-num">01</span><h2>认识没多久，直接要钱 / 借钱</h2></div>
+
+  <p>如果你和一个女生刚认识，不论线上还是线下，她就问你要钱、借钱、讨红包——<strong>这种情况，一律不给。</strong></p>
+
+  <p>大多数情况下，你很快能察觉这不对劲。一个人刚认识你就开口要一大笔钱，只要你不傻，肯定不会给。</p>
+
+  <p>但很多人识别不清的是下面这一种：前面聊得不错，让你觉得<em>有戏</em>。这时候她开口借钱，借得也不多，两三百、五六百，并承诺过段时间就还。</p>
+
+  <div class="qa reveal">
+    <p>不借，她会不会觉得我小气、对我冷淡？</p>
+    <p>借了，又担心对方来者不善，到时候不还。</p>
+    <p>往往这时候存着赌一把的心态：借吧，反正她承诺了会还，金额也在我的承受范围内，现在聊得不错，她人品应该没问题。</p>
+  </div>
+
+  <p>这种选择，最后的结果往往是人财两空。有人更惨，借了一笔又一笔，连女生的面都没见到，钱也要不回来。</p>
+
+  <h3>停下来想一个问题</h3>
+  <p>为什么一个刚认识没多久的人问你借 10 万，你会果断拒绝；但借 200 块、要一个 200 块的红包，你就开始动摇、开始纠结？</p>
+
+  <p>因为你想用一点金钱的付出，去买她继续对你热情、继续和你聊天、继续给你情感上的关注。你担心不借这个钱，她就冷淡了、不理你了。</p>
+
+  <p>实际上，你在那个当下，是被内心那个<em>「有钱才吸引女人」</em>的判断偷偷劫持了，而你自己没有觉察到。正因为有这个判断，你才会担心她觉得你小气，才会纠结。</p>
+
+  <p>除了想用金钱买情感关注，还有一点是<strong>可得性原理</strong>：当你开始投入情感、觉得你俩有戏、觉得她是可得到的，你就开始被她的行为牵着走，这时候最容易看不清现实。</p>
+
+  <blockquote>但凡能让你动心、纠结、犹豫的，一定是她之前对你付出过一点情感价值，让你觉得——好像有戏。</blockquote>
+
+  <p>但要去看：<strong>每次只有在你给她钱的前后，她才对你热情一下；只要没给钱，她就不热情。</strong>那么，这就是有问题的。</p>
+
+  <div class="box diff reveal">
+    <span class="tag">觉自心</span>
+    <h4>看到那股情绪，就不会被它劫持</h4>
+    <p>哦，我现在在纠结借不借。理性告诉我不能借，但同时有一股很强大的情绪在劫持我，告诉我：不借这个钱，女生就会冷淡我。我很怕她冷淡我，我渴望她继续对我热情。</p>
+    <p>看到这股情绪，看到你的害怕、你的渴望，看到自己最真实的情绪——看到它，就不会被它劫持，然后你就能做出正确的决定，甚至能看清这个女生问你借钱的真实目的。</p>
+  </div>
+
+  <p>要知道，女生喜欢你，和钱没有必然关系。没钱、不帅、不高，照样可以让女生喜欢你、爱上你。但确实有人心底里依然认为：只有有钱了，才能吸引女人。</p>
+
+  <p>暂时去不掉这个判断没关系，但要给自己做一个<strong>保底的护栏</strong>——防止因为「有钱才吸引女人」这个判断，被某些人骗钱。因为底层有这个判断，经常有人会给女生打冤枉钱。</p>
+
+  <p>换位思考一下：如果你刚认识一个人一两周，你会问 ta 借钱吗？你觉得 ta 会借给你吗？什么情况下你笃定 ta 一定会给你？</p>
+</section>
+
+<section class="blk" id="s2">
+  <div class="sec-head"><span class="sec-num">02</span><h2>以爱之名——隐性捞钱</h2></div>
+
+  <p>第一种直接要钱的，其实比较好分辨，手段不算高明，对方付出的情感价值也不多。</p>
+
+  <p>而一些隐性的捞钱方式，往往打着「以爱之名」的幌子，让你<em>心甘情愿</em>地付出。分辨难度加大，因为对方一定也付出了相当的情感价值——至少让你感觉她付出了。这类情况通常发生在两个阶段：追求期，和确认关系之后。</p>
+
+  <h3>1）追求阶段</h3>
+  <p>如果你俩每次出去吃饭，都是女生主动约你、选她喜欢的餐厅、点她爱吃的菜，然后吃饭的钱她一毛不出，也从来不说下次她请——<strong>基本可以确定，这就是在隐性地捞。</strong></p>
+  <p>你能看到：比起和你的约会，她更在意的是去这家餐厅，只不过，需要有人买单。</p>
+  <p>这时候你还要不要继续？如果你还要继续，那么在她又来主动约你吃饭的时候，你能不能直接对她说出那句话——</p>
+  <blockquote>「可以啊，这次你付钱哦。」</blockquote>
+  <p>或者你可以自己提议换一家餐厅，或者改成喝茶。以没时间吃饭、换个时间段喝咖啡为由，把重点放到你俩的聊天上，而不是吃饭上。</p>
+
+  <h3>2）确认关系之后</h3>
+  <p>另一种情况：你们已经是男女朋友，但她从来没有带你见过闺蜜、朋友、家人，也没有在朋友圈公开过关系。换句话说，从来不带你进入她的生活圈——即使已经是男女朋友，甚至发生了关系，你依然不了解她的生活和过往。（这条判断准则同样适用于女生。）</p>
+  <p>然后这个女生还经常问你要买包、买名牌、买手机、买表、转账、发红包，而且从来不对你付出。你不给买就是不爱她，然后冷淡你、和你吵架，直到你妥协为止。</p>
+  <p>这时候，心底要敲一个警钟：<strong>她真的爱你吗？还是另有目的？</strong></p>
+  <p>如果你确定没问题、自己也不觉得累不觉得苦，甚至天天吃泡面省吃俭用也要给她买昂贵的东西、给她转账——等你买不起了就会被分手。一辈子这样，值吗？</p>
+
+  <div class="box no reveal">
+    <span class="tag">移情</span>
+    <h4>把女生当妈妈，就会「甘愿受骗」</h4>
+    <p>很多人太缺爱了。他们大致知道一段正常的恋爱关系是什么样，但因为内心太缺爱、太想抓住当下这一点点温暖，即使对方对自己再坏，也甘愿被她劫持。理性上明明不愿意，但情感大脑不受理性控制，甘愿被骗、甘愿付出。</p>
+    <p>婴儿时期的需求如果没有被妈妈满足，就会焦虑「妈妈不够无条件爱我」，从而产生死亡焦虑。婴儿生存力弱，必须得到细心照顾才能活命，缺爱、缺关注、缺照顾，即刻引发死亡焦虑。而这份掌握在妈妈手里，她的情绪一旦突变，你就会极度焦虑，因为你的生存依赖她，而她的情绪你无法控制。为了让自己日子好过，你会怎么做？——满足「妈妈」的需求。</p>
+    <p>长大后，在两性关系里一旦发生了移情，把女生当妈妈，也就会无条件满足对方的需求，出现「甘愿受骗」的情况。因为作为婴儿别无选择，<em>但你现在早已不是婴儿，她也不是你妈妈。</em></p>
+  </div>
+
+  <p>一旦被分手、被抛弃，就会带来死亡焦虑。这股情绪的能量是巨大的，能劫持一个人，让你感受到非常痛苦的情绪——大多数被分过手的人都体会过。如果它升起时你没有看到它，它甚至能短暂压过对真正死亡的害怕，让人做出让自己后悔的事。</p>
+
+  <p>所以记住：<strong>任何苦难都会过去。</strong>现在让你痛不欲生的这股情绪，也一定会过去。</p>
+  <blockquote>一切都会过去的。<cite>不要冲动，不要做让自己后悔都来不及的事。</cite></blockquote>
+  <p>如果上面那句到时你觉得都不管用，还是痛不欲生、感觉要冲动做傻事，那就记住这一句：</p>
+  <blockquote>大千世界，无挂无碍。自去自来，自由自在。要生便生，莫找替代。</blockquote>
+  <p>看到情绪起来，到峰值，再到退去，什么都不做，只要看到它就行。所以平时要多做《瞬间自信》里的固定练习，增加心力，才能及时看到情绪从升起到消失的整个过程，不被它劫持。</p>
+
+  <p>在面对和女生花钱的问题上，就会自然知道什么钱该花、什么钱一分都不出。有时候<em>你不花钱，反而会在对方内心升起对你的尊重</em>；你打钱给她，她内心深处反而失去了对你的尊重，因为她知道她能晃动你、劫持你——作为女性，她就会觉得你靠不住了。</p>
+</section>
+
+<section class="blk" id="s3">
+  <div class="sec-head"><span class="sec-num">03</span><h2>你觉得憋屈、哪里不对劲，又说不上来时</h2></div>
+
+  <p>很多人在恋爱中有这么一个烦恼：无论出去玩还是约会吃饭，对方一分钱也不花；即使在一起之后，生活费用也全部由你承担。心里觉得不公平、憋屈，然后问自己：我是不是太小气了？还是我被捞了？</p>
+
+  <p><strong>这种要分情况。</strong></p>
+  <p>如果你们还不是男女朋友，而且也不是第 02 条里那种「她主动约你、选餐厅、点她爱吃的、然后一分不花」的情形，而是<strong>你主动邀约</strong>——这种就不能把人家姑娘归为捞女。有些情况，男人绅士一点、买个单，真别当回事。</p>
+  <p>既然是你主动邀约的约会，那是不是就可以根据自身经济条件选择合适的餐厅、点在预算内的菜？而不是什么都让对方决定，最后人家点菜的钱超出你的预期，你心里不舒服，还要给人扣一顶帽子。那就属于「端着碗吃饭，放下碗骂娘」了。</p>
+  <p>如果你们已经是男女朋友，并且排除了第 02 条里的行为，那这个问题其实不是捞不捞的问题，而是：<strong>恋爱中，怎么花钱？</strong></p>
+
+  <div class="box diff reveal">
+    <span class="tag">心力</span>
+    <h4>别先打压自己</h4>
+    <p>如果目前的消费方式已经让你不舒服了，先不用打压自己、觉得自己太小气。打压一定会出问题，而且情绪最后一定会爆发。因为这是你当下真实的想法，但你不敢表露，你甚至还在否定自己的真实感受。</p>
+    <p>这其实是心力不足。什么叫心力不足？就是我们不敢按照自己真心实意的想法去行动。而这个「不敢」，实际上是我们对自己内心真实的那个感受不信任。</p>
+    <p>所以第一步是积累心力。心力足了之后，我们就能自动把聚光灯打在对方身上，真正去看她是一个什么样的人；也同时能看到——我付出到什么程度是我心甘情愿的，而不是因为担心她觉得我小气、要抛弃我、离开我。</p>
+  </div>
+</section>
+
+<section class="blk" id="s4">
+  <div class="sec-head"><span class="sec-num">04</span><h2>如果你正在被骗，怎么及时止损</h2></div>
+
+  <ol class="steps">
+    <li class="reveal"><b>直接停止</b><span>这是最直接、也最有用的行为。很多人做不到、实行不下来，就是因为被那股情绪劫持而没有看到，导致付出的越来越多。</span></li>
+    <li class="reveal"><b>拿起法律武器保护自己的利益</b><span>下面是可执行到每一个细节的操作，见下框。</span></li>
+  </ol>
+
+  <div class="law reveal">
+    <h4><i>①</i>转账备注「借款」</h4>
+    <p>转账借钱时备注「借款」。这样无论对方是否写借条，都可以确定属于借款关系。后期对方不还，无论是几百还是几万，都可以向法院提交诉讼材料追回。</p>
+    <h4><i>②</i>不敢备注「借款」，就备注对方真实姓名</h4>
+    <p>担心直接备注「借款」会得罪对方，还可以换一种方式：转账时备注对方的真实姓名，同样有法律效力。</p>
+    <h4><i>③</i>大额转账会要求填真实姓名，名字要一开始就问</h4>
+    <p>大额转账时会跳出填写真实姓名的提示。名字一定要一开始就问——这样万一后续真的需要转账，也可以双重验证对方提供的名字是否为真实信息。</p>
+    <p class="warnline">所以，如果你和 ta 刚认识没多久，对方就借钱，然后连姓名也不愿意透露给你，是不是有问题？</p>
+    <h4><i>④</i>最好不要直接给现金</h4>
+    <p>即使写了借条，对方也可能不承认你们之间存在过借款行为。到时候打官司周期长、需要举证的材料多，会很麻烦。所以最好通过银行卡转账，同时备注。</p>
+    <h4><i>⑤</i>对方要求备注「自愿赠予」，敲警钟</h4>
+    <p>如果女生主动要求你在转账时备注「自愿赠予」，需要敲一下警钟。</p>
+    <h4><i>⑥</i>没备注、找不到人了怎么办</h4>
+    <p>如果当时转账没有备注借款性质，现在想让对方还钱却找不到人、对方玩消失：转账金额超过三千元且存在诈骗行为的，可以立案追回。</p>
+    <h4><i>⑦</i>特殊数字的转账要不回来</h4>
+    <p>民法典规定，恋爱期间内含有特殊数字意义的转账——比如 520、1314——属于赠与性质，不能追回。</p>
+  </div>
+</section>
+
+<section class="blk" id="s5">
+  <div class="sec-head"><span class="sec-num">05</span><h2>当我掏钱的时候，我在想什么</h2></div>
+
+  <p>这就不得不回到最核心的一个问题：<strong>当我掏钱的时候，我在想什么？</strong></p>
+  <blockquote>我什么都没想。<cite>更多地萦绕在脑海里的，是她好像更喜欢吃什么、下次去吃，等下带她去哪里玩。对我来说，她的笑容就是最好的回馈。</cite></blockquote>
+  <p>当然，也不是盲目的。不存在超出经济水平的消费，因为大家都是成年人，<em>两个自尊自爱的灵魂，是不会让对方陷入难堪的。</em></p>
+  <p>要知道，钱买不来货真价实的感情。</p>
+
+  <div class="box ok reveal">
+    <span class="tag">最后提醒</span>
+    <h4>不要一上来就给人贴标签，但对自己要诚实</h4>
+    <p>当你通过「觉自心」达到一定高度的「刹那真我」之后，你会发现：即便原本有「捞」的想法的女生，碰到你之后，也会被你的魅力折服，完全放弃捞钱，而是想从你身上捞更多的爱和关注——因为当你真正被爱之后，你会发现，爱的价值远远超过钱。到那个时候，更何况其他女生。</p>
+    <p>只不过，当我们自己还很缺爱、还不会给别人爱的时候，就容易招感那些打着爱的名义捞钱的人。</p>
+    <p>但我们也不要一上来就给人贴标签。当我们达到那样的气度和高度时，在我们眼里，根本不存在「捞女」。</p>
+    <p><strong>但注意！</strong>要对自己内心当下的水平保持诚实。不要在内心还没到那一层的时候，因为被「想要」劫持而误以为自己到了，然后去招惹不该招惹的人，结果把自己搭进去。</p>
+  </div>
+
+  <p>所以在顿悟真我、达到那种境界之前，仍然需要靠上面这些注意事项来保护自己。</p>
+  <blockquote>不给钱就不给。<br>不招惹就不招惹。</blockquote>
+
+  <a class="crosslink reveal" href="./rules.html">
+    <div class="k">下一篇 · 行动守则</div>
+    <h3>既要反捞，也要反龟</h3>
+    <p>把上面的判断压缩成七条可以直接执行的标准：先假定风险存在、一年内出现单方面付出马上跑、不暴露需求感、把爱自己放在首位。</p>
+    <span class="go">→</span>
+  </a>
+  <div class="links2">
+    <a class="lcard reveal" href="./index.html">
+      <div class="k">首页 · 数据层面</div>
+      <h3>一句婚恋数据的「溯源核查」 <span class="go">→</span></h3>
+      <p>12% 与 45% 查无实据；67%、48%、42.7% 有名有姓。</p>
+    </a>
+    <a class="lcard reveal" href="./expectations.html">
+      <div class="k">最后一页 · 双向约定</div>
+      <h3>我想要的关系 <span class="go">→</span></h3>
+      <p>经济独立、轮流买单、公开关系、诚实透明。反过来的一面：到底想要什么。</p>
+    </a>
+  </div>
+</section>
+
+</div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      <b>说明：</b>本页内容整理自个人写作材料，属于个人观点与经验之谈，不构成法律意见。文中涉及转账备注、立案金额、赠与性质等法律相关内容，实际操作请以现行法律法规与专业律师意见为准。情绪困扰严重或出现自伤念头时，请及时联系信任的人或拨打当地心理援助热线。
+    </div>
+    <div>
+      婚恋数据核查台 · 最后更新 2026-10-31 ·
+      <a href="./index.html">溯源核查</a> ·
+      <a href="./anti-scam.html">防骗钱指南</a> ·
+      <a href="./rules.html">行动守则</a> ·
+      <a href="./expectations.html">双向约定</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+    },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(n){n.classList.add('in');});
+  }
+})();
+</script>
+</body>
+</html>

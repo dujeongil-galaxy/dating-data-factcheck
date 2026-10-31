@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>一句婚恋数据的溯源核查 · 12% 与 45% 从哪来</title>
+<meta name="description" content="对「25-35岁男性无房无车相亲成功率12%、有房后45%」这句自媒体数据的完整溯源核查：查无实据、数字互相打架，以及方向上真正可查证的事实。">
+<link rel="canonical" href="./index.html">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1c1815; --muted:#6d655c;
+    --line:#e5ded3; --line-strong:#d3cabb;
+    --accent:#c9502a;
+    --danger:#b23a2b; --danger-bg:#fdf0ed; --danger-line:#f0cdc6;
+    --warn:#9a6a12;  --warn-bg:#fdf6e7;  --warn-line:#eeddb8;
+    --ok:#2c6f4f;    --ok-bg:#eef6f1;    --ok-line:#c9e2d4;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:var(--sans); font-size:16px; line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+
+  /* ---------- header ---------- */
+  .site-head{
+    position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);
+    backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line);
+  }
+  .site-head .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.02em;text-decoration:none}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
+  .brand small{font-family:var(--sans);font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em}
+  .nav{display:flex;gap:4px;font-size:14px}
+  .nav a{
+    text-decoration:none;padding:7px 13px;border-radius:999px;color:var(--muted);
+    border:1px solid transparent;white-space:nowrap;transition:.18s;
+  }
+  .nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+  .nav a.on{color:#fff;background:var(--ink);border-color:var(--ink)}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 34px;border-bottom:1px solid var(--line)}
+  .eyebrow{
+    display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--accent);
+    border:1px solid var(--danger-line);background:var(--danger-bg);
+    padding:5px 12px;border-radius:999px;margin-bottom:20px;
+  }
+  h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,46px);line-height:1.28;margin:0 0 18px;font-weight:700;letter-spacing:.01em}
+  .lede{font-size:17px;color:var(--muted);max-width:66ch;margin:0 0 26px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:13px;color:var(--muted)}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+  .meta b{color:var(--ink);font-weight:600}
+
+  /* ---------- sections ---------- */
+  section{padding:52px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .sec-num{
+    font-family:var(--serif);font-size:13px;font-weight:700;letter-spacing:.1em;
+    color:var(--accent);flex:none;
+  }
+  h2{font-family:var(--serif);font-size:clamp(21px,3.2vw,27px);margin:0;font-weight:700;letter-spacing:.01em}
+  .sec-sub{color:var(--muted);font-size:15px;margin:0 0 28px;padding-left:38px}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:24px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+
+  /* ---------- claim block ---------- */
+  .claim-wrap{background:var(--danger-bg);border:1px solid var(--danger-line);border-radius:14px;padding:28px 26px}
+  .claim-flow{display:flex;align-items:stretch;gap:18px;flex-wrap:wrap}
+  .claim{
+    flex:1 1 220px;background:#fff;border:1px solid var(--danger-line);border-radius:10px;
+    padding:22px 20px;text-align:center;
+  }
+  .num{font-family:var(--serif);font-size:clamp(40px,7vw,58px);font-weight:700;line-height:1;color:var(--danger);letter-spacing:-.01em}
+  .num .pct{font-size:.5em;vertical-align:.42em;margin-left:2px}
+  .claim p{margin:12px 0 0;font-size:14px;color:var(--muted);line-height:1.6}
+  .arrow{display:flex;align-items:center;justify-content:center;color:var(--danger);font-size:26px;flex:0 0 auto}
+  .src{margin-top:22px;padding-top:18px;border-top:1px dashed var(--danger-line);font-size:14px;color:var(--muted)}
+  .src .quote{color:var(--ink)}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+  .chip{
+    font-size:12.5px;padding:4px 10px;border-radius:6px;background:#fff;
+    border:1px solid var(--danger-line);color:var(--danger);
+  }
+  .chip::before{content:"✕ ";font-weight:700}
+
+  /* ---------- finding cards ---------- */
+  .fcard{border-radius:12px;padding:22px;border:1px solid var(--line);background:#fff}
+  .fcard.no{background:var(--danger-bg);border-color:var(--danger-line)}
+  .fcard.diff{background:var(--warn-bg);border-color:var(--warn-line)}
+  .tag{display:inline-block;font-size:11.5px;letter-spacing:.1em;padding:3px 9px;border-radius:5px;font-weight:600;margin-bottom:12px}
+  .no .tag{background:var(--danger);color:#fff}
+  .diff .tag{background:var(--warn);color:#fff}
+  .ok .tag{background:var(--ok);color:#fff}
+  .fcard h3,.ok h3{font-family:var(--serif);font-size:17px;margin:0 0 10px;font-weight:700}
+  .fcard p,.ok p{margin:0;font-size:14.5px;color:#4a443d;line-height:1.8}
+
+  /* ---------- conflicting numbers ---------- */
+  .bars{margin-top:18px;display:flex;flex-direction:column;gap:13px}
+  .bar-row{font-size:13px}
+  .bar-label{display:flex;justify-content:space-between;gap:10px;margin-bottom:5px}
+  .bar-label .v{font-family:var(--serif);font-weight:700;color:var(--ink)}
+  .track{height:9px;border-radius:5px;background:#fff;border:1px solid var(--warn-line);overflow:hidden}
+  .fill{height:100%;width:0;border-radius:5px;background:var(--warn);transition:width 1.1s cubic-bezier(.22,.7,.3,1)}
+  .fill.bad{background:var(--danger)}
+  .fill.good{background:var(--ok)}
+  .bar-note{font-size:12px;color:var(--muted);margin-top:4px}
+  .takeaway{
+    margin-top:20px;padding:16px 18px;border-left:3px solid var(--accent);
+    background:#fff;border-radius:0 10px 10px 0;font-size:14.5px;color:#4a443d;
+  }
+  .takeaway b{color:var(--ink)}
+
+  /* ---------- verified ---------- */
+  .ok{background:var(--ok-bg);border:1px solid var(--ok-line);border-radius:12px;padding:22px}
+  .ok .bignum{font-family:var(--serif);font-size:clamp(26px,4.4vw,34px);font-weight:700;color:var(--ok);line-height:1.2;margin-bottom:10px}
+  .ok .bignum .sep{opacity:.45;margin:0 6px}
+  .ok p{margin:0;font-size:14px;color:#3f5a4d;line-height:1.8}
+  .ok p .cite{display:block;margin-top:10px;font-size:12.5px;color:var(--muted)}
+
+  /* ---------- checklist ---------- */
+  .check{list-style:none;margin:0;padding:0;counter-reset:c}
+  .check li{
+    counter-increment:c;position:relative;padding:15px 16px 15px 52px;
+    background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;font-size:15px;
+  }
+  .check li::before{
+    content:counter(c,decimal-leading-zero);position:absolute;left:16px;top:15px;
+    font-family:var(--serif);font-size:13px;font-weight:700;color:var(--accent);
+  }
+  .check li b{display:block;margin-bottom:2px}
+  .check li span{color:var(--muted);font-size:14px}
+
+  /* ---------- source / video ---------- */
+  .src-card{display:flex;gap:22px;flex-wrap:wrap;align-items:flex-start}
+  .src-card .thumb{
+    width:132px;height:88px;flex:none;border-radius:10px;border:1px solid var(--line);
+    background:linear-gradient(160deg,#f6d9b8,#e08a5a 55%,#8a4a34);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;
+  }
+  .src-card .info{flex:1 1 300px}
+  .src-card .info h3{font-family:var(--serif);margin:0 0 6px;font-size:17px}
+  .src-card .info .by{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  .stats{display:flex;flex-wrap:wrap;gap:8px}
+  .stat{font-size:12.5px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--muted)}
+  .stat b{color:var(--ink);font-weight:600;margin-left:4px}
+
+  /* ---------- cross link ---------- */
+  .crosslink{
+    display:block;text-decoration:none;background:var(--ink);color:#fff;border-radius:14px;
+    padding:30px 58px 30px 28px;position:relative;overflow:hidden;transition:.2s;
+  }
+  .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
+  .lcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .lcard .k{font-size:11px;letter-spacing:.13em;color:var(--muted);margin-bottom:7px}
+  .lcard h3{font-family:var(--serif);font-size:16px;margin:0 0 5px;font-weight:700}
+  .lcard p{margin:0;font-size:13.5px;color:var(--muted);line-height:1.65}
+  .lcard .go{color:var(--accent);font-size:15px}
+  .crosslink:hover{transform:translateY(-2px)}
+  .crosslink .k{font-size:11.5px;letter-spacing:.16em;color:#d9a488;margin-bottom:10px}
+  .crosslink h3{font-family:var(--serif);font-size:clamp(19px,3vw,24px);margin:0 0 10px}
+  .crosslink p{margin:0;color:rgba(255,255,255,.72);font-size:14.5px;max-width:56ch}
+  .crosslink .go{position:absolute;right:26px;top:50%;transform:translateY(-50%);font-size:26px;color:#d9a488}
+
+  footer{padding:40px 0 60px;font-size:13px;color:var(--muted)}
+  footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
+  footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    .grid2,.grid3{grid-template-columns:1fr}
+    .links2{grid-template-columns:1fr}
+    .sec-sub{padding-left:0}
+    .arrow{transform:rotate(90deg);width:100%;padding:2px 0}
+    .hero{padding:42px 0 26px}
+    section{padding:40px 0}
+    .nav a{padding:6px 10px;font-size:13px}
+    .crosslink .go{position:static;transform:none;display:block;margin-top:12px}
+  }
+</style>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <span class="dot"></span>
+      <span>婚恋数据核查台 <small>FACT&nbsp;CHECK</small></span>
+    </a>
+    <nav class="nav">
+      <a class="on" href="./index.html">溯源核查</a>
+      <a href="./anti-scam.html">防骗钱指南</a>
+      <a href="./rules.html">行动守则</a>
+      <a href="./expectations.html">双向约定</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">核查报告 · 婚恋 / 相亲</span>
+    <h1>一句婚恋数据的<br>「溯源核查」</h1>
+    <p class="lede">「25-35 岁男性，无房无车相亲成功率 12%，有房以后 45%。」这句话在短视频和自媒体里被反复引用，精确到个位数，听起来像是一份真实报告的结论。本页面把这句话拆开，逐项回溯它的出处。</p>
+    <div class="meta">
+      <span>核查对象：<b>无房无车 12% vs 有房 45%</b></span>
+      <span>原始流传日期：<b>2026-09-16</b></span>
+      <span>核查结论：<b>查无实据，方向有支撑</b></span>
+    </div>
+  </div>
+</div>
+
+<section id="claim">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">01</span><h2>待核查的声明</h2></div>
+    <p class="sec-sub">自媒体原文给出的两个数字，以及它自称的出处。</p>
+
+    <div class="claim-wrap reveal">
+      <div class="claim-flow">
+        <div class="claim">
+          <div class="num" data-count="12">12<span class="pct">%</span></div>
+          <p>无房无车男性<br>相亲成功率</p>
+        </div>
+        <div class="arrow">→</div>
+        <div class="claim">
+          <div class="num" data-count="45">45<span class="pct">%</span></div>
+          <p>有房以后<br>相亲成功率</p>
+        </div>
+      </div>
+      <div class="src">
+        自称出处：<span class="quote">「某婚恋平台数据显示」</span>——但这句话里，一个可回溯的要素都没有：
+        <div class="chips">
+          <span class="chip">未具名平台</span>
+          <span class="chip">无报告名称</span>
+          <span class="chip">无发布年份</span>
+          <span class="chip">无样本量</span>
+          <span class="chip">无统计口径</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="findings">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">02</span><h2>核查发现</h2></div>
+    <p class="sec-sub">两件事同时成立：数字追不到源头，而且同一个现象存在多个互相冲突的版本。</p>
+
+    <div class="grid2" style="margin-bottom:16px">
+      <div class="fcard no reveal">
+        <span class="tag">无法溯源</span>
+        <h3>全网检索后，找不到任何原始报告</h3>
+        <p>12% 与 45% 只出现在自媒体文章中，均为「某平台」式模糊引用。检索不到任何具名婚恋平台发布过的原始报告、新闻稿或数据页面。数字在传播链上只有下游，没有上游。</p>
+      </div>
+      <div class="fcard diff reveal">
+        <span class="tag">同现象 · 不同数字</span>
+        <h3>同一个说法，版本之间差数倍</h3>
+        <p>关于「房子对相亲的影响」，流传着好几个互不兼容的精确数字，口径各不相同，却都被当成统计结论使用。</p>
+      </div>
+    </div>
+
+    <div class="fcard diff reveal">
+      <span class="tag">数字对照</span>
+      <h3>流传版本的横向对比</h3>
+      <p>下列条形长度仅用于直观呈现「数字彼此打架」，<b>不代表它们可比较</b>——它们的分母和口径完全不同。</p>
+      <div class="bars">
+        <div class="bar-row">
+          <div class="bar-label"><span>有房以后相亲成功率</span><span class="v">45%</span></div>
+          <div class="track"><div class="fill bad" style="width:45%"></div></div>
+          <div class="bar-note">口径：未知 · 来源：未具名平台</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>无房无车相亲成功率</span><span class="v">12%</span></div>
+          <div class="track"><div class="fill bad" style="width:12%"></div></div>
+          <div class="bar-note">口径：未知 · 来源：未具名平台</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>有房有车 vs 无房</span><span class="v">65% / 不足 10%</span></div>
+          <div class="track"><div class="fill" style="width:65%"></div></div>
+          <div class="bar-note">口径：未知 · 与 12% / 45% 直接冲突</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>有房比无房「高」</span><span class="v">62%</span></div>
+          <div class="track"><div class="fill" style="width:62%"></div></div>
+          <div class="bar-note">相对增幅，与上面的百分比不是同一种量</div>
+        </div>
+        <div class="bar-row">
+          <div class="bar-label"><span>家庭直接否决无房男</span><span class="v">90%</span></div>
+          <div class="track"><div class="fill" style="width:90%"></div></div>
+          <div class="bar-note">主体从「本人相亲结果」换成「家庭态度」，口径再次改变</div>
+        </div>
+      </div>
+      <div class="takeaway">
+        <b>结论：</b>同一现象各版本相差数倍，说明这些精确数字的可信度很低。它们更像是把<b>「方向性事实」</b>包装成了<b>「精确统计」</b>——方向可能是对的，但小数点后面的东西是造出来的。
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verified">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">03</span><h2>可查证的事实</h2></div>
+    <p class="sec-sub">追不到 12% 和 45%，不等于这句话在说一件假事。方向上，它是有真实数据支撑的。</p>
+
+    <div class="grid3">
+      <div class="ok reveal">
+        <span class="tag">具名来源</span>
+        <div class="bignum"><span data-count="67">67</span>%<span class="sep">/</span><span data-count="48">48</span>%</div>
+        <p>受访者坚持「先买房后结婚」的比例为 67%；认为房子是结婚首要条件的男性比例为 48%。
+          <span class="cite">中新网 2013 年报道</span>
+        </p>
+      </div>
+      <div class="ok reveal">
+        <span class="tag">学术调查</span>
+        <div class="bignum"><span data-count="42.7" data-dec="1">42.7</span>%</div>
+        <p>被调查村庄中存在较严重大龄男青年婚配难题的比例为 42.7%。
+          <span class="cite">华中师范大学 黄振华课题组 · 2024 年调查<br>样本覆盖 26 省 119 村 1785 农户</span>
+        </p>
+      </div>
+      <div class="ok reveal">
+        <span class="tag">现象层面</span>
+        <div class="bignum">方向成立</div>
+        <p>各地相亲角的报道均显示，无房男性被优先排除；房产被当作经济实力与稳定性的核心信号。
+          <span class="cite">可复现的是「排序」，不是「百分比」</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="takeaway reveal" style="margin-top:16px">
+      把两类信息分开存放：<b>「房子在相亲市场上是硬门槛」</b>是可查证的方向性判断；<b>「成功率 12%」</b>是查不到出处的精确数字。接受前者，不需要相信后者。
+    </div>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">04</span><h2>怎么自己核查一句数据</h2></div>
+    <p class="sec-sub">这套流程不依赖婚恋话题，任何「数据显示」都能用。</p>
+    <ol class="check">
+      <li class="reveal"><b>主体是谁？</b><span>「某平台」不是主体。具名机构、具名公司、具名课题组，才叫主体。</span></li>
+      <li class="reveal"><b>报告叫什么、哪一年发布？</b><span>说不出报告名和年份的，通常意味着它不存在。</span></li>
+      <li class="reveal"><b>样本量多大、怎么抽的？</b><span>1785 农户是一个可以追问的样本；「数据显示」不是。</span></li>
+      <li class="reveal"><b>分子分母是什么？</b><span>「相亲成功率」的分母是登记人数、见面人数还是匹配人数？口径换一次，数字换一倍。</span></li>
+      <li class="reveal"><b>能不能找到原始件？</b><span>只有一手来源（论文、发布会通稿、官方统计）算数；二手转述、截图、AI 摘要都不算。</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="origin">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">05</span><h2>原始流传内容</h2></div>
+    <p class="sec-sub">本页面核查的这句话，出自下面这条短视频的第 2 章。</p>
+    <div class="card src-card reveal">
+      <div class="thumb" aria-hidden="true">▶</div>
+      <div class="info">
+        <h3>婚恋市场变身「女儿国」，男人都跑哪去了？</h3>
+        <p class="by">@刘小财 · 2026-09-17 · 时长 05:12 · 章节「第 2 章：男性退出婚恋市场的原因」</p>
+        <div class="stats">
+          <span class="stat">点赞<b>2.8 万</b></span>
+          <span class="stat">评论<b>2641</b></span>
+          <span class="stat">收藏<b>5130</b></span>
+          <span class="stat">分享<b>5981</b></span>
+          <span class="stat">标签<b>#婚恋市场 #相亲 #财经 #经济</b></span>
+        </div>
+        <p class="by" style="margin:14px 0 0">作者声明：个人观点，仅供参考。收藏数与分享数接近，说明它被当作「可转述的结论」在传播——这恰恰是精确数字最容易脱离出处的那一步。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="wrap">
+    <div class="sec-head"><span class="sec-num">06</span><h2>延伸阅读</h2></div>
+    <p class="sec-sub">以下内容各自独立成页，首页只提供入口。</p>
+    <a class="crosslink reveal" href="./anti-scam.html">
+      <div class="k">独立专题 · 具体处境</div>
+      <h3>怎么防止自己被骗钱？</h3>
+      <p>刚认识就问你要钱、以爱之名的隐性捞钱、以及你说不清哪里不对劲的时候，怎么识别、怎么止损、怎么用法律手段把钱要回来。</p>
+      <span class="go">→</span>
+    </a>
+    <div class="links2">
+      <a class="lcard reveal" href="./rules.html">
+        <div class="k">行动守则 · 单方面标准</div>
+        <h3>既要反捞，也要反龟 <span class="go">→</span></h3>
+        <p>七条可直接执行的自我保护阈值：先假定风险存在、一年内出现单方面付出马上跑、不暴露需求感。</p>
+      </a>
+      <a class="lcard reveal" href="./expectations.html">
+        <div class="k">双向约定 · 最后一页</div>
+        <h3>我想要的关系 <span class="go">→</span></h3>
+        <p>经济独立、轮流买单、公开关系、情感对等、诚实透明。防备成立之后，到底想要什么。</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      <b>说明：</b>本页面为个人整理的内容核查笔记，核查对象是公开流传的自媒体数据，不构成对任何平台、机构或个人的评价。文中「可查证事实」部分的引用均来自公开报道与学术调查，日期与样本规模已一并标注，建议读者自行回溯原始件。
+    </div>
+    <div>
+      婚恋数据核查台 · 最后更新 2026-10-31 ·
+      <a href="./index.html">溯源核查</a> ·
+      <a href="./anti-scam.html">防骗钱指南</a> ·
+      <a href="./rules.html">行动守则</a> ·
+      <a href="./expectations.html">双向约定</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fmt=function(v,dec){return dec?v.toFixed(dec):String(Math.round(v));};
+  function countUp(el){
+    var target=parseFloat(el.dataset.count),dec=parseInt(el.dataset.dec||"0",10);
+    var pct=el.querySelector('.pct'),suffix=pct?pct.outerHTML:'';
+    if(reduce){el.innerHTML=fmt(target,dec)+suffix;return;}
+    var t0=null,dur=900;
+    function step(ts){
+      if(!t0)t0=ts;
+      var p=Math.min((ts-t0)/dur,1),e=1-Math.pow(1-p,3);
+      el.innerHTML=fmt(target*e,dec)+suffix;
+      if(p<1)requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  // hide the pre-rendered bar widths so the reveal can animate them back in
+  if(!reduce){
+    document.querySelectorAll('.fill').forEach(function(f){
+      f.dataset.w=f.style.width||'0%';
+      f.style.width='0%';
+    });
+  }
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting)return;
+      e.target.classList.add('in');
+      e.target.querySelectorAll('[data-count]').forEach(countUp);
+      e.target.querySelectorAll('.fill').forEach(function(f){
+        var w=f.dataset.w||f.style.width;
+        requestAnimationFrame(function(){f.style.width=w;});
+      });
+      io.unobserve(e.target);
+    });
+  },{threshold:.2,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+})();
+</script>
+</body>
+</html>

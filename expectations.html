@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我想要的关系 · 一份双向的约定</title>
+<meta name="description" content="关于金钱与付出、情感与尊重、自我成长与底线原则的四组约定：经济独立、轮流买单、公开关系、情感对等、诚实透明、拒绝欺骗，以及真正的爱是让你成为更好的自己。">
+<link rel="canonical" href="./expectations.html">
+<style>
+  :root{
+    --paper:#faf7f2; --card:#ffffff; --ink:#1c1815; --muted:#6d655c;
+    --line:#e5ded3; --line-strong:#d3cabb;
+    --accent:#c9502a;
+    --danger:#b23a2b; --danger-bg:#fdf0ed; --danger-line:#f0cdc6;
+    --warn:#9a6a12;  --warn-bg:#fdf6e7;  --warn-line:#eeddb8;
+    --ok:#2c6f4f;    --ok-bg:#eef6f1;    --ok-line:#c9e2d4;
+    --serif:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.85;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:940px;margin:0 auto;padding:0 22px}
+  .article{max-width:720px;margin:0 auto;padding:0 22px}
+
+  .site-head{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.92);backdrop-filter:saturate(1.4) blur(8px);border-bottom:1px solid var(--line)}
+  .site-head .wrap{display:flex;align-items:center;justify-content:space-between;min-height:60px;gap:12px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-weight:700;letter-spacing:.02em;text-decoration:none}
+  .brand .dot{width:10px;height:10px;border-radius:50%;background:var(--ok);flex:none}
+  .brand small{font-family:var(--sans);font-weight:400;color:var(--muted);font-size:12px;letter-spacing:.08em}
+  .nav{display:flex;gap:4px;font-size:14px}
+  .nav a{text-decoration:none;padding:7px 13px;border-radius:999px;color:var(--muted);border:1px solid transparent;white-space:nowrap;transition:.18s}
+  .nav a:hover{color:var(--ink);background:#fff;border-color:var(--line)}
+  .nav a.on{color:#fff;background:var(--ink);border-color:var(--ink)}
+
+  .hero{padding:60px 0 30px;border-bottom:1px solid var(--line)}
+  .eyebrow{display:inline-block;font-size:12px;letter-spacing:.18em;color:var(--ok);border:1px solid var(--ok-line);background:var(--ok-bg);padding:5px 12px;border-radius:999px;margin-bottom:20px}
+  h1{font-family:var(--serif);font-size:clamp(30px,5.4vw,44px);line-height:1.3;margin:0 0 18px;font-weight:700}
+  .lede{font-size:17px;color:var(--muted);margin:0 0 24px}
+  .meta{display:flex;flex-wrap:wrap;gap:8px 10px;font-size:13px;color:var(--muted)}
+  .meta span{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 10px}
+
+  section.grp{padding:44px 0 8px;border-bottom:1px solid var(--line)}
+  section.grp:last-of-type{border-bottom:none}
+  .sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:6px}
+  .sec-num{font-family:var(--serif);font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ok);flex:none}
+  h2{font-family:var(--serif);font-size:clamp(20px,3.1vw,26px);margin:0;font-weight:700}
+  .sec-sub{color:var(--muted);font-size:14.5px;margin:0 0 22px;padding-left:38px}
+
+  .item{
+    background:#fff;border:1px solid var(--line);border-left:3px solid var(--ok);
+    border-radius:0 12px 12px 0;padding:20px 22px;margin-bottom:12px;
+  }
+  .item h3{font-family:var(--serif);font-size:16.5px;margin:0 0 8px;font-weight:700}
+  .item p{margin:0;font-size:15.5px;line-height:1.9;color:#3d3730}
+
+  .close{
+    margin:36px 0 8px;padding:34px 30px;background:var(--ok);color:#fff;border-radius:16px;
+  }
+  .close .k{font-size:11.5px;letter-spacing:.16em;color:#b8e0c8;margin-bottom:14px}
+  .close p{margin:0 0 14px;font-family:var(--serif);font-size:clamp(16px,2.5vw,19.5px);line-height:1.9}
+  .close p:last-child{margin:0}
+  .close .hi{color:#ffe9a8}
+
+  .links{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:38px}
+  .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;transition:.2s}
+  .lcard:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .lcard .k{font-size:11px;letter-spacing:.13em;color:var(--muted);margin-bottom:7px}
+  .lcard h3{font-family:var(--serif);font-size:15.5px;margin:0 0 5px;font-weight:700}
+  .lcard p{margin:0;font-size:13px;color:var(--muted);line-height:1.65}
+  .lcard .go{color:var(--ok);font-size:15px}
+
+  footer{padding:40px 0 60px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);margin-top:44px}
+  footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
+  footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
+
+  .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:760px){
+    .hero{padding:40px 0 26px}
+    .site-head .wrap{padding-top:8px;padding-bottom:8px}
+    .nav{font-size:12.5px;gap:3px}
+    .nav a{padding:5px 10px}
+    .brand small{display:none}
+    .sec-sub{padding-left:0}
+    .links{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <a class="brand" href="./index.html">
+      <span class="dot"></span>
+      <span>婚恋数据核查台 <small>FACT&nbsp;CHECK</small></span>
+    </a>
+    <nav class="nav">
+      <a href="./index.html">溯源核查</a>
+      <a href="./anti-scam.html">防骗钱指南</a>
+      <a href="./rules.html">行动守则</a>
+      <a class="on" href="./expectations.html">双向约定</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="article">
+    <span class="eyebrow">双向约定 · 最后一页</span>
+    <h1>我想要的关系</h1>
+    <p class="lede">前面三页讲的是怎么不亏：怎么核对一句数据、怎么识别骗钱、怎么设阈值。这一页讲的是反过来的一件事——如果一切防备都成立之后，我到底想要什么。它不是要求对方的条款，是先把标准写清楚，然后照着它去挑人，也照着它要求自己。</p>
+    <div class="meta">
+      <span>金钱与付出</span>
+      <span>情感与尊重</span>
+      <span>自我成长</span>
+      <span>底线原则</span>
+    </div>
+  </div>
+</div>
+
+<article>
+<div class="article">
+
+  <section class="grp" id="money">
+    <div class="sec-head"><span class="sec-num">01</span><h2>关于金钱与付出</h2></div>
+    <p class="sec-sub">钱的问题上，标准只有一条：谁也不靠谁活着。</p>
+
+    <div class="item reveal">
+      <h3>独立与 AA 制</h3>
+      <p>我希望我们都能在经济上独立，不依赖对方满足基本生活开销。约会时，我们可以轮流买单，或者采用 AA 制，而不是让一方承担全部费用。</p>
+    </div>
+    <div class="item reveal">
+      <h3>拒绝「隐性捞钱」</h3>
+      <p>我不希望我们的关系建立在物质交换上。比如，不会因为我不买名牌包、手机就质疑我的爱，也不会用冷暴力或争吵逼迫对方妥协。</p>
+    </div>
+    <div class="item reveal">
+      <h3>借钱需谨慎</h3>
+      <p>刚认识不久时，绝不会向对方借钱或索要红包。如果确实需要帮助，会坦诚沟通并及时归还，而不是以此试探或消耗感情。</p>
+    </div>
+  </section>
+
+  <section class="grp" id="respect">
+    <div class="sec-head"><span class="sec-num">02</span><h2>关于情感与尊重</h2></div>
+    <p class="sec-sub">关系要见光，热情要日常。</p>
+
+    <div class="item reveal">
+      <h3>公开关系</h3>
+      <p>确定关系后，愿意带我见朋友、家人，并在社交圈公开我们的关系，而不是让我成为「隐形人」。</p>
+    </div>
+    <div class="item reveal">
+      <h3>情感对等</h3>
+      <p>希望你能主动分享生活和过往，让我了解真实的你。同时，你的热情不应只在收礼物时才出现，而是日常的关心与陪伴。</p>
+    </div>
+    <div class="item reveal">
+      <h3>拒绝情绪绑架</h3>
+      <p>爱是尊重而非控制。不会用「不爱我就如何」来施压，也不会因小事冷战，而是通过沟通解决问题。</p>
+    </div>
+  </section>
+
+  <section class="grp" id="growth">
+    <div class="sec-head"><span class="sec-num">03</span><h2>关于自我成长</h2></div>
+    <p class="sec-sub">两个完整的人，才谈得上互相吸引。</p>
+
+    <div class="item reveal">
+      <h3>共同进步</h3>
+      <p>希望我们都能专注自我提升，而不是依赖对方填补内心空缺。真正的爱是两个独立灵魂的互相吸引，而非「缺爱者」的互相纠缠。</p>
+    </div>
+    <div class="item reveal">
+      <h3>心力与自信</h3>
+      <p>期待你拥有稳定的情绪和自信，不因外界评价动摇自我价值。这样的你，才能看清感情的本质，不被虚假的「甜言蜜语」蒙蔽。</p>
+    </div>
+  </section>
+
+  <section class="grp" id="baseline">
+    <div class="sec-head"><span class="sec-num">04</span><h2>底线原则</h2></div>
+    <p class="sec-sub">这三条没有解释空间。</p>
+
+    <div class="item reveal">
+      <h3>诚实透明</h3>
+      <p>从一开始就会告知真实姓名、生活状态，不隐瞒重要信息。</p>
+    </div>
+    <div class="item reveal">
+      <h3>拒绝欺骗</h3>
+      <p>若发现对方有诈骗、赌博等行为，会立即止损，不因「沉没成本」犹豫。</p>
+    </div>
+    <div class="item reveal">
+      <h3>法律意识</h3>
+      <p>涉及大额转账会备注用途，保护双方权益，但这应是最后的防线，而非相处常态。</p>
+    </div>
+  </section>
+
+  <div class="close reveal">
+    <div class="k">最后想说</div>
+    <p>真正的爱，是让你成为更好的自己，而不是让你变得卑微、焦虑或贫穷。如果一个人需要你用金钱才能留住，<span class="hi">那她爱的不是你，而是你的钱。</span></p>
+    <p>愿我们都能遇到那个——不为钱而来，却因爱停留的人。</p>
+  </div>
+
+  <div class="links">
+    <a class="lcard reveal" href="./index.html">
+      <div class="k">首页 · 数据层面</div>
+      <h3>一句婚恋数据的「溯源核查」 <span class="go">→</span></h3>
+      <p>12% 与 45% 查无实据；67%、48%、42.7% 有名有姓。</p>
+    </a>
+    <a class="lcard reveal" href="./anti-scam.html">
+      <div class="k">上一页 · 具体处境</div>
+      <h3>怎么防止自己被骗钱？ <span class="go">→</span></h3>
+      <p>三类情形、两条止损路径、七条取证细节。</p>
+    </a>
+    <a class="lcard reveal" href="./rules.html">
+      <div class="k">上一页 · 单方面标准</div>
+      <h3>既要反捞，也要反龟 <span class="go">→</span></h3>
+      <p>七条自我保护阈值，不追求公平，追求不出事。</p>
+    </a>
+  </div>
+
+</div>
+</article>
+
+<footer>
+  <div class="wrap">
+    <div class="disc">
+      <b>说明：</b>本页为个人写作材料的原文收录，是作者对自己的要求与择偶标准，不构成对他人的要求，也不构成对任何性别、群体或个人的整体评价。涉及转账备注、止损等表述属一般性法律常识，实际操作请以现行法律法规与专业律师意见为准。
+    </div>
+    <div>
+      婚恋数据核查台 · 最后更新 2026-10-31 ·
+      <a href="./index.html">溯源核查</a> ·
+      <a href="./anti-scam.html">防骗钱指南</a> ·
+      <a href="./rules.html">行动守则</a> ·
+      <a href="./expectations.html">双向约定</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
+  },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+})();
+</script>
+<noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+</body>
+</html>
