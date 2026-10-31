@@ -1,5 +1,0 @@
-index.html         OK   分享标签5/5 外链5
-anti-scam.html     OK   分享标签5/5 外链1
-rules.html         OK   分享标签5/5 外链2
-expectations.html  OK   分享标签5/5 外链0
-404.html           OK   分享标签0/5 外链0
