@@ -192,13 +192,19 @@
   footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
   footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
 
-  .follow{margin:16px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:10px;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;font-size:14px}
-  .follow .fk{font-size:11px;letter-spacing:.14em;color:var(--muted);border:1px solid var(--line);border-radius:5px;padding:3px 9px}
-  .follow .flink{font-family:var(--serif);font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
-  .follow .flink:hover{border-bottom-color:var(--accent)}
-  .follow .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
-  .follow .fn{flex:1 1 100%;font-size:13px;color:var(--muted);line-height:1.8}
-  .follow .fn b{color:var(--warn);font-weight:600}
+  .follows{margin:16px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:10px}
+  .follows .fh{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 10px;margin-bottom:4px}
+  .follows .fh b{font-family:var(--serif);font-size:15px}
+  .follows .fh span{font-size:12.5px;color:var(--muted)}
+  .follows ol{margin:0;padding:0;list-style:none;counter-reset:f}
+  .follows li{counter-increment:f;position:relative;padding:12px 0 12px 24px;border-top:1px dashed var(--line)}
+  .follows li:first-child{border-top:none}
+  .follows li::before{content:counter(f);position:absolute;left:0;top:13px;font-family:var(--serif);font-size:12px;font-weight:700;color:var(--accent)}
+  .follows .flink{display:inline-block;padding:9px 0;font-family:var(--serif);font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
+  .follows .flink:hover{border-bottom-color:var(--accent)}
+  .follows .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
+  .follows .fn{display:block;margin-top:2px;font-size:13px;color:var(--muted);line-height:1.8}
+  .follows .fn b{color:var(--warn);font-weight:600}
 
   .variants{margin:14px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:12px}
   .variants .vh{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:6px}
@@ -453,11 +459,14 @@
       </ol>
     </div>
 
-    <div class="follow reveal">
-      <span class="fk">站长推荐关注</span>
-      <a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a>
-      <span class="fn">这是站长本人推荐关注的抖音主页。该博主的昵称、内容方向与更新情况，<b>本站未作核实</b>（抖音的用户页不向程序返回任何公开资料），点开请自行判断。</span>
+    <div class="follows reveal">
+      <div class="fh"><b>站长推荐关注</b><span>抖音账号 · 后续新增只往这个列表里加</span></div>
+      <ol>
+        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">新收录。该账号的昵称、内容方向与更新情况，<b>本站未作核实</b>（抖音用户页不向程序返回任何公开资料），点开请自行判断。</span></li>
+        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">在抖音关注这位博主<span class="ext">↗</span></a><span class="fn">同样<b>未作核实</b>。理由同上，不代写介绍。</span></li>
+      </ol>
     </div>
+
   </div>
 </section>
 
