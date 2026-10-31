@@ -121,6 +121,20 @@
   footer .disc{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin-bottom:18px;line-height:1.8}
   footer a{text-decoration:none;border-bottom:1px solid var(--line-strong)}
 
+  .vcard{display:flex;gap:16px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:34px 0 0}
+  .vcard .vplay{width:56px;height:38px;flex:none;border-radius:8px;background:linear-gradient(160deg,#f6d9b8,#e08a5a 55%,#8a4a34);display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;text-decoration:none;transition:.18s}
+  .vcard .vplay:hover{transform:translateY(-2px);outline:2px solid var(--ink);outline-offset:2px}
+  .vcard .vplay:focus-visible{outline:2px solid var(--live);outline-offset:2px}
+  .vcard .vmeta{flex:1 1 240px;min-width:0}
+  .vcard .vk{display:block;font-size:11px;letter-spacing:.14em;color:var(--muted);margin-bottom:5px}
+  .vcard .vt{font-family:var(--serif);font-size:16px;font-weight:700;text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .vcard .vt:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  .vcard .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
+  .vcard .vw{margin:7px 0 0;font-size:14px;color:#4a443d;line-height:1.8}
+  .vcard .vtags{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+  .vcard .vtags span{font-size:12px;background:var(--paper);border:1px solid var(--line);border-radius:5px;padding:2px 8px;color:var(--muted)}
+  @media(max-width:760px){.vcard{flex-direction:column;gap:12px}.vcard .vplay{width:100%;height:34px}}
+
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
   .reveal.in{opacity:1;transform:none}
 
@@ -154,7 +168,6 @@
       <a class="on" href="./anti-scam.html">防骗钱指南</a>
       <a href="./rules.html">行动守则</a>
       <a href="./expectations.html">双向约定</a>
-    <a href="./references.html">资料库</a>
     </nav>
   </div>
 </header>
@@ -334,6 +347,16 @@
   <p>所以在顿悟真我、达到那种境界之前，仍然需要靠上面这些注意事项来保护自己。</p>
   <blockquote>不给钱就不给。<br>不招惹就不招惹。</blockquote>
 
+  <div class="vcard reveal">
+    <a class="vplay" href="https://v.douyin.com/jpS_GNvXTEk/" target="_blank" rel="noopener noreferrer" aria-label="在抖音观看：73天闪离分1500万房产">▶</a>
+    <div class="vmeta">
+      <span class="vk">相关视频</span>
+      <a class="vt" href="https://v.douyin.com/jpS_GNvXTEk/" target="_blank" rel="noopener noreferrer">女人结婚仅仅 73 天就闪离，居然还要分走丈夫 1500 万的房产？<span class="ext">↗</span></a>
+      <p class="vw"><b>为什么挂这条：</b>本页讲的是事前怎么留证——备注「借款」、备注真实姓名、别给现金；这条讲的是事后真走到分割那天，规则是怎么运转的。73 天婚姻、1500 万房产，说明争议金额能大到什么量级，不是靠感觉估得出来的。</p>
+      <div class="vtags"><span># 法律</span><span># 抖来普法 2026</span><span># 房产纠纷</span></div>
+    </div>
+  </div>
+
   <a class="crosslink reveal" href="./rules.html">
     <div class="k">下一篇 · 行动守则</div>
     <h3>既要反捞，也要反龟</h3>
@@ -367,8 +390,7 @@
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗钱指南</a> ·
       <a href="./rules.html">行动守则</a> ·
-      <a href="./expectations.html">双向约定</a> ·
-    <a href="./references.html">资料库</a>
+      <a href="./expectations.html">双向约定</a>
     </div>
   </div>
 </footer>
