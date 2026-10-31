@@ -146,9 +146,17 @@
     background:linear-gradient(160deg,#f6d9b8,#e08a5a 55%,#8a4a34);
     display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;
   }
+  a.thumb{text-decoration:none;cursor:pointer;transition:.18s}
+  a.thumb:hover{transform:translateY(-2px);outline:2px solid var(--ink);outline-offset:2px}
+  a.thumb:focus-visible{outline:2px solid var(--live);outline-offset:2px}
   .src-card .info{flex:1 1 300px}
   .src-card .info h3{font-family:var(--serif);margin:0 0 6px;font-size:17px}
+  .src-card .info h3 a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line-strong)}
+  .src-card .info h3 a:hover{color:var(--accent);border-bottom-color:var(--accent)}
   .src-card .info .by{font-size:13.5px;color:var(--muted);margin:0 0 14px}
+  .watch{display:inline-block;margin:0 0 14px;font-size:13.5px;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
+  .watch:hover{border-bottom-color:var(--accent)}
+  .watch .ext{font-size:11px;margin-left:3px;vertical-align:.12em}
   .stats{display:flex;flex-wrap:wrap;gap:8px}
   .stat{font-size:12.5px;background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:5px 10px;color:var(--muted)}
   .stat b{color:var(--ink);font-weight:600;margin-left:4px}
@@ -364,10 +372,11 @@
     <div class="sec-head"><span class="sec-num">05</span><h2>原始流传内容</h2></div>
     <p class="sec-sub">本页面核查的这句话，出自下面这条短视频的第 2 章。</p>
     <div class="card src-card reveal">
-      <div class="thumb" aria-hidden="true">▶</div>
+      <a class="thumb" href="https://v.douyin.com/jF8pfxKiCsI/" target="_blank" rel="noopener noreferrer" aria-label="在抖音观看原视频">▶</a>
       <div class="info">
-        <h3>婚恋市场变身「女儿国」，男人都跑哪去了？</h3>
+        <h3><a href="https://v.douyin.com/jF8pfxKiCsI/" target="_blank" rel="noopener noreferrer">婚恋市场变身「女儿国」，男人都跑哪去了？</a></h3>
         <p class="by">@刘小财 · 2026-09-17 · 时长 05:12 · 章节「第 2 章：男性退出婚恋市场的原因」</p>
+        <a class="watch" href="https://v.douyin.com/jF8pfxKiCsI/" target="_blank" rel="noopener noreferrer">在抖音观看原视频<span class="ext">↗</span></a>
         <div class="stats">
           <span class="stat">点赞<b>2.8 万</b></span>
           <span class="stat">评论<b>2641</b></span>
