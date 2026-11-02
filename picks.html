@@ -95,6 +95,8 @@
   .follows li:first-child{border-top:none;padding-top:2px}
   .follows li::before{content:counter(f);position:absolute;left:0;top:13px;font-family:var(--serif);font-size:12px;font-weight:700;color:var(--accent)}
   .follows li:first-child::before{top:3px}
+  .follows .pname{display:block;font-family:var(--serif);font-size:16.5px;font-weight:700;color:var(--ink)}
+  .follows .accts{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:2px}
   .follows .flink{display:inline-block;padding:9px 0;font-family:var(--serif);font-weight:700;color:var(--accent);text-decoration:none;border-bottom:1px solid var(--danger-line)}
   .follows .flink:hover{border-bottom-color:var(--accent)}
   .follows .flink:focus-visible{outline:2px solid var(--live);outline-offset:2px}
@@ -178,7 +180,7 @@
     <div class="meta">
       <span>相关视频 <b>1</b></span>
       <span>付费推荐 <b>1</b></span>
-      <span>关注账号 <b>2</b></span>
+      <span>关注博主 <b>2</b> 人 · 共 <b>3</b> 个账号</span>
       <span>最后更新 2026-10-31</span>
     </div>
   </div>
@@ -220,12 +222,20 @@
 
   <section class="grp" id="accounts">
     <div class="sec-head"><span class="sec-num">03</span><h2>站长推荐关注</h2></div>
-    <p class="sec-sub">抖音账号。后续新增只往这个列表里加条目。</p>
+    <p class="sec-sub">抖音博主，按人列一条；同一人的多个账号挂在该条下。后续新增只往这个列表里加条目。</p>
 
     <div class="follows reveal">
       <ol>
-        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">账号一<span class="ext">↗</span></a><span class="fmeta">抖音号 （抖音号已抹除） · 粉丝与获赞数已抹除 · 情感博主</span><span class="fn">简介原文：「（简介原文已抹除）」（出自（出处已抹除））。</span></li>
-        <li><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">账号二<span class="ext">↗</span></a><span class="fmeta">抖音号 （抖音号已抹除） · 粉丝与获赞数已抹除 · 情感博主</span><span class="fn">简介原文：「（主号简介原文已抹除）」。该账号设有带货橱窗并公开请求经济支持，读者请自行判断这与本站立场是否冲突。</span></li>
+        <li><span class="pname">账号一</span>
+          <span class="fmeta">抖音号 （抖音号已抹除） · 粉丝与获赞数已抹除 · 情感方向</span>
+          <span class="accts"><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">抖音主页<span class="ext">↗</span></a></span>
+          <span class="fn">简介原文：「（简介原文已抹除）」（出自（出处已抹除））。</span>
+        </li>
+        <li><span class="pname">账号二</span>
+          <span class="fmeta">主号抖音号 （抖音号已抹除） · 粉丝与获赞数已抹除<br>小号「账号二小号」抖音号 （抖音号已抹除） · 粉丝与获赞数已抹除</span>
+          <span class="accts"><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">主号<span class="ext">↗</span></a><a class="flink" href="（抖音主页链接已抹除）" target="_blank" rel="noopener noreferrer nofollow">小号「账号二小号」<span class="ext">↗</span></a></span>
+          <span class="fn">两号为<b>同一人的大小号</b>（站长实测确认；小号沿用（命名依据已抹除），其对外微信号 （微信号已抹除） 亦含（拼音依据已抹除））。主号简介原文：「（主号简介原文已抹除）」；小号简介原文：「（小号简介原文已抹除）」。两号都带变现入口（橱窗带货 / 微信咨询投稿），与本站「别为钱买单」的立场存在张力，此处如实标出，读者自行判断。</span>
+        </li>
       </ol>
       <p class="fsrc">以上昵称、抖音号与数据摘自站长提供的账号主页截图，为截图时点数值，可能已发生变化。</p>
     </div>
