@@ -1,0 +1,29 @@
+name: README 检查
+
+on:
+  push:
+    paths:
+      - "README.md"
+      - "tools/check_readme.py"
+      - ".github/workflows/readme-check.yml"
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    # 每周一次，链接失效能及时发现（UTC 周一 01:00）
+    - cron: "0 1 * * 1"
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 检查占位符、表格列数与外链可达性
+        run: python tools/check_readme.py README.md

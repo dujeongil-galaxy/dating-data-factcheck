@@ -86,6 +86,14 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 ## 变更记录
 
+**2026-11-03（二）**
+
+- 新增 `tools/check_readme.py` 与 `.github/workflows/readme-check.yml`：自动检查 README 的占位符/待办标记、Markdown 表格列数一致性、外链可达性；`push`/`pull_request`/`workflow_dispatch` 触发，并每周一 01:00 UTC 定时复跑一次以发现链接腐烂。本机或内网地址（`127.0.0.1`、`localhost`）自动跳过。
+- 反引号内的示例地址（如说明用的 `https://用户名.github.io/仓库名/`）不视为待替换占位符、也不去探测——首版把这两类都误判为问题，已修正。
+- 用一份故意写坏的样例验证过检查器确实会报错：命中 TODO、example.com、两处表格列数不符、一个 404 外链，退出码 1；真实 README 为 0 问题、退出码 0。
+- 检查器自身也修过两处 bug：Windows GBK 控制台打印 `✓/✗` 崩溃（改为强制 UTF-8 输出）、表格检查里元组解包顺序写反。
+- **注意**：CI 从 GitHub 执行环境发起，链接通过不代表中国大陆可访问。
+
 按时间倒序，包含做错过又修掉的项，如实记录。
 
 **2026-11-03**
