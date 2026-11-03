@@ -1,16 +1,32 @@
 # 婚恋数据核查台
 
+### 👉 [点此打开线上站点](https://dujeongil-galaxy.github.io/dating-data-factcheck/)　·　[点此在 GitHub 看渲染后的本页](https://github.com/dujeongil-galaxy/dating-data-factcheck)
+
+> 直接在 Pages 地址后面加 `/README.md` 打开本页，得到的是**纯文本**（不渲染排版）。要看渲染效果请走上面第二个链接。
+
 一个纯静态的五页站点，托管在 GitHub Pages 上。
 
 ## 页面
 
-| 文件 | 内容 | 挂的视频 |
-| --- | --- | --- |
-| `index.html` | 首页。一句婚恋数据的「溯源核查」——对「25-35 岁男性无房无车相亲成功率 12%、有房后 45%」的完整回溯 | 婚恋市场变身「女儿国」，男人都跑哪去了？（@刘小财） |
-| `anti-scam.html` | 独立专题「怎么防止自己被骗钱？」——识别三类情形、两条止损路径、可执行的取证细节 | 无（改挂《瞬间自信》出处声明） |
-| `rules.html` | 独立专题「行动守则」——七条可直接执行的自我保护阈值，原文收录 | —（原「一些集美的抽象私信」已撤，见变更记录） |
-| `expectations.html` | 独立专题「我想要的关系」——金钱与付出、情感与尊重、自我成长、底线原则四组约定 | — |
-| `picks.html` | 站长推荐页：相关视频、付费推荐（Steam《捞女游戏》）、站长推荐关注（按人列条目，现 2 人 3 账号） | — |
+**[`index.html`](https://dujeongil-galaxy.github.io/dating-data-factcheck/) — 首页**
+一句婚恋数据的「溯源核查」：对「25-35 岁男性无房无车相亲成功率 12%、有房后 45%」的完整回溯。
+挂的视频：婚恋市场变身「女儿国」，男人都跑哪去了？（@刘小财）
+
+**[`anti-scam.html`](https://dujeongil-galaxy.github.io/dating-data-factcheck/anti-scam.html) — 防骗钱指南**
+识别三类情形、两条止损路径、可执行的取证细节。
+挂的视频：无（改挂《瞬间自信》出处声明）
+
+**[`rules.html`](https://dujeongil-galaxy.github.io/dating-data-factcheck/rules.html) — 行动守则**
+七条可直接执行的自我保护阈值，原文收录。
+挂的视频：—（原「一些集美的抽象私信」已撤，见变更记录）
+
+**[`expectations.html`](https://dujeongil-galaxy.github.io/dating-data-factcheck/expectations.html) — 双向约定**
+金钱与付出、情感与尊重、自我成长、底线原则四组约定。
+挂的视频：—
+
+**[`picks.html`](https://dujeongil-galaxy.github.io/dating-data-factcheck/picks.html) — 站长推荐**
+相关视频、付费推荐（Steam《捞女游戏》）、站长推荐关注（按人列条目，现 2 人 3 账号）。
+挂的视频：—
 
 阅读顺序：溯源核查 → 防骗指南 → 行动守则 → 双向约定。每页正文独立，页尾只提供跳转入口，不混排内容。
 
@@ -60,7 +76,7 @@ python -m http.server 8000
 
 ## 部署
 
-> **看这份 README 请注意**：通过 Pages 地址访问 `README.md`（例如 <https://dujeongil-galaxy.github.io/dating-data-factcheck/README.md>）返回的是 `text/markdown` **纯文本，不会渲染成网页**，表格会显示成一堆竖线。要看渲染好的排版和表格，请打开仓库页：<https://github.com/dujeongil-galaxy/dating-data-factcheck>
+> **看这份 README 请注意**：通过 Pages 地址访问 `README.md`（例如 <https://dujeongil-galaxy.github.io/dating-data-factcheck/README.md>）返回的是 `text/markdown` **纯文本，不会渲染成网页**（看不到标题层级、链接和条目缩进）。要看渲染后的排版，请打开仓库页：<https://github.com/dujeongil-galaxy/dating-data-factcheck>
 
 Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存后约一分钟内可访问本站线上地址 <https://dujeongil-galaxy.github.io/dating-data-factcheck/>。（其他 GitHub 账号的站点按 `https://用户名.github.io/仓库名/` 规律替换即可。）站点有 CDN 缓存，更新后需强制刷新（Ctrl+F5）才能看到新版。
 
@@ -74,6 +90,8 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 **2026-11-03**
 
+- **README 改为移动端友好的单列条目**：`## 页面` 原为 3 列宽表，最窄档余量仅 43px，且 GitHub 不为 markdown 表格提供横向滚动容器（已翻查页面全部样式表确认，只有源码视图的 `.blob-wrapper{overflow:auto}`）。现改为每页一条的堆叠条目，按渲染后文本测量最长不可断词 143px，320px 档余量 145px。注：GitHub 会过滤 README 中的 HTML/CSS，真正的 CSS 卡片布局在 README 里渲染不出来，故采用单列条目这一等价做法。
+- README 顶部新增醒目链接行（线上站点 + 仓库页渲染版）与一行提示，引导读者不要从 Pages 地址读纯文本 README。
 - README「部署」小节新增引用块，说明 Pages 上的 `README.md` 是纯文本不渲染、看表格请去仓库页；并把两处 `https://<user>.github.io/<repo>/` 占位模板换成本站真实地址（占位符容易被读者照抄）。核查后 README 内 3 个真实超链接均可访问，无失效链接。
 - **本变更记录自身也曾不完整**：对照提交历史核查后发现 9 次提交没有对应条目（建站、首页视频卡接入原链接、`references` 附录页建了又撤、改回一页一条、双向约定曾补第四条视频、关键词式标题与分享标签、描述补关键词、推荐卡移动端优化、关注列表改可增长），且最新小节日期写成 11-02 而对应提交实为 11-03。均已补齐修正，共 29 次提交全部有记录。
 - **修复 `rules.html` 手机端导航未生效**：下拉菜单的窄屏样式（`.navbtn`、`.nav{display:none}`、`.navtoggle:checked ~ .nav`）被误插进了 `@media (prefers-reduced-motion: reduce)` 块，而不是 `@media(max-width:760px)` 块，导致手机上看到的仍是会换行的胶囊排，下拉只在开启「减少动态效果」时才出现。根因：插入时用 `index('@media(max-width:760px){')` 定位，而该页此前已有一条同名的 `.vcard` 单行窄屏查询排在前面，插入点因此错位。
