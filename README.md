@@ -74,6 +74,7 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 **2026-11-03**
 
+- README「部署」小节新增引用块，说明 Pages 上的 `README.md` 是纯文本不渲染、看表格请去仓库页；并把两处 `https://<user>.github.io/<repo>/` 占位模板换成本站真实地址（占位符容易被读者照抄）。核查后 README 内 3 个真实超链接均可访问，无失效链接。
 - **本变更记录自身也曾不完整**：对照提交历史核查后发现 9 次提交没有对应条目（建站、首页视频卡接入原链接、`references` 附录页建了又撤、改回一页一条、双向约定曾补第四条视频、关键词式标题与分享标签、描述补关键词、推荐卡移动端优化、关注列表改可增长），且最新小节日期写成 11-02 而对应提交实为 11-03。均已补齐修正，共 29 次提交全部有记录。
 - **修复 `rules.html` 手机端导航未生效**：下拉菜单的窄屏样式（`.navbtn`、`.nav{display:none}`、`.navtoggle:checked ~ .nav`）被误插进了 `@media (prefers-reduced-motion: reduce)` 块，而不是 `@media(max-width:760px)` 块，导致手机上看到的仍是会换行的胶囊排，下拉只在开启「减少动态效果」时才出现。根因：插入时用 `index('@media(max-width:760px){')` 定位，而该页此前已有一条同名的 `.vcard` 单行窄屏查询排在前面，插入点因此错位。
 - 顺带清掉同一次操作留下的**嵌套重复 `@media`** 与一个**空的 `@media(max-width:760px){}`**，并把 reduced-motion 块里失效的 `.entry .play` 等死选择器换成实际存在的项。
