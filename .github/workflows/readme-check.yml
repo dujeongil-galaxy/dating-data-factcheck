@@ -1,10 +1,11 @@
-name: README 检查
+name: 站点检查
 
 on:
   push:
     paths:
       - "README.md"
-      - ".github/scripts/check_readme.py"
+      - "*.html"
+      - ".github/scripts/**"
       - ".github/workflows/readme-check.yml"
   pull_request:
   workflow_dispatch:
@@ -25,5 +26,8 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 检查占位符、表格列数与外链可达性
+      - name: 检查 README（占位符、表格列数、外链）
         run: python .github/scripts/check_readme.py README.md
+
+      - name: 检查 HTML 页面（结构、导航一致、内外链、零外部依赖、窄屏溢出）
+        run: python .github/scripts/check_site.py

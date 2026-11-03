@@ -82,7 +82,25 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 ## CI 检查失败了怎么修
 
-本仓库有一个自动检查（`.github/workflows/readme-check.yml`），在你改动 README 后会自动运行，检查三类问题：占位符残留、表格列数不一致、外链打不开。失败时 CI 显示红叉，输出里用 `✗` 标出具体文件和行号。
+本仓库有一个自动检查（`.github/workflows/readme-check.yml`，工作流名 **站点检查**），在你改动 README 或任一 HTML 页面后自动运行，分两步：
+
+**第一步 `check_readme.py`** 管 README.md：占位符残留、Markdown 表格列数一致性、外链可达性。
+
+**第二步 `check_site.py`** 管所有 HTML 页面，共 12 项：
+
+- 首行必须是 `<!DOCTYPE html>`（否则进怪异模式）
+- `<html lang>`、`<title>`、viewport meta 是否齐备
+- 标签是否配对闭合
+- 是否有占位符残留
+- 是否缺 `<noscript>` 降级、是否缺 CSS 层 `prefers-reduced-motion`
+- **零外部依赖**：出现 `script src=http`、`img src=http`、外部 `link stylesheet` 直接判失败
+- `target="_blank"` 是否都带 `rel="noopener"`
+- 站内链接 `./xxx.html` 指向的文件是否真的存在
+- 窄屏溢出风险：按渲染文本算最长不可断词，超过 226px 预算（320px 视口扣除容器内边距与序号区）即告警
+- 外链 HTTP 可达性
+- **跨页一致性**：各页导航与页脚的链接集合必须完全相同；`.nojekyll` 必须存在
+
+失败时 CI 显示红叉，输出里用 `✗` 标出文件、行号和原因。
 
 ### 一、占位符 / 待办标记
 
@@ -114,6 +132,7 @@ Markdown 表格每一行的竖线数量必须与表头完全相同，分隔行�
 - **HTTP 404 / 410 / 5xx**：链接确实坏了。换成新地址；如果原视频已下架且没有新地址，就把整条删掉，不要留一个点不开的连接。
 - **超时、DNS 失败、连接被重置**：多半是临时网络问题，按下面「重跑」再来一次即可，不必改文件。
 - **HTTP 401 / 403 / 429**：**不会让 CI 变红**，只会列进「疑似限流」提示里。GitHub 自己的页面就经常对检查用的请求返回 403，这不代表链接失效。
+- **抖音链接（`douyin.com` / `v.douyin.com`）**：**CI 一律不去判断**，会列进「无法自动验证」。因为抖音对任何程序化请求都返回 404（包括故意编造的不存在 ID），拿 404 当死链会让 CI 永久红着、检查器当场作废。这类链接只能你在 App 或浏览器里人工确认，目前站内有 6 条。
 
 ### 不用等 CI，本地先跑
 
@@ -121,10 +140,11 @@ Markdown 表格每一行的竖线数量必须与表头完全相同，分隔行�
 
 ```bash
 python .github/scripts/check_readme.py README.md
+python .github/scripts/check_site.py
 echo $?
 ```
 
-最后一行输出 `0` 是通过，`1` 是有问题。**推送之前先跑一次**，比等 CI 红了再回来修快得多。
+第一条查 README，第二条查全部 HTML 页面。最后一行输出 `0` 是通过，`1` 是有问题。**推送之前先跑一遍这两条**，比等 CI 红了再回来修快得多。
 
 ### 在 GitHub 上查看失败详情
 
@@ -183,6 +203,9 @@ Actions → README 检查 → 右侧 **Run workflow** → 分支选 `main` → *
 
 ## 变更记录
 
+- **CI 检查从 README 扩展到五个 HTML 页面**：新增 `.github/scripts/check_site.py`，工作流改名为「站点检查」并拆成两步，`paths` 增加 `*.html`。共 12 项检查，含零外部依赖、`target=_blank` 必带 noopener、内链文件存在性、跨页导航与页脚一致性、`.nojekyll` 存在、窄屏最长不可断词超 226px 预算即告警。
+- 接入前先用故意写坏的探针页验证检查器确实会报错：命中 12 类问题（缺 DOCTYPE/lang/title/noscript/reduced-motion、占位符、外部 script 资源、缺 noopener、内链指向不存在文件、643px 溢出词、404 外链、导航集合不一致），退出码 1。真实五页为 0 问题。
+- 过程中修掉脚本自身两个 bug（栈属性名 `p.st` 应为 `p.stack`、探针文件因整条命令被删除保护拦下而没生成）。**关键设计修正**：首版把抖音链接的 404 判为死链，会让 CI 永久红——改为按域名列入「无法自动验证」，不计失败，并说明只能人工在 App 内确认。
 - 「CI 检查失败了怎么修」下新增「Actions 没触发怎么办」：先给两步排除配置问题的方法（查 workflow 文件的 paths 列表、查提交的改动清单），再给四条按成本排序的处理——本地自测、网页 Run workflow、重新推送（并指出**空提交不会触发**，因为 paths 过滤要求本次推送真的改到列表内文件）、以及靠每周一的定时复跑兜底可以不管。
 - 新增「CI 检查失败了怎么修」小节（三类告警各自修法、状态码区分、本地自测命令、Actions 页面中文指路、重跑方式、不要绕过检查）。
 - 实测记录：仅改 `README.md` 的提交 `00925c6` 未触发本工作流（同一次推送的 Pages 部署正常），疑似 Actions 一次漏触发；另确认用 API 手动触发会返回 404，因为推送令牌只有 `repo` 权限、缺 `workflow` 权限，须在网页上点 Run workflow。
