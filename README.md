@@ -60,7 +60,9 @@ python -m http.server 8000
 
 ## 部署
 
-Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存后约一分钟内可访问 `https://<user>.github.io/<repo>/`。站点有 CDN 缓存，更新后需强制刷新（Ctrl+F5）才能看到新版。
+> **看这份 README 请注意**：通过 Pages 地址访问 `README.md`（例如 <https://dujeongil-galaxy.github.io/dating-data-factcheck/README.md>）返回的是 `text/markdown` **纯文本，不会渲染成网页**，表格会显示成一堆竖线。要看渲染好的排版和表格，请打开仓库页：<https://github.com/dujeongil-galaxy/dating-data-factcheck>
+
+Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目录 `/ (root)`，保存后约一分钟内可访问本站线上地址 <https://dujeongil-galaxy.github.io/dating-data-factcheck/>。（其他 GitHub 账号的站点按 `https://用户名.github.io/仓库名/` 规律替换即可。）站点有 CDN 缓存，更新后需强制刷新（Ctrl+F5）才能看到新版。
 
 ## 声明
 
