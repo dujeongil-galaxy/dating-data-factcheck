@@ -96,8 +96,38 @@ def check_tables(text, name):
     return issues
 
 
-def probe(url, timeout=25):
-    """返回 (是否通过, 说明)。HEAD 不被支持时回退 GET。"""
+# 这些状态多为对端限流或拒绝自动化请求，不等于链接失效
+THROTTLE = (401, 403, 429)
+
+
+def probe(url, timeout=30, retries=2):
+    """返回 (状态, 说明)，状态为 ok / throttle / dead 之一。"""
+    last = ""
+    for attempt in range(retries):
+        for method in ("HEAD", "GET"):
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": UA}, method=method)
+                with urllib.request.urlopen(req, timeout=timeout) as resp:
+                    return "ok", "HTTP %s" % resp.status
+            except urllib.error.HTTPError as e:
+                last = "HTTP %s" % e.code
+                if method == "HEAD" and e.code in (400, 401, 403, 405, 406, 429, 501):
+                    continue
+                if e.code in THROTTLE:
+                    return "throttle", last + "（疑似限流/拒绝机器人，非链接失效）"
+                return "dead", last
+            except Exception as e:
+                last = "%s: %s" % (type(e).__name__, str(e)[:60])
+                if method == "HEAD":
+                    continue
+                break
+        if attempt + 1 < retries:
+            import time
+            time.sleep(3)
+    return "dead", last or "未知失败"
+
+
+def _probe_legacy(url):
     for method in ("HEAD", "GET"):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": UA}, method=method)
@@ -119,6 +149,7 @@ def main(argv):
     _force_utf8()
     targets = argv[1:] or ["README.md"]
     ph_bad, tbl_bad, link_bad, link_ok, skipped = [], [], [], [], []
+    link_warn = []
 
     for path in targets:
         try:
@@ -136,8 +167,13 @@ def main(argv):
             if SKIP_HOST.search(url):
                 skipped.append((path, url))
                 continue
-            ok, info = probe(url)
-            (link_ok if ok else link_bad).append((path, url, info))
+            state, info = probe(url)
+            if state == "ok":
+                link_ok.append((path, url, info))
+            elif state == "throttle":
+                link_warn.append((path, url, info))
+            else:
+                link_bad.append((path, url, info))
 
     print("检查文件: %s" % ", ".join(targets))
     print("")
@@ -152,6 +188,9 @@ def main(argv):
         print("  ✓ %s  (%s)" % (url, info))
     for p, url, info in link_bad:
         print("  ✗ %s  -> %s   [来自 %s]" % (url, info, p))
+    print("外链可疑但可能是对端限流: %d 个" % len(link_warn))
+    for p, url, info in link_warn:
+        print("  ! %s  -> %s   [来自 %s]" % (url, info, p))
     if skipped:
         print("跳过（本机/内网示例，不由 CI 探测）: %d 个" % len(skipped))
         for p, url in skipped:

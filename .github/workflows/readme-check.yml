@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - "README.md"
-      - "tools/check_readme.py"
+      - ".github/scripts/check_readme.py"
       - ".github/workflows/readme-check.yml"
   pull_request:
   workflow_dispatch:
@@ -26,4 +26,4 @@ jobs:
           python-version: "3.12"
 
       - name: 检查占位符、表格列数与外链可达性
-        run: python tools/check_readme.py README.md
+        run: python .github/scripts/check_readme.py README.md

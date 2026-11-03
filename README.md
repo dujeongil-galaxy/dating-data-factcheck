@@ -86,11 +86,14 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 ## 变更记录
 
+- 检查器上线后**立刻抓到自己写的 README**：变更记录里用裸文字写了 `TODO` 和 `example.com` 这两个词，被规则命中。这不是误报——讨论字面量时本就该用反引号，已改。顺带把脚本从 `tools/` 移到 `.github/scripts/`：Pages 会排除 `.github/` 但会发布 `tools/`，原位置会让脚本变成公开可下载的静态文件。
+- CI 首跑失败的根因是判定过严：从 GitHub runner 访问 github.com 常被回 403，我把 403 也算作死链。现改为 401/403/429 记为「疑似限流/拒绝机器人」的警告、不计失败，404/5xx/超时/解析失败才算死链，并加了重试。
+
 **2026-11-03（二）**
 
-- 新增 `tools/check_readme.py` 与 `.github/workflows/readme-check.yml`：自动检查 README 的占位符/待办标记、Markdown 表格列数一致性、外链可达性；`push`/`pull_request`/`workflow_dispatch` 触发，并每周一 01:00 UTC 定时复跑一次以发现链接腐烂。本机或内网地址（`127.0.0.1`、`localhost`）自动跳过。
+- 新增 `.github/scripts/check_readme.py` 与 `.github/workflows/readme-check.yml`：自动检查 README 的占位符/待办标记、Markdown 表格列数一致性、外链可达性；`push`/`pull_request`/`workflow_dispatch` 触发，并每周一 01:00 UTC 定时复跑一次以发现链接腐烂。本机或内网地址（`127.0.0.1`、`localhost`）自动跳过。
 - 反引号内的示例地址（如说明用的 `https://用户名.github.io/仓库名/`）不视为待替换占位符、也不去探测——首版把这两类都误判为问题，已修正。
-- 用一份故意写坏的样例验证过检查器确实会报错：命中 TODO、example.com、两处表格列数不符、一个 404 外链，退出码 1；真实 README 为 0 问题、退出码 0。
+- 用一份故意写坏的样例验证过检查器确实会报错：命中 `TODO`、`example.com`、两处表格列数不符、一个 404 外链，退出码 1；真实 README 为 0 问题、退出码 0。
 - 检查器自身也修过两处 bug：Windows GBK 控制台打印 `✓/✗` 崩溃（改为强制 UTF-8 输出）、表格检查里元组解包顺序写反。
 - **注意**：CI 从 GitHub 执行环境发起，链接通过不代表中国大陆可访问。
 
