@@ -121,7 +121,17 @@
   @media (prefers-reduced-motion: reduce){
     html{scroll-behavior:auto}
     .reveal{opacity:1;transform:none;transition:none}
-    .fill,.lcard,.crosslink,.nav a,.brand,a.thumb,.entry .play,.watch,.item,.rule,.convention{transition:none}
+    .lcard,.crosslink,.nav a,.brand,.rule,.flink{transition:none}
+
+  }
+
+  @media(max-width:760px){
+    .hero{padding:40px 0 26px}
+    .brand small{display:none}
+    .links{grid-template-columns:1fr}
+    .crosslink .go{position:static;transform:none;display:block;margin-top:10px}
+    .rule{padding:20px 20px 20px 58px}
+    .rule::before{left:20px;top:20px;font-size:22px}
     .navbtn{display:inline-flex;align-items:center;gap:7px;padding:11px 16px;font-size:13px;
       border:1px solid var(--line-strong);border-radius:999px;background:#fff;color:var(--ink);cursor:pointer;user-select:none}
     .navbtn .car{font-size:10px;color:var(--muted)}
@@ -134,16 +144,7 @@
     .nav a:hover{background:var(--paper);color:var(--ink);border-color:transparent}
     .nav a.on{background:var(--ink);color:#fff;border-color:var(--ink)}
   }
-
-  @media(max-width:760px){
-    .hero{padding:40px 0 26px}
-    .brand small{display:none}
-    .links{grid-template-columns:1fr}
-    .crosslink .go{position:static;transform:none;display:block;margin-top:10px}
-    .rule{padding:20px 20px 20px 58px}
-    .rule::before{left:20px;top:20px;font-size:22px}
-  }
-</style>
+  </style>
 </head>
 <body>
 
@@ -222,6 +223,11 @@
       <p>更多详情可以来百度贴吧“有男不玩 ml 吧”与大家亲切交流此类话题。</p>
     </div>
 
+  </div>
+
+  <div class="close reveal">
+    <div class="k">共勉</div>
+    <p>只要有着共同的目标，一路上就永远不会孤单，<br>未来属于我们应有的权利需要我们自己去争取。</p>
   </div>
 
   <a class="crosslink reveal" href="./expectations.html">
