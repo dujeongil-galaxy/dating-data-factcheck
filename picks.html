@@ -117,6 +117,16 @@
   .avoid ol li{margin-bottom:9px;line-height:1.85}
   .avoid ol li:last-child{margin-bottom:0}
   .avoid .anote{margin:16px 0 0;padding-top:14px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--muted);line-height:1.85}
+  /* 04 节：当年评论区原截图（本地资源，无外链） */
+  .shots{margin:22px 0 4px;padding:16px;background:var(--paper);border:1px solid var(--line);border-radius:10px}
+  .shots .shots-t{font-size:13px;font-weight:600;color:var(--ink);margin:0 0 4px}
+  .shots .shots-sub{font-size:12px;color:var(--muted);margin:0 0 14px;line-height:1.8}
+  .shots .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .shots figure{margin:0;min-width:0}
+  .shots img{display:block;width:100%;height:auto;border:1px solid var(--line-strong);border-radius:6px;background:#fff}
+  .shots figcaption{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.7}
+  .shots .shotnote{font-size:12.5px;color:var(--muted);line-height:1.85;margin:14px 0 0;padding-top:12px;border-top:1px dashed var(--line)}
+  .shots .shotnote b{color:var(--ink);font-weight:600}
 
   .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
   .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
@@ -149,6 +159,7 @@
     .vid .play{width:100%;height:44px}
     .buy{padding:20px 18px}
     .avoid{padding:20px 18px}
+    .shots .grid{grid-template-columns:1fr}
     .buy .ctas{flex-direction:column;align-items:stretch;gap:10px}
     .buy .cta{display:block;text-align:center;padding:14px 20px}
     .navbtn{display:inline-flex;align-items:center;gap:7px;padding:11px 16px;font-size:13px;
@@ -197,7 +208,7 @@
       <span>付费内容 <b>1</b> 款 · <b>2</b> 个入口</span>
       <span>抖音推荐 <b>1</b></span>
       <span>避雷 <b>1</b> 条</span>
-      <span>最后更新 2026-11-05</span>
+      <span>最后更新 2026-11-06</span>
     </div>
   </div>
 </div>
@@ -256,7 +267,7 @@
 
   <section class="grp" id="avoid">
     <div class="sec-head"><span class="sec-num">04</span><h2>避雷 · 付费搭讪的社交 App</h2></div>
-    <p class="sec-sub">前三节是「可以去看」，这一节是「自己踩过」。目前只有一条，写站长的亲历，不挂任何链接。</p>
+    <p class="sec-sub">前三节是「可以去看」，这一节是「自己踩过」。目前只有一条，写站长的亲历，不挂任何站外链接，另附两张当年评论区原截图。</p>
 
     <div class="avoid reveal">
       <div class="ak">平台避雷 · 站长亲历</div>
@@ -286,7 +297,23 @@
         </ol>
       </div>
 
-      <p class="anote"><b>边界说明：</b>本节依据站长口述的亲历与观察，本站没有对 Soul 当前的付费规则、举报与封号规则做独立核实，具体以 App 内实时显示为准；当年那两张评论区截图本站不转载，不点名参与争论的普通用户，也不复述评论里的攻击性原话。前三节是推荐、本节是避雷，两者不混，本节不挂购买、注册或下载链接。按全站声明，这里写的是个人经历与判断，不构成对该平台、任何机构或任何群体的整体评价。</p>
+      <div class="shots">
+        <p class="shots-t">当年那两张评论区截图（原图留存）</p>
+        <p class="shots-sub">站长 2019 年还是 2020 年（记不清）保存的页面截图，原样放置，未裁切、未改字。</p>
+        <div class="grid">
+          <figure>
+            <img src="./assets/soul-2019-comments-1.jpg" alt="当年一条「瞬间」帖子的上半部分与评论区" loading="lazy" />
+            <figcaption>图 1 · 帖子上半与评论区。图中账号、头像、昵称均为平台当时的显示。</figcaption>
+          </figure>
+          <figure>
+            <img src="./assets/soul-2019-comments-2.jpg" alt="同一条帖子的下半部分与评论区" loading="lazy" />
+            <figcaption>图 2 · 同帖下半与评论区。图中账号、头像、昵称均为平台当时的显示。</figcaption>
+          </figure>
+        </div>
+        <p class="shotnote"><b>关于图里的人：</b>截图中的发帖人、评论者，以及所有头像与昵称，都是当年平台上的其他用户，<b>没有一个是站长本人</b>；图中出现的女性账号、女性头像也不是站长。昵称里显示为「我」的那条，是截图设备当时的登录账号标记，本站同样不据此指认身份。站长是当时在评论区参与争论、之后被举报封号的一方，这里不点名、不指认任何账号，也不复述评论里的攻击性原话。两图只用来说明当年确实有过这场争论、以及评论区的语气，不构成对任何人的评价。</p>
+      </div>
+
+      <p class="anote"><b>边界说明：</b>本节依据站长口述的亲历与观察，本站没有对 Soul 当前的付费规则、举报与封号规则做独立核实，具体以 App 内实时显示为准；上面两张评论区截图按站长 2026-11-06 的要求原样留存，本站不点名、不指认图中任何账号，也不复述评论里的攻击性原话；图片只作当年争论现场的留存，不作事实认定。前三节是推荐、本节是避雷，两者不混，本节不挂购买、注册或下载链接。按全站声明，这里写的是个人经历与判断，不构成对该平台、任何机构或任何群体的整体评价。</p>
     </div>
   </section>
 
@@ -312,7 +339,7 @@
       <b>说明：</b>本页前三节只做索引与链接，不复制、不转载原视频与原作品内容，观点归属各原作者。付费推荐为第三方商品，本站不获得任何分成，购买前请自行判断。链接可能因平台调整而失效，本站不因此改变已有结论。第 04 节是站长个人经历与观察，不是数据核查，不构成对任何平台的整体评价；评论区截图与参与者昵称一律不转载。
     </div>
     <div>
-      婚恋数据核查台 · 最后更新 2026-11-05 ·
+      婚恋数据核查台 · 最后更新 2026-11-06 ·
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗指南</a> ·
       <a href="./rules.html">行动守则</a> ·

@@ -71,6 +71,16 @@ class Parser(HTMLParser):
         if tag not in VOID_TAGS:
             self.stack.append((tag, self.getpos()[0]))
 
+    def handle_startendtag(self, tag, attrs):
+        # HTMLParser 遇到 <img />、<br /> 这类自闭合写法会回调本方法，
+        # 基类默认实现是「handle_starttag + handle_endtag」各调一次。但 VOID_TAGS
+        # 本来就刻意不入栈（第 71 行），补的那次闭标签回调会拿真正的栈顶（如 figure）
+        # 去对 img，误报「标签不配对」。2026-11-06 加两张本地截图时踩到。
+        # 显式覆写：空元素只走开标签；非空元素仍按「开+闭」配对，原检查强度不变。
+        self.handle_starttag(tag, attrs)
+        if tag not in VOID_TAGS:
+            self.handle_endtag(tag)
+
     def handle_endtag(self, tag):
         if tag in ("style", "script"):
             self.in_inert = None
