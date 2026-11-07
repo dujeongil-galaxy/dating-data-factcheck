@@ -288,11 +288,23 @@ def check_asset_policy(root, pages):
                     "assets/ 出现未登记明文素材 %s —— 新素材须用 blog 格式链接，不得入库" % fn)
             if fn in LEGACY_MEDIA:
                 present_legacy.add(fn)
+                issues.append(
+                    "assets/%s 明文仍在仓库 —— 站长 2026-11-07 要求改用 blog 格式链接后，"
+                    "明文路径必须删除" % fn)
+
+    # blog/ 是站长 2026-11-07 指定的素材托管路径（完整 https blog 格式链接）。
+    # 该目录只允许两张已登记原图，新增任何素材文件一律判红。
+    bdir = os.path.join(root, "blog")
+    if os.path.isdir(bdir):
+        for fn in sorted(os.listdir(bdir)):
+            if fn.lower().endswith(MEDIA_EXT) and fn not in LEGACY_MEDIA:
+                issues.append(
+                    "blog/ 出现未登记素材 %s —— 新素材须先登记白名单" % fn)
 
     # 迁移状态机（站长 2026-11-07「不要直接在 GitHub 仓库明文」）：
-    #   待迁移：img src 是 ./assets/ 相对路径 + 明文 jpg 仍在 → 合法（存量白名单）
-    #   已迁移：img src 是 https 的 blog 格式链接 + 对应 jpg 已删 → 合法
-    #   混合态：换了外链却还把明文 jpg 留在仓库 → 判红
+    #   已迁移：img src 是 https 的 blog 格式链接 + assets/ 明文已删 → 合法
+    #   混合态：换了外链却还把明文 jpg 留在 assets/ → 判红
+    #   回退态：img src 又写回 ./assets/ 相对路径 → 判红
     blog_refs = set()
     for rel in pages:
         path = rel if os.path.isabs(rel) else os.path.join(root, rel)
@@ -304,8 +316,8 @@ def check_asset_policy(root, pages):
             src = m.group(1)
             base = os.path.basename(urllib.parse.urlparse(src).path)
             if src.startswith("./assets/") or src.startswith("assets/"):
-                if base not in LEGACY_MEDIA:
-                    issues.append("%s 引用未登记素材 %s" % (os.path.basename(path), src))
+                issues.append("%s 又用回 ./assets/ 明文相对路径：%s —— 必须改成 blog 格式链接"
+                              % (os.path.basename(path), src))
             elif src.startswith("http://") or src.startswith("https://"):
                 if base not in LEGACY_MEDIA:
                     issues.append("%s 引用未登记的站外素材 %s（新素材须先登记白名单）"
@@ -313,7 +325,10 @@ def check_asset_policy(root, pages):
                 if not src.startswith("https://"):
                     issues.append("%s 的 blog 素材链接必须用 https：%s"
                                   % (os.path.basename(path), src))
-                if base in LEGACY_MEDIA:
+                if "/blog/" not in src:
+                    issues.append("%s 的素材链接不是 blog 格式（路径须含 /blog/）：%s"
+                                  % (os.path.basename(path), src))
+                if base in LEGACY_MEDIA and src.startswith("https://") and "/blog/" in src:
                     blog_refs.add(base)
 
         if os.path.basename(path) == "picks.html":
@@ -330,7 +345,10 @@ def check_asset_policy(root, pages):
         issues.append("%s 已改用 blog 格式链接，但 assets/%s 明文仍留在仓库 —— "
                       "必须删除（站长：不要直接在 GitHub 仓库明文）" % (fn, fn))
 
-    state = "已迁移 %d 项" % len(blog_refs) if blog_refs else "待迁移（存量白名单）"
+    if len(blog_refs) != len(LEGACY_MEDIA):
+        issues.append("两张原图未全部改用 blog 格式链接（当前 %d/%d，且 assets/ 明文须清空）"
+                      % (len(blog_refs), len(LEGACY_MEDIA)))
+    state = "已迁移 %d/%d 项（blog 格式链接）" % (len(blog_refs), len(LEGACY_MEDIA))
     notes.append("素材白名单 %d 项（%s）；新增明文素材一律判红"
                  % (len(LEGACY_MEDIA), state))
     return issues, notes
