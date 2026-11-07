@@ -34,6 +34,14 @@ WIDE, ASCII, DIGIT = 1.0, 0.60, 0.56
 VOID_TAGS = {"br", "hr", "img", "input", "meta", "link", "source", "area",
              "base", "col", "embed", "param", "track", "wbr"}
 
+# 站长 2026-11-07 素材链接规则：这两张原图是 11-06 明文留存的历史例外，
+# 登记白名单、待迁到 blog 格式链接。放在模块顶部，Parser 与
+# check_asset_policy 共用；迁移后仓库内不得再留明文文件。
+LEGACY_MEDIA = {
+    "soul-2019-comments-1.jpg",
+    "soul-2019-comments-2.jpg",
+}
+
 
 def _utf8():
     for stream in (sys.stdout, sys.stderr):
@@ -62,7 +70,13 @@ class Parser(HTMLParser):
         if tag == "a":
             self.links.append((a.get("href", ""), a.get("target", ""), a.get("rel", "")))
         if tag == "img" and a.get("src", "").startswith("http"):
-            self.external_assets.append("img src=" + a["src"])
+            src = a["src"]
+            # 白名单里已迁到 blog 格式链接的存量原图，是规则允许的站外素材，
+            # 不算「零外部依赖」违规；未登记图片、script、stylesheet 仍一律判红。
+            # 不放宽这一条，站长给了 blog 地址也换不上（外链图片会被直接判红）。
+            if not (src.startswith("https://") and
+                    os.path.basename(urllib.parse.urlparse(src).path) in LEGACY_MEDIA):
+                self.external_assets.append("img src=" + src)
         if tag == "script" and a.get("src", "").startswith("http"):
             self.external_assets.append("script src=" + a["src"])
         if tag == "link" and a.get("href", "").startswith("http") and \
@@ -242,10 +256,7 @@ def check_page(path, repo_files, check_remote):
 # ③ 页面 img src 只能引用白名单 ④ 两张原图可点击放大 ⑤ 事实纠正不回流。
 # 两张 jpg 是站长 2026-11-06 明确要求明文留存的历史例外，登记为待迁移白名单。
 # ---------------------------------------------------------------------------
-LEGACY_MEDIA = {
-    "soul-2019-comments-1.jpg",
-    "soul-2019-comments-2.jpg",
-}
+# LEGACY_MEDIA 定义在模块顶部（Parser 也要用），此处不重复定义。
 MEDIA_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif",
              ".mp4", ".mov", ".webm", ".pdf")
 ASSET_RULE_MARKERS = (
@@ -269,12 +280,20 @@ def check_asset_policy(root, pages):
             issues.append("README 缺少素材链接规则原文：" + " / ".join(missing))
 
     adir = os.path.join(root, "assets")
+    present_legacy = set()
     if os.path.isdir(adir):
         for fn in sorted(os.listdir(adir)):
             if fn.lower().endswith(MEDIA_EXT) and fn not in LEGACY_MEDIA:
                 issues.append(
                     "assets/ 出现未登记明文素材 %s —— 新素材须用 blog 格式链接，不得入库" % fn)
+            if fn in LEGACY_MEDIA:
+                present_legacy.add(fn)
 
+    # 迁移状态机（站长 2026-11-07「不要直接在 GitHub 仓库明文」）：
+    #   待迁移：img src 是 ./assets/ 相对路径 + 明文 jpg 仍在 → 合法（存量白名单）
+    #   已迁移：img src 是 https 的 blog 格式链接 + 对应 jpg 已删 → 合法
+    #   混合态：换了外链却还把明文 jpg 留在仓库 → 判红
+    blog_refs = set()
     for rel in pages:
         path = rel if os.path.isabs(rel) else os.path.join(root, rel)
         if not os.path.exists(path):
@@ -283,9 +302,19 @@ def check_asset_policy(root, pages):
             raw = f.read()
         for m in re.finditer(r'<img[^>]+src="([^"]+)"', raw):
             src = m.group(1)
+            base = os.path.basename(urllib.parse.urlparse(src).path)
             if src.startswith("./assets/") or src.startswith("assets/"):
-                if os.path.basename(src) not in LEGACY_MEDIA:
+                if base not in LEGACY_MEDIA:
                     issues.append("%s 引用未登记素材 %s" % (os.path.basename(path), src))
+            elif src.startswith("http://") or src.startswith("https://"):
+                if base not in LEGACY_MEDIA:
+                    issues.append("%s 引用未登记的站外素材 %s（新素材须先登记白名单）"
+                                  % (os.path.basename(path), src))
+                if not src.startswith("https://"):
+                    issues.append("%s 的 blog 素材链接必须用 https：%s"
+                                  % (os.path.basename(path), src))
+                if base in LEGACY_MEDIA:
+                    blog_refs.add(base)
 
         if os.path.basename(path) == "picks.html":
             if raw.count('class="shot-zoom"') != 2:
@@ -297,8 +326,13 @@ def check_asset_policy(root, pages):
             if "封号是更前面的一桩" not in raw or "不是同一件事" not in raw:
                 issues.append("picks.html 缺少 2026-11-07 事实纠正（封号更早 / 私聊是另一件事）")
 
-    notes.append("素材白名单 %d 项（存量待迁移 blog 格式链接），新增明文素材一律判红"
-                 % len(LEGACY_MEDIA))
+    for fn in sorted(blog_refs & present_legacy):
+        issues.append("%s 已改用 blog 格式链接，但 assets/%s 明文仍留在仓库 —— "
+                      "必须删除（站长：不要直接在 GitHub 仓库明文）" % (fn, fn))
+
+    state = "已迁移 %d 项" % len(blog_refs) if blog_refs else "待迁移（存量白名单）"
+    notes.append("素材白名单 %d 项（%s）；新增明文素材一律判红"
+                 % (len(LEGACY_MEDIA), state))
     return issues, notes
 
 
