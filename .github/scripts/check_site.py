@@ -235,6 +235,73 @@ def check_page(path, repo_files, check_remote):
     return name, issues, notes, nav_and_footer(raw)
 
 
+# ---------------------------------------------------------------------------
+# 素材链接规则（站长 2026-11-07 写死）
+#   「除非我明确表示明文，否则都使用 blog，此规则记录在 GitHub 仓库 README，写死规则」
+# 规则不能只写进 README：这里同时锁 ① 规则原文 ② 明文素材白名单
+# ③ 页面 img src 只能引用白名单 ④ 两张原图可点击放大 ⑤ 事实纠正不回流。
+# 两张 jpg 是站长 2026-11-06 明确要求明文留存的历史例外，登记为待迁移白名单。
+# ---------------------------------------------------------------------------
+LEGACY_MEDIA = {
+    "soul-2019-comments-1.jpg",
+    "soul-2019-comments-2.jpg",
+}
+MEDIA_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif",
+             ".mp4", ".mov", ".webm", ".pdf")
+ASSET_RULE_MARKERS = (
+    "除非站长明确表示",
+    "blog 格式链接",
+    "不得把素材原始文件明文提交进 GitHub 仓库",
+)
+
+
+def check_asset_policy(root, pages):
+    issues, notes = [], []
+
+    readme = os.path.join(root, "README.md")
+    if not os.path.exists(readme):
+        issues.append("README.md 不存在，素材链接规则无处可查")
+    else:
+        with open(readme, encoding="utf-8") as f:
+            text = f.read()
+        missing = [m for m in ASSET_RULE_MARKERS if m not in text]
+        if missing:
+            issues.append("README 缺少素材链接规则原文：" + " / ".join(missing))
+
+    adir = os.path.join(root, "assets")
+    if os.path.isdir(adir):
+        for fn in sorted(os.listdir(adir)):
+            if fn.lower().endswith(MEDIA_EXT) and fn not in LEGACY_MEDIA:
+                issues.append(
+                    "assets/ 出现未登记明文素材 %s —— 新素材须用 blog 格式链接，不得入库" % fn)
+
+    for rel in pages:
+        path = rel if os.path.isabs(rel) else os.path.join(root, rel)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            raw = f.read()
+        for m in re.finditer(r'<img[^>]+src="([^"]+)"', raw):
+            src = m.group(1)
+            if src.startswith("./assets/") or src.startswith("assets/"):
+                if os.path.basename(src) not in LEGACY_MEDIA:
+                    issues.append("%s 引用未登记素材 %s" % (os.path.basename(path), src))
+
+        if os.path.basename(path) == "picks.html":
+            if raw.count('class="shot-zoom"') != 2:
+                issues.append("picks.html 两张原图的点击放大按钮不是 2 个（站长 2026-11-07 要求）")
+            if "className='lightbox'" not in raw:
+                issues.append("picks.html 缺少 lightbox 点击放大逻辑")
+            if "因为帖子下的争论和不少人吵了起来" in raw:
+                issues.append("picks.html 又出现旧的错误因果（在瞬间吵了一架导致封号）")
+            if "封号是更前面的一桩" not in raw or "不是同一件事" not in raw:
+                issues.append("picks.html 缺少 2026-11-07 事实纠正（封号更早 / 私聊是另一件事）")
+
+    notes.append("素材白名单 %d 项（存量待迁移 blog 格式链接），新增明文素材一律判红"
+                 % len(LEGACY_MEDIA))
+    return issues, notes
+
+
 def main(argv):
     _utf8()
     args = [a for a in argv[1:] if not a.startswith("--")]
@@ -288,8 +355,17 @@ def main(argv):
     else:
         print("✓ .nojekyll 存在")
 
+    # 素材链接规则（站长 2026-11-07 写死）：README 原文 + 明文素材白名单 +
+    # 图片点击放大 + 事实纠正，缺一即判红。
+    print("")
+    policy_issues, policy_notes = check_asset_policy(root, pages)
+    for i in policy_issues:
+        print("✗ %s" % i)
+    for n in policy_notes:
+        print("✓ %s" % n)
+
     failed = any(i for _, i, _ in results) or len(navsets) > 1 or len(footsets) > 1 \
-        or ".nojekyll" not in files
+        or ".nojekyll" not in files or bool(policy_issues)
     print("")
     print("结论: %s" % ("失败 ✗" if failed else "通过 ✓"))
     return 1 if failed else 0

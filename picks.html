@@ -127,6 +127,14 @@
   .shots figcaption{font-size:11.5px;color:var(--muted);margin-top:6px;line-height:1.7}
   .shots .shotnote{font-size:12.5px;color:var(--muted);line-height:1.85;margin:14px 0 0;padding-top:12px;border-top:1px dashed var(--line)}
   .shots .shotnote b{color:var(--ink);font-weight:600}
+  /* 2026-11-07 站长指定：两张原图要能点击放大。纯内联、无外部依赖、无 JS 库。 */
+  .shots .shot-zoom{display:block;width:100%;margin:0;padding:0;border:0;background:transparent;cursor:zoom-in;line-height:0}
+  .shots .shot-zoom:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .shots .shot-zoom:hover img{border-color:#94a3b8}
+  .shots .zoomhint{display:block;font-size:11px;color:var(--muted);margin-top:3px}
+  body>.lightbox{position:fixed;inset:0;z-index:999;background:rgba(15,23,42,.94);display:flex;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  body>.lightbox img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;background:#fff;border-radius:6px;box-shadow:0 18px 60px rgba(0,0,0,.55)}
+  body>.lightbox .lb-tip{position:absolute;bottom:16px;left:0;right:0;text-align:center;color:#e2e8f0;font-size:12px}
 
   .links2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:34px}
   .lcard{display:block;text-decoration:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px;transition:.2s}
@@ -160,6 +168,7 @@
     .buy{padding:20px 18px}
     .avoid{padding:20px 18px}
     .shots .grid{grid-template-columns:1fr}
+    body>.lightbox{padding:12px}
     .buy .ctas{flex-direction:column;align-items:stretch;gap:10px}
     .buy .cta{display:block;text-align:center;padding:14px 20px}
     .navbtn{display:inline-flex;align-items:center;gap:7px;padding:11px 16px;font-size:13px;
@@ -208,7 +217,7 @@
       <span>付费内容 <b>1</b> 款 · <b>2</b> 个入口</span>
       <span>抖音推荐 <b>1</b></span>
       <span>避雷 <b>1</b> 条</span>
-      <span>最后更新 2026-11-06</span>
+      <span>最后更新 2026-11-07</span>
     </div>
   </div>
 </div>
@@ -271,14 +280,16 @@
 
     <div class="avoid reveal">
       <div class="ak">平台避雷 · 站长亲历</div>
-      <h3>Soul：吵了一架被举报封号，现在搭讪、私聊女生要付费</h3>
-      <p class="am"><span>2019 年还是 2020 年（站长记不清）</span><span>来源：站长本人账号</span><span>口径：个人经历与观察，非数据核查</span></p>
+      <h3>Soul：封号是更早的一桩事，现在搭讪、私聊女生要付费</h3>
+      <p class="am"><span>封号约 2017 或 2018 年 · 这条「瞬间」2019 或 2020 年（站长都记不清）</span><span>来源：站长本人账号</span><span>口径：个人经历与观察，非数据核查</span></p>
 
-      <p>那两年站长在 Soul 的「瞬间」广场，因为帖子下的争论和不少人吵了起来，之后被举报，账号被封。封了以后没有就这么算了，去反馈过，也找过管理员。管理员在后台回了一句话，原话是：</p>
+      <p>先把两件事拆开，别混到一起。站长那条「瞬间」是 2019 年还是 2020 年的（记不清），帖子底下确实吵得厉害，但吵的是评论区那拨人自己，<b>站长没有在那条帖子底下和谁吵</b>。站长那阵子跟人起争执是在私聊里和别人，跟这条帖子不是同一件事。</p>
+
+      <p>封号是更前面的一桩，大概 2017 年还是 2018 年，同样记不清。封号归封号，这条动态归这条动态，两件事不是一回事，不能串成「在瞬间底下吵了一架所以被封号」。那次封了以后没有就这么算了，去反馈过，也找过管理员。管理员在后台回了一句话，原话是：</p>
 
       <blockquote class="quote">「难道你因为害怕别人骂你，就先对别人表现出攻击性，你认为这是正确的行为？」</blockquote>
 
-      <p>这句话本站不作改写。站长反馈后拿到的回应就是这一句，至于举报怎么成立、按哪条处置，没有更多交代。封号这件事从头到尾由平台单方面执行：谁举报、怎么判、申诉怎么回，用户这边只收到一个结果和一句反问。</p>
+      <p>这句话本站不作改写。站长反馈后拿到的回应就是这一句，至于举报怎么成立、按哪条处置，没有更多交代。<b>这里说的是更早那次封号，与上面那条「瞬间」及评论区争论无关。</b>封号这件事从头到尾由平台单方面执行：谁举报、怎么判、申诉怎么回，用户这边只收到一个结果和一句反问。</p>
 
       <p>而现在呢，男生想搭讪、私聊女生，是付费的。站长的原话是：</p>
 
@@ -299,21 +310,25 @@
 
       <div class="shots">
         <p class="shots-t">当年那两张评论区截图（原图留存）</p>
-        <p class="shots-sub">站长 2019 年还是 2020 年（记不清）保存的页面截图，原样放置，未裁切、未改字。</p>
+        <p class="shots-sub">站长 2019 年还是 2020 年（记不清）保存的页面截图，原样放置，未裁切、未改字。点击图片可放大查看原图。</p>
         <div class="grid">
           <figure>
-            <img src="./assets/soul-2019-comments-1.jpg" alt="当年一条「瞬间」帖子的上半部分与评论区" loading="lazy" />
-            <figcaption>图 1 · 帖子上半与评论区。图中账号、头像、昵称均为平台当时的显示。</figcaption>
+            <button type="button" class="shot-zoom" aria-label="点击放大图 1：帖子上半与评论区">
+              <img src="./assets/soul-2019-comments-1.jpg" alt="当年一条「瞬间」帖子的上半部分与评论区" loading="lazy" />
+            </button>
+            <figcaption>图 1 · 帖子上半与评论区。图中账号、头像、昵称均为平台当时的显示。<span class="zoomhint">点击图片可放大查看</span></figcaption>
           </figure>
           <figure>
-            <img src="./assets/soul-2019-comments-2.jpg" alt="同一条帖子的下半部分与评论区" loading="lazy" />
-            <figcaption>图 2 · 同帖下半与评论区。图中账号、头像、昵称均为平台当时的显示。</figcaption>
+            <button type="button" class="shot-zoom" aria-label="点击放大图 2：同帖下半与评论区">
+              <img src="./assets/soul-2019-comments-2.jpg" alt="同一条帖子的下半部分与评论区" loading="lazy" />
+            </button>
+            <figcaption>图 2 · 同帖下半与评论区。图中账号、头像、昵称均为平台当时的显示。<span class="zoomhint">点击图片可放大查看</span></figcaption>
           </figure>
         </div>
-        <p class="shotnote"><b>关于图里的人：</b>截图中的发帖人、评论者，以及所有头像与昵称，都是当年平台上的其他用户，<b>没有一个是站长本人</b>；图中出现的女性账号、女性头像也不是站长。昵称里显示为「我」的那条，是截图设备当时的登录账号标记，本站同样不据此指认身份。站长是当时在评论区参与争论、之后被举报封号的一方，这里不点名、不指认任何账号，也不复述评论里的攻击性原话。两图只用来说明当年确实有过这场争论、以及评论区的语气，不构成对任何人的评价。</p>
+        <p class="shotnote"><b>关于图里的人：</b>截图中的发帖人、评论者，以及所有头像与昵称，都是当年平台上的其他用户，<b>没有一个是站长本人</b>；图中出现的女性账号、女性头像也不是站长。昵称里显示为「我」的那条，是截图设备当时的登录账号标记，本站同样不据此指认身份。<b>站长没有在这条帖子的评论区参与争论，那底下吵的是别人；封号是更早的另一桩事，与这两张图无关。</b>这里不点名、不指认任何账号，也不复述评论里的攻击性原话。两图只用来说明当年那条帖子底下确实有过这场争论、以及评论区的语气，不构成对任何人的评价。</p>
       </div>
 
-      <p class="anote"><b>边界说明：</b>本节依据站长口述的亲历与观察，本站没有对 Soul 当前的付费规则、举报与封号规则做独立核实，具体以 App 内实时显示为准；上面两张评论区截图按站长 2026-11-06 的要求原样留存，本站不点名、不指认图中任何账号，也不复述评论里的攻击性原话；图片只作当年争论现场的留存，不作事实认定。前三节是推荐、本节是避雷，两者不混，本节不挂购买、注册或下载链接。按全站声明，这里写的是个人经历与判断，不构成对该平台、任何机构或任何群体的整体评价。</p>
+      <p class="anote"><b>边界说明：</b>本节依据站长口述的亲历与观察，本站没有对 Soul 当前的付费规则、举报与封号规则做独立核实，具体以 App 内实时显示为准；按站长 2026-11-07 的更正，封号（约 2017／2018 年）与这条「瞬间」及评论区争论（2019／2020 年）是两件独立的事，本页不作因果串联，也不把站长写成评论区争论的一方；上面两张评论区截图按站长 2026-11-06 的要求原样留存，本站不点名、不指认图中任何账号，也不复述评论里的攻击性原话；图片只作当年争论现场的留存，不作事实认定。前三节是推荐、本节是避雷，两者不混，本节不挂购买、注册或下载链接。按全站声明，这里写的是个人经历与判断，不构成对该平台、任何机构或任何群体的整体评价。</p>
     </div>
   </section>
 
@@ -336,10 +351,10 @@
 <footer>
   <div class="wrap">
     <div class="disc">
-      <b>说明：</b>本页前三节只做索引与链接，不复制、不转载原视频与原作品内容，观点归属各原作者。付费推荐为第三方商品，本站不获得任何分成，购买前请自行判断。链接可能因平台调整而失效，本站不因此改变已有结论。第 04 节是站长个人经历与观察，不是数据核查，不构成对任何平台的整体评价；评论区截图与参与者昵称一律不转载。
+      <b>说明：</b>本页前三节只做索引与链接，不复制、不转载原视频与原作品内容，观点归属各原作者。付费推荐为第三方商品，本站不获得任何分成，购买前请自行判断。链接可能因平台调整而失效，本站不因此改变已有结论。第 04 节是站长个人经历与观察，不是数据核查，不构成对任何平台的整体评价；两张当年评论区截图按站长要求原样留存，点击可放大，本站不点名、不指认图中任何账号，也不复述评论里的攻击性原话。
     </div>
     <div>
-      婚恋数据核查台 · 最后更新 2026-11-06 ·
+      婚恋数据核查台 · 最后更新 2026-11-07 ·
       <a href="./index.html">溯源核查</a> ·
       <a href="./anti-scam.html">防骗指南</a> ·
       <a href="./rules.html">行动守则</a> ·
@@ -356,6 +371,48 @@
     es.forEach(function(e){ if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);} });
   },{threshold:.15,rootMargin:'0px 0px -40px 0px'});
   document.querySelectorAll('.reveal').forEach(function(n){io.observe(n);});
+})();
+</script>
+<script>
+/* 2026-11-07 站长指定：04 节两张原图点击放大。
+   只在点击后才建 DOM，纯内联，无外部库；点遮罩或按 Esc 关闭。 */
+(function(){
+  var box=null;
+  function close(){
+    if(!box)return;
+    if(box.parentNode)box.parentNode.removeChild(box);
+    box=null;
+    document.body.style.overflow='';
+  }
+  document.addEventListener('click',function(e){
+    var t=e.target,btn=null;
+    while(t&&t!==document){
+      if(t.className&&String(t.className).indexOf('shot-zoom')>=0){btn=t;break;}
+      t=t.parentNode;
+    }
+    if(!btn)return;
+    var img=btn.querySelector('img');
+    if(!img)return;
+    close();
+    box=document.createElement('div');
+    box.className='lightbox';
+    box.setAttribute('role','dialog');
+    box.setAttribute('aria-label','图片放大查看（点击任意处或按 Esc 关闭）');
+    var big=document.createElement('img');
+    big.setAttribute('src',img.getAttribute('src'));
+    big.setAttribute('alt',img.getAttribute('alt')||'');
+    var tip=document.createElement('span');
+    tip.className='lb-tip';
+    tip.textContent='点击任意处或按 Esc 关闭';
+    box.appendChild(big);
+    box.appendChild(tip);
+    box.addEventListener('click',close);
+    document.body.appendChild(box);
+    document.body.style.overflow='hidden';
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape')close();
+  });
 })();
 </script>
 <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
