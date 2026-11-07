@@ -11,6 +11,8 @@
 import os
 import re
 import sys
+import json
+import base64
 import unicodedata
 import urllib.request
 import urllib.error
@@ -34,12 +36,13 @@ WIDE, ASCII, DIGIT = 1.0, 0.60, 0.56
 VOID_TAGS = {"br", "hr", "img", "input", "meta", "link", "source", "area",
              "base", "col", "embed", "param", "track", "wbr"}
 
-# 站长 2026-11-07 素材链接规则：这两张原图是 11-06 明文留存的历史例外，
-# 登记白名单、待迁到 blog 格式链接。放在模块顶部，Parser 与
-# check_asset_policy 共用；迁移后仓库内不得再留明文文件。
-LEGACY_MEDIA = {
-    "soul-2019-comments-1.jpg",
-    "soul-2019-comments-2.jpg",
+# 站长 2026-11-07 素材规则（原话「链接改为 blob 格式」，当时被误听成 blog，
+# 同日纠正）：仓库只留 .enc 密文容器，页面 img 只写 data-enc 不写 src，
+# 浏览器本地解密后由 URL.createObjectURL 生成 blob: 地址。
+# 登记两张存量截图的「明文名 → 密文路径」，Parser 与 check_asset_policy 共用。
+REGISTERED_MEDIA = {
+    "soul-2019-comments-1.jpg": "assets/soul-2019-comments-1.jpg.enc",
+    "soul-2019-comments-2.jpg": "assets/soul-2019-comments-2.jpg.enc",
 }
 
 
@@ -70,13 +73,9 @@ class Parser(HTMLParser):
         if tag == "a":
             self.links.append((a.get("href", ""), a.get("target", ""), a.get("rel", "")))
         if tag == "img" and a.get("src", "").startswith("http"):
-            src = a["src"]
-            # 白名单里已迁到 blog 格式链接的存量原图，是规则允许的站外素材，
-            # 不算「零外部依赖」违规；未登记图片、script、stylesheet 仍一律判红。
-            # 不放宽这一条，站长给了 blog 地址也换不上（外链图片会被直接判红）。
-            if not (src.startswith("https://") and
-                    os.path.basename(urllib.parse.urlparse(src).path) in LEGACY_MEDIA):
-                self.external_assets.append("img src=" + src)
+            # 零外部依赖不再留任何白名单：素材一律走 .enc 解密后的 blob: URL，
+            # 页面源码里出现 http 开头的 img src 就是回潮，直接判红。
+            self.external_assets.append("img src=" + a["src"])
         if tag == "script" and a.get("src", "").startswith("http"):
             self.external_assets.append("script src=" + a["src"])
         if tag == "link" and a.get("href", "").startswith("http") and \
@@ -250,107 +249,177 @@ def check_page(path, repo_files, check_remote):
 
 
 # ---------------------------------------------------------------------------
-# 素材链接规则（站长 2026-11-07 写死）
-#   「除非我明确表示明文，否则都使用 blog，此规则记录在 GitHub 仓库 README，写死规则」
-# 规则不能只写进 README：这里同时锁 ① 规则原文 ② 明文素材白名单
-# ③ 页面 img src 只能引用白名单 ④ 两张原图可点击放大 ⑤ 事实纠正不回流。
-# 两张 jpg 是站长 2026-11-06 明确要求明文留存的历史例外，登记为待迁移白名单。
+# 素材规则（站长 2026-11-07 写死；同日纠正：站长说的是 blob，不是 blog）
+#   「除非我明确表示明文，否则都使用 blob，此规则记录在 GitHub 仓库 README，写死规则」
+# 落地形态参照 shuangxiugou/why-shuangxiugou.html 的「照片彩蛋」：
+#   仓库只留 .enc 密文 → 浏览器 PBKDF2+AES-GCM 本地解密 →
+#   URL.createObjectURL 生成 blob: 地址写进 img.src。
+# 规则不能只写进 README：这里同时锁 ① 规则原文 ② 仓库内零明文素材
+# ③ 密文容器结构有效 ④ img 只写 data-enc 且不放静态图片地址
+# ⑤ 解密脚本真用 createObjectURL（口令两端一致）⑥ 点击放大 ⑦ 事实纠正不回流。
 # ---------------------------------------------------------------------------
-# LEGACY_MEDIA 定义在模块顶部（Parser 也要用），此处不重复定义。
+# REGISTERED_MEDIA 定义在模块顶部（Parser 也要用），此处不重复定义。
 MEDIA_EXT = (".jpg", ".jpeg", ".png", ".webp", ".gif",
              ".mp4", ".mov", ".webm", ".pdf")
 ASSET_RULE_MARKERS = (
-    "除非站长明确表示",
-    "blog 格式链接",
+    "除非站长明确表示「明文」",
+    "blob 格式",
     "不得把素材原始文件明文提交进 GitHub 仓库",
+    "密文容器",
+    "URL.createObjectURL",
 )
+# 页面里不允许再出现「blog 格式链接」这条被纠正掉的错误规则
+STALE_RULE_MARKERS = ("blog 格式链接", "/blog/")
+
+VAULT_REQUIRED = (
+    "createObjectURL(",
+    "return impl.createObjectURL(blob);",
+    "subtle.decrypt",
+    "getAttribute('data-enc')",
+    "setAttribute('src', urls[j])",
+    "grid.hidden = false;",
+    "PBKDF2",
+)
+
+
+def _b64ok(value, want_len=None):
+    try:
+        raw = base64.b64decode(value, validate=True)
+    except Exception:
+        return False
+    return bool(raw) and (want_len is None or len(raw) == want_len)
 
 
 def check_asset_policy(root, pages):
     issues, notes = [], []
 
+    # ① README 规则原文
     readme = os.path.join(root, "README.md")
     if not os.path.exists(readme):
-        issues.append("README.md 不存在，素材链接规则无处可查")
+        issues.append("README.md 不存在，素材规则无处可查")
+        text = ""
     else:
         with open(readme, encoding="utf-8") as f:
             text = f.read()
         missing = [m for m in ASSET_RULE_MARKERS if m not in text]
         if missing:
-            issues.append("README 缺少素材链接规则原文：" + " / ".join(missing))
+            issues.append("README 缺少素材规则原文：" + " / ".join(missing))
+        # 只查「扩展约定」里的现行规则；变更记录里如实保留误听 blog 的历史，不改写历史。
+        rules_part = text.split("## 变更记录", 1)[0]
+        stale = [m for m in STALE_RULE_MARKERS if m in rules_part]
+        if stale:
+            issues.append("README 现行规则里仍写着已被纠正的 blog 说法：" + " / ".join(stale))
 
+    # ② 整个仓库（工作区）不得躺着任何明文素材；.enc 不在此列
+    for dirpath, dirnames, filenames in os.walk(root):
+        if ".git" in dirnames:
+            dirnames.remove(".git")
+        for fn in sorted(filenames):
+            if fn.lower().endswith(MEDIA_EXT):
+                issues.append("仓库内出现明文素材 %s —— 只准留 .enc 密文容器"
+                              % os.path.relpath(os.path.join(dirpath, fn), root))
+
+    # ③ 密文容器：两张都必须存在、结构有效、名字对得上；多余的 .enc 要登记
     adir = os.path.join(root, "assets")
-    present_legacy = set()
+    known_enc = {os.path.basename(p) for p in REGISTERED_MEDIA.values()}
     if os.path.isdir(adir):
         for fn in sorted(os.listdir(adir)):
-            if fn.lower().endswith(MEDIA_EXT) and fn not in LEGACY_MEDIA:
-                issues.append(
-                    "assets/ 出现未登记明文素材 %s —— 新素材须用 blog 格式链接，不得入库" % fn)
-            if fn in LEGACY_MEDIA:
-                present_legacy.add(fn)
-                issues.append(
-                    "assets/%s 明文仍在仓库 —— 站长 2026-11-07 要求改用 blog 格式链接后，"
-                    "明文路径必须删除" % fn)
+            if fn.endswith(".enc") and fn not in known_enc:
+                issues.append("assets/ 出现未登记的密文素材 %s —— 新素材须先登记" % fn)
+    for name, rel in sorted(REGISTERED_MEDIA.items()):
+        p = os.path.join(root, rel)
+        if not os.path.exists(p):
+            issues.append("密文容器缺失：%s" % rel)
+            continue
+        try:
+            with open(p, encoding="utf-8") as f:
+                c = json.load(f)
+        except Exception as e:
+            issues.append("密文容器 %s 不是合法 JSON：%s" % (rel, e))
+            continue
+        if c.get("v") != 1 or c.get("iter") != 210000 \
+                or "AES-256-GCM" not in str(c.get("alg", "")):
+            issues.append("密文容器 %s 版本/算法/迭代次数不对（须 v=1、21 万次、AES-256-GCM）" % rel)
+        if c.get("name") != name or c.get("type") != "image/jpeg":
+            issues.append("密文容器 %s 的 name/type 与登记不符" % rel)
+        for field, want in (("salt", 16), ("iv", 12), ("tag", 16), ("data", None)):
+            if not _b64ok(c.get(field, ""), want):
+                issues.append("密文容器 %s 的 %s 不是有效 base64（或长度不对）" % (rel, field))
 
-    # blog/ 是站长 2026-11-07 指定的素材托管路径（完整 https blog 格式链接）。
-    # 该目录只允许两张已登记原图，新增任何素材文件一律判红。
-    bdir = os.path.join(root, "blog")
-    if os.path.isdir(bdir):
-        for fn in sorted(os.listdir(bdir)):
-            if fn.lower().endswith(MEDIA_EXT) and fn not in LEGACY_MEDIA:
-                issues.append(
-                    "blog/ 出现未登记素材 %s —— 新素材须先登记白名单" % fn)
-
-    # 迁移状态机（站长 2026-11-07「不要直接在 GitHub 仓库明文」）：
-    #   已迁移：img src 是 https 的 blog 格式链接 + assets/ 明文已删 → 合法
-    #   混合态：换了外链却还把明文 jpg 留在 assets/ → 判红
-    #   回退态：img src 又写回 ./assets/ 相对路径 → 判红
-    blog_refs = set()
+    # ④ 页面：img 只写 data-enc、不放静态图片地址；两张都登记
+    seen = set()
     for rel in pages:
         path = rel if os.path.isabs(rel) else os.path.join(root, rel)
         if not os.path.exists(path):
             continue
         with open(path, encoding="utf-8") as f:
             raw = f.read()
-        for m in re.finditer(r'<img[^>]+src="([^"]+)"', raw):
-            src = m.group(1)
-            base = os.path.basename(urllib.parse.urlparse(src).path)
-            if src.startswith("./assets/") or src.startswith("assets/"):
-                issues.append("%s 又用回 ./assets/ 明文相对路径：%s —— 必须改成 blog 格式链接"
-                              % (os.path.basename(path), src))
-            elif src.startswith("http://") or src.startswith("https://"):
-                if base not in LEGACY_MEDIA:
-                    issues.append("%s 引用未登记的站外素材 %s（新素材须先登记白名单）"
-                                  % (os.path.basename(path), src))
-                if not src.startswith("https://"):
-                    issues.append("%s 的 blog 素材链接必须用 https：%s"
-                                  % (os.path.basename(path), src))
-                if "/blog/" not in src:
-                    issues.append("%s 的素材链接不是 blog 格式（路径须含 /blog/）：%s"
-                                  % (os.path.basename(path), src))
-                if base in LEGACY_MEDIA and src.startswith("https://") and "/blog/" in src:
-                    blog_refs.add(base)
+        imgs = re.findall(r"<img\b[^>]*>", raw)
+        for tag in imgs:
+            if re.search(r"\bsrc\s*=", tag):
+                issues.append("%s 的 img 写死了 src（%s）—— 素材必须由解密后的 blob: 地址注入"
+                              % (os.path.basename(path), tag.strip()[:90]))
+            m = re.search(r'data-enc="([^"]+)"', tag)
+            if m:
+                enc = m.group(1)
+                base = os.path.basename(urllib.parse.urlparse(enc).path)
+                plain_name = base[:-4] if base.endswith(".enc") else base
+                if plain_name not in REGISTERED_MEDIA:
+                    issues.append("%s 引用未登记素材 %s" % (os.path.basename(path), enc))
+                elif REGISTERED_MEDIA[plain_name] != enc.lstrip("./"):
+                    issues.append("%s 的 data-enc 路径与登记不一致：%s" % (os.path.basename(path), enc))
+                else:
+                    seen.add(plain_name)
+        if re.search(r'https?://[^\s"\']+\.(?:jpe?g|png|webp|gif)', raw):
+            issues.append("%s 又出现静态图片 URL —— blob 方案下页面不得暴露素材地址"
+                          % os.path.basename(path))
+        if "/blog/" in raw:
+            issues.append("%s 又出现 /blog/ 路径 —— 该迁移已撤销" % os.path.basename(path))
 
         if os.path.basename(path) == "picks.html":
+            if len([t for t in imgs if "data-enc=" in t]) != 2:
+                issues.append("picks.html 的 data-enc 截图不是 2 个（站长 2026-11-07 要求）")
+            if 'id="shots-grid"' not in raw or 'id="shot-status"' not in raw:
+                issues.append("picks.html 缺少解密网格或失败状态位")
+            if 'src="./shot-vault.js' not in raw:
+                issues.append("picks.html 没有引用 shot-vault.js")
             if raw.count('class="shot-zoom"') != 2:
                 issues.append("picks.html 两张原图的点击放大按钮不是 2 个（站长 2026-11-07 要求）")
             if "className='lightbox'" not in raw:
                 issues.append("picks.html 缺少 lightbox 点击放大逻辑")
+            if "if(!src)return;" not in raw:
+                issues.append("picks.html 灯箱没拦住「解密前 src 为空」的点击")
             if "因为帖子下的争论和不少人吵了起来" in raw:
                 issues.append("picks.html 又出现旧的错误因果（在瞬间吵了一架导致封号）")
             if "封号是更前面的一桩" not in raw or "不是同一件事" not in raw:
                 issues.append("picks.html 缺少 2026-11-07 事实纠正（封号更早 / 私聊是另一件事）")
 
-    for fn in sorted(blog_refs & present_legacy):
-        issues.append("%s 已改用 blog 格式链接，但 assets/%s 明文仍留在仓库 —— "
-                      "必须删除（站长：不要直接在 GitHub 仓库明文）" % (fn, fn))
+    if len(seen) != len(REGISTERED_MEDIA):
+        issues.append("两张原图未全部接上 data-enc（当前 %d/%d）"
+                      % (len(seen), len(REGISTERED_MEDIA)))
 
-    if len(blog_refs) != len(LEGACY_MEDIA):
-        issues.append("两张原图未全部改用 blog 格式链接（当前 %d/%d，且 assets/ 明文须清空）"
-                      % (len(blog_refs), len(LEGACY_MEDIA)))
-    state = "已迁移 %d/%d 项（blog 格式链接）" % (len(blog_refs), len(LEGACY_MEDIA))
-    notes.append("素材白名单 %d 项（%s）；新增明文素材一律判红"
-                 % (len(LEGACY_MEDIA), state))
+    # ⑤ 解密脚本：真用 Web Crypto + createObjectURL，口令两端一致
+    vault = os.path.join(root, "shot-vault.js")
+    enc_script = os.path.join(root, "scripts", "encrypt-shots.mjs")
+    if not os.path.exists(vault) or not os.path.exists(enc_script):
+        issues.append("shot-vault.js 或 scripts/encrypt-shots.mjs 缺失")
+    else:
+        with open(vault, encoding="utf-8") as f:
+            js = f.read()
+        missing = [m for m in VAULT_REQUIRED if m not in js]
+        if missing:
+            issues.append("shot-vault.js 缺关键语句（注释里写不算）：" + " / ".join(missing))
+        with open(enc_script, encoding="utf-8") as f:
+            enc_js = f.read()
+        k1 = re.search(r"var PASSPHRASE = '([^']+)'", js)
+        k2 = re.search(r"const PASSPHRASE = '([^']+)'", enc_js)
+        if not k1 or not k2:
+            issues.append("解密脚本或加密脚本里找不到 PASSPHRASE 常量")
+        elif k1.group(1) != k2.group(1) or len(k1.group(1)) < 12:
+            issues.append("shot-vault.js 与 encrypt-shots.mjs 的解密口令不一致（或太短）")
+
+    notes.append("素材白名单 %d 项，blob 解密渲染 %d/%d；仓库明文素材、静态图片 URL 一律判红"
+                 % (len(REGISTERED_MEDIA), len(seen), len(REGISTERED_MEDIA)))
     return issues, notes
 
 
@@ -407,7 +476,8 @@ def main(argv):
     else:
         print("✓ .nojekyll 存在")
 
-    # 素材链接规则（站长 2026-11-07 写死）：README 原文 + 明文素材白名单 +
+    # 素材规则（站长 2026-11-07 写死，同日纠正为 blob）：README 原文 +
+    # 仓库零明文 + 密文容器有效 + data-enc/createObjectURL 链路 +
     # 图片点击放大 + 事实纠正，缺一即判红。
     print("")
     policy_issues, policy_notes = check_asset_policy(root, pages)
