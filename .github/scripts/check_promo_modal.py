@@ -17,7 +17,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 JS_PATH = os.path.join(ROOT, "promo-modal.js")
 INDEX_PATH = os.path.join(ROOT, "index.html")
 
-SCRIPT_TAG = '<script defer src="./promo-modal.js?v=2"></script>'
+SCRIPT_TAG = '<script defer src="./promo-modal.js?v=3"></script>'
 NOTE = "这是站长的第三个新网站"
 NOTE_LINK_HREF = "https://dujeongil-galaxy.github.io/a-reason-for-korea/"
 NOTE_LINK_TEXT = "哈韩，也要有一个理由"
@@ -60,9 +60,13 @@ def validate(js, html):
     if READY_LABEL not in js:
         errors.append("到点后没有提示「%s」" % READY_LABEL)
     if SCRIPT_TAG not in html:
-        errors.append("index.html 没有挂载 promo-modal.js?v=2")
-    if re.search(r"promo-modal\.js\?v=(?!2\b)", html):
-        errors.append("index.html 里的 promo-modal.js 缓存号不是 2")
+        errors.append("index.html 没有挂载 promo-modal.js?v=3")
+    if re.search(r"promo-modal\.js\?v=(?!3\b)", html):
+        errors.append("index.html 里的 promo-modal.js 缓存号不是 3")
+    # 2026-11-13 站长追加：「不要 15 分钟冷却，刷新首页必弹」。
+    # 源码里不得再出现任何冷却 / 记时间戳逻辑。
+    if re.search(r"inCooldown|cooldownMs|markShown|readLastShown|storageKey", code):
+        errors.append("弹窗又出现冷却逻辑（inCooldown/cooldownMs/markShown/readLastShown/storageKey）→ 刷新首页不会必弹")
     return errors
 
 
@@ -86,7 +90,9 @@ def self_test(js, html):
         ("到点提示被删",
          lambda s, h: (s.replace(READY_LABEL, "现在可以关闭了"), h)),
         ("缓存号回退",
-         lambda s, h: (s, h.replace("promo-modal.js?v=2", "promo-modal.js?v=0"))),
+         lambda s, h: (s, h.replace("promo-modal.js?v=3", "promo-modal.js?v=0"))),
+        ("冷却逻辑被加回",
+         lambda s, h: (s + "\nvar cooldownMs = 15 * 60 * 1000;\n", h)),
         ("脚本挂载被删",
          lambda s, h: (s, h.replace(SCRIPT_TAG, ""))),
     ]
@@ -118,7 +124,7 @@ def main():
     for e in errors:
         print("✗ %s" % e)
     if not errors:
-        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 备注与指向 a-reason-for-korea 的链接齐备 / ?v=2 已挂")
+        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 备注与指向 a-reason-for-korea 的链接齐备 / 无 15 分钟冷却（刷新必弹）/ ?v=3 已挂")
 
     print("\n--- 故障注入自检 ---")
     selftest_ok = self_test(js, html)

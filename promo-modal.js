@@ -19,9 +19,7 @@
 
   var CONFIG = {
     lockMs: 5000,                 // 锁定 5 秒，期间 × 也点不动
-    autoDelayMs: 800,             // 首屏加载后延迟弹出
-    cooldownMs: 15 * 60 * 1000,   // 15 分钟内不重复弹，刷新也不弹
-    storageKey: 'ddf_promo_modal_at',
+    autoDelayMs: 800,             // 首屏加载后延迟弹出（每次刷新首页都弹，不设冷却）
     title: '一个数字，先别急着信',
     lead:
       '网上流传的「25–35 岁男性无房无车相亲成功率 12%、有房后 45%」，' +
@@ -47,21 +45,6 @@
   var unlockAt = 0;
   var timer = null;
   var lastFocus = null;
-
-  function readLastShown() {
-    try { return Number(localStorage.getItem(CONFIG.storageKey) || 0); }
-    catch (e) { return 0; }
-  }
-
-  function markShown() {
-    try { localStorage.setItem(CONFIG.storageKey, String(Date.now())); }
-    catch (e) {}
-  }
-
-  function inCooldown() {
-    var last = readLastShown();
-    return !!last && Date.now() - last < CONFIG.cooldownMs;
-  }
 
   function injectStyle() {
     if (document.getElementById('pm-style')) return;
@@ -225,7 +208,6 @@
 
   function open() {
     if (!box) build();
-    markShown();
     lastFocus = document.activeElement;
     box.removeAttribute('aria-hidden');
     box.classList.add('is-open');
@@ -235,9 +217,8 @@
   }
 
   function init() {
-    if (inCooldown()) return;
+    // 每次刷新首页都自动弹（无冷却）：延迟 autoDelayMs 后弹出
     setTimeout(function () {
-      if (inCooldown() && readLastShown()) return;
       open();
     }, CONFIG.autoDelayMs);
   }
