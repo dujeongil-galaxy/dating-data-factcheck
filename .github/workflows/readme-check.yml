@@ -5,6 +5,7 @@ on:
     paths:
       - "README.md"
       - "*.html"
+      - "*.js"
       - ".github/scripts/**"
       - ".github/workflows/readme-check.yml"
   pull_request:
@@ -31,3 +32,6 @@ jobs:
 
       - name: 检查 HTML 页面（结构、导航一致、内外链、零外部依赖、窄屏溢出）
         run: python .github/scripts/check_site.py
+
+      - name: 检查新站公告弹窗（5 秒锁定 / 仅 × 可关 / 故障注入自检）
+        run: python .github/scripts/check_promo_modal.py
