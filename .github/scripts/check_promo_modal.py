@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""检查首页「新站公告」弹窗：5 秒锁定、只能点 × 关闭、备注齐备、缓存号已挂。
+"""检查首页「新站公告」弹窗：5 秒锁定、只能点 × 关闭、推广句齐备、缓存号已挂。
 
 站长 2026-11-13 指令：「这次仅设置 5 秒可关闭，但是也是这个逻辑，按下 x
 而不是点击空白区域就会关闭弹窗……备注 这是站长的第三个新网站」。
+
+站长 2026-11-13 再更正：那一行不是「备注这是」，是**推广一下站长的第三个网站**，
+所以断言改成 NOTE = 「推广一下站长的第三个网站」，并且反向钉死可见文案里
+不得再出现「备注」（同 shuangxiugou 胖东来海报那条口径）。
 
 规则不能只写进 README（shuangxiugou 的血泪），所以这里配脚本断言 + CI，
 并内置故障注入自检：每次运行都故意把几种回退造出来，确认校验器判红。
@@ -17,8 +21,9 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 JS_PATH = os.path.join(ROOT, "promo-modal.js")
 INDEX_PATH = os.path.join(ROOT, "index.html")
 
-SCRIPT_TAG = '<script defer src="./promo-modal.js?v=3"></script>'
-NOTE = "这是站长的第三个新网站"
+SCRIPT_TAG = '<script defer src="./promo-modal.js?v=4"></script>'
+NOTE = "推广一下站长的第三个网站"
+NOTE_BANNED = "备注"
 NOTE_LINK_HREF = "https://dujeongil-galaxy.github.io/a-reason-for-korea/"
 NOTE_LINK_TEXT = "哈韩，也要有一个理由"
 READY_LABEL = "点右上角 × 关闭"
@@ -52,17 +57,19 @@ def validate(js, html):
     if ESC_RE.search(code):
         errors.append("又出现 keydown / Escape 监听，Esc 能关就不是「只能点 ×」")
     if NOTE not in js:
-        errors.append("缺少站长要求的备注「%s」" % NOTE)
+        errors.append("缺少站长要求的推广句「%s」" % NOTE)
+    if NOTE_BANNED in code:
+        errors.append("可见文案又出现「备注」二字 —— 站长要的是推广第三个站，不是备注")
     if NOTE_LINK_HREF not in js:
-        errors.append("备注链接没有指向第三个新网站 a-reason-for-korea")
+        errors.append("推广链接没有指向第三个新网站 a-reason-for-korea")
     if NOTE_LINK_TEXT not in js:
-        errors.append("备注链接文字缺失「%s」" % NOTE_LINK_TEXT)
+        errors.append("推广链接文字缺失「%s」" % NOTE_LINK_TEXT)
     if READY_LABEL not in js:
         errors.append("到点后没有提示「%s」" % READY_LABEL)
     if SCRIPT_TAG not in html:
-        errors.append("index.html 没有挂载 promo-modal.js?v=3")
-    if re.search(r"promo-modal\.js\?v=(?!3\b)", html):
-        errors.append("index.html 里的 promo-modal.js 缓存号不是 3")
+        errors.append("index.html 没有挂载 promo-modal.js?v=4")
+    if re.search(r"promo-modal\.js\?v=(?!4\b)", html):
+        errors.append("index.html 里的 promo-modal.js 缓存号不是 4")
     # 2026-11-13 站长追加：「不要 15 分钟冷却，刷新首页必弹」。
     # 源码里不得再出现任何冷却 / 记时间戳逻辑。
     if re.search(r"inCooldown|cooldownMs|markShown|readLastShown|storageKey", code):
@@ -83,14 +90,16 @@ def self_test(js, html):
                                  "      if (e.key !== 'Escape') return;\n      close();\n    });"), h)),
         ("× 绑定被删",
          lambda s, h: (s.replace(x_line, "    /* x binding removed */"), h)),
-        ("备注被删",
-         lambda s, h: (s.replace(NOTE, "备注 · 一个新网站"), h)),
-        ("备注链接被改去别的站",
+        ("推广句被删",
+         lambda s, h: (s.replace(NOTE, "一个新网站"), h)),
+        ("退回「备注」口径",
+         lambda s, h: (s.replace(NOTE, "备注 · " + NOTE), h)),
+        ("推广链接被改去别的站",
          lambda s, h: (s.replace(NOTE_LINK_HREF, "https://example.com/wrong-site"), h)),
         ("到点提示被删",
          lambda s, h: (s.replace(READY_LABEL, "现在可以关闭了"), h)),
         ("缓存号回退",
-         lambda s, h: (s, h.replace("promo-modal.js?v=3", "promo-modal.js?v=0"))),
+         lambda s, h: (s, h.replace("promo-modal.js?v=4", "promo-modal.js?v=0"))),
         ("冷却逻辑被加回",
          lambda s, h: (s + "\nvar cooldownMs = 15 * 60 * 1000;\n", h)),
         ("脚本挂载被删",
@@ -124,7 +133,7 @@ def main():
     for e in errors:
         print("✗ %s" % e)
     if not errors:
-        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 备注与指向 a-reason-for-korea 的链接齐备 / 无 15 分钟冷却（刷新必弹）/ ?v=3 已挂")
+        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 推广句与指向 a-reason-for-korea 的链接齐备 / 可见文案无「备注」/ 无 15 分钟冷却（刷新必弹）/ ?v=4 已挂")
 
     print("\n--- 故障注入自检 ---")
     selftest_ok = self_test(js, html)
