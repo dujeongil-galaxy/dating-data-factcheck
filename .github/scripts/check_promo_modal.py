@@ -17,8 +17,10 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 JS_PATH = os.path.join(ROOT, "promo-modal.js")
 INDEX_PATH = os.path.join(ROOT, "index.html")
 
-SCRIPT_TAG = '<script defer src="./promo-modal.js?v=1"></script>'
+SCRIPT_TAG = '<script defer src="./promo-modal.js?v=2"></script>'
 NOTE = "这是站长的第三个新网站"
+NOTE_LINK_HREF = "https://dujeongil-galaxy.github.io/a-reason-for-korea/"
+NOTE_LINK_TEXT = "哈韩，也要有一个理由"
 READY_LABEL = "点右上角 × 关闭"
 LOCK_RE = re.compile(r"var\s+LOCK_MS\s*=\s*5000\s*;")
 X_RE = re.compile(r"xEl\.onclick\s*=\s*close\b")
@@ -51,12 +53,16 @@ def validate(js, html):
         errors.append("又出现 keydown / Escape 监听，Esc 能关就不是「只能点 ×」")
     if NOTE not in js:
         errors.append("缺少站长要求的备注「%s」" % NOTE)
+    if NOTE_LINK_HREF not in js:
+        errors.append("备注链接没有指向第三个新网站 a-reason-for-korea")
+    if NOTE_LINK_TEXT not in js:
+        errors.append("备注链接文字缺失「%s」" % NOTE_LINK_TEXT)
     if READY_LABEL not in js:
         errors.append("到点后没有提示「%s」" % READY_LABEL)
     if SCRIPT_TAG not in html:
-        errors.append("index.html 没有挂载 promo-modal.js?v=1")
-    if re.search(r"promo-modal\.js\?v=(?!1\b)", html):
-        errors.append("index.html 里的 promo-modal.js 缓存号不是 1")
+        errors.append("index.html 没有挂载 promo-modal.js?v=2")
+    if re.search(r"promo-modal\.js\?v=(?!2\b)", html):
+        errors.append("index.html 里的 promo-modal.js 缓存号不是 2")
     return errors
 
 
@@ -75,10 +81,12 @@ def self_test(js, html):
          lambda s, h: (s.replace(x_line, "    /* x binding removed */"), h)),
         ("备注被删",
          lambda s, h: (s.replace(NOTE, "备注 · 一个新网站"), h)),
+        ("备注链接被改去别的站",
+         lambda s, h: (s.replace(NOTE_LINK_HREF, "https://example.com/wrong-site"), h)),
         ("到点提示被删",
          lambda s, h: (s.replace(READY_LABEL, "现在可以关闭了"), h)),
         ("缓存号回退",
-         lambda s, h: (s, h.replace("promo-modal.js?v=1", "promo-modal.js?v=0"))),
+         lambda s, h: (s, h.replace("promo-modal.js?v=2", "promo-modal.js?v=0"))),
         ("脚本挂载被删",
          lambda s, h: (s, h.replace(SCRIPT_TAG, ""))),
     ]
@@ -110,7 +118,7 @@ def main():
     for e in errors:
         print("✗ %s" % e)
     if not errors:
-        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 备注与提示齐备 / ?v=1 已挂")
+        print("✓ 弹窗规格：5 秒锁定 / 仅 × 可关 / 遮罩与 Esc 不关 / 备注与指向 a-reason-for-korea 的链接齐备 / ?v=2 已挂")
 
     print("\n--- 故障注入自检 ---")
     selftest_ok = self_test(js, html)

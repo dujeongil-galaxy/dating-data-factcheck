@@ -3,7 +3,9 @@
    --------------------------------------------------------------------------
    站长 2026-11-13 指令：照 shuangxiugou 首页弹窗的逻辑，在第三个新站也做一个；
    这次锁定 5 秒，**只能按右上角 × 关闭，点空白区域（遮罩）不会关**。
-   内容里必须备注「这是站长的第三个新网站」。
+   内容里备注「这是站长的第三个新网站」，并用链接指向该站——
+   站长 2026-11-13 更正：第三个新网站就是
+   https://dujeongil-galaxy.github.io/a-reason-for-korea/ （哈韩，也要有一个理由）。
 
    与 shuangxiugou 版一致的三条约束：
      ① 遮罩不绑定任何关闭事件；② 不监听 Esc；③ × 是唯一关闭入口。
@@ -30,7 +32,12 @@
       '可查证的部分，附来源、日期与样本口径',
       '比起结论，更想留住「先问一句」的习惯'
     ],
-    note: '备注 · 这是站长的第三个新网站',
+    // 备注 + 指向第三个新网站的链接（2026-11-13 站长更正：第三个站就是 a-reason-for-korea）
+    notePrefix: '备注 · 这是站长的第三个新网站：',
+    noteLink: {
+      text: '哈韩，也要有一个理由',
+      href: 'https://dujeongil-galaxy.github.io/a-reason-for-korea/'
+    },
     countLabel: '秒后可关闭',
     readyLabel: '点右上角 × 关闭'
   };
@@ -91,6 +98,10 @@
       '.pm__note{margin:0;padding:9px 12px;border-left:3px solid var(--accent);' +
       'background:var(--warn-bg);color:var(--warn);font-size:13px;line-height:1.7;' +
       'flex:0 0 auto;}' +
+      '.pm__note-link{color:var(--accent);font-weight:600;text-decoration:underline;' +
+      'text-underline-offset:2px;white-space:nowrap;}' +
+      '.pm__note-link:hover{color:var(--ink);}' +
+      '.pm__note-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}' +
       '.pm__count{display:flex;align-items:center;gap:8px;flex-wrap:wrap;' +
       'font-size:12.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px;}' +
       '.pm__count__num{font-weight:700;color:var(--accent);font-size:15px;}' +
@@ -144,7 +155,15 @@
 
     box.querySelector('.pm__title').textContent = CONFIG.title;
     box.querySelector('.pm__lead').textContent = CONFIG.lead;
-    box.querySelector('.pm__note').textContent = CONFIG.note;
+    var noteEl = box.querySelector('.pm__note');
+    noteEl.textContent = CONFIG.notePrefix;
+    var noteLink = document.createElement('a');
+    noteLink.className = 'pm__note-link';
+    noteLink.href = CONFIG.noteLink.href;
+    noteLink.target = '_blank';
+    noteLink.rel = 'noopener noreferrer';
+    noteLink.textContent = CONFIG.noteLink.text;
+    noteEl.appendChild(noteLink);
     box.querySelector('.pm__count__label').textContent = CONFIG.countLabel;
     box.querySelector('.pm__points').innerHTML = CONFIG.points
       .map(function (t) { return '<li>' + t + '</li>'; })
