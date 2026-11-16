@@ -1,0 +1,8 @@
+# 四语生成页要能在 Ubuntu CI 上通过「重建后零 diff」断言，换行必须锁成 LF。
+# 否则 Windows 端 core.autocrlf=true 会与 CI 端默认 LF 不一致，整页假判红。
+.gitattributes text eol=lf
+*.html text eol=lf
+*.tsv  text eol=lf
+*.py   text eol=lf
+*.yml  text eol=lf
+*.md   text eol=lf

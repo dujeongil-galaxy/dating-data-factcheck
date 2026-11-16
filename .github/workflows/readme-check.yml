@@ -6,6 +6,12 @@ on:
       - "README.md"
       - "*.html"
       - "*.js"
+      - "en/**/*.html"
+      - "jp/**/*.html"
+      - "ko/**/*.html"
+      - "scripts/i18n-data.tsv"
+      - "scripts/i18n_build.py"
+      - "scripts/i18n_verify.py"
       - ".github/scripts/**"
       - ".github/workflows/readme-check.yml"
   pull_request:
@@ -35,3 +41,11 @@ jobs:
 
       - name: 检查新站公告弹窗（5 秒锁定 / 仅 × 可关 / 故障注入自检）
         run: python .github/scripts/check_promo_modal.py
+
+      - name: 检查中英日韩四语（字典 / 18 张生成页 / 语言菜单 / 故障注入自检）
+        run: python scripts/i18n_verify.py
+
+      - name: 构建产物必须与中文源页同步（禁止手改 en/jp/ko）
+        run: |
+          python scripts/i18n_build.py
+          git diff --exit-code -- en jp ko
