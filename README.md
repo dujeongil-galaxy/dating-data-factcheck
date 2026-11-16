@@ -260,6 +260,12 @@ Actions → README 检查 → 右侧 **Run workflow** → 分支选 `main` → *
 
 按时间倒序，包含做错过又修掉的项，如实记录。
 
+**2026-11-16**（代码提交 `97cb6ad`，2026-11-16 21:16）
+
+- **修复英文页顶部导航折行溢出压站名（站长：「en 版本顶部导航栏已经溢出了，但中、日、韩版本则不会」）**：英文站名 `Dating Data Fact Check` + 五项导航（其中 `Mutual Expectations` / `Owner's Picks` / `Rules of Action` 都比中日韩长）自然宽度约 **959px**，而 `.wrap` 内容区只有 **896px**（940 − 44 padding），超出的 63px 让 flex 容器把导航挤成两行、第一行 `top=-12px` **向上溢出压住站名**；中日韩分别为 714 / 870 / 826px 能塞下，所以只有英文坏。改法：在生成器 `i18n_build.py` 的 CSS 常量里加一段**只对英文桌面宽度（min-width:761px）生效**的规则——header 容器放宽到 970px、导航项 `padding:7px 13px → 7px 6px`、导航 `gap:4px → 2px`、站名 `gap:10px → 6px`，合计压到约 907px < 926px 容器；并给 header 加 `height:auto;min-height:60px;flex-wrap:wrap` 兜底——万一将来文案再变长，也只会把导航**优雅换到第二行**（header 自动增高、第一行 `top` 保持正数），不再压站名。其它三语视觉完全不变。
+- **机器强制**：`i18n_verify.py` 六源页断言新增一条「必须保留英文 header 防溢出规则」，故障注入从 25 组加到 **26 组**（新增「把英文导航 padding 改回 13px」），且这组必须命中自己那条断言。改动只在生成器 CSS 常量一处，`--inject` 回流六源页、重建 18 页；`--inject` 幂等、生成页与生成器逐字节同步两条断言仍全绿。
+- **验证**：无头 Edge + CDP 实测四语 × 六页 × 16 档宽度（1440→320）——修复前英文 index/anti-scam/rules 三页在 1440 下 `rows=2`、`liTops=[-12,32]`；修复后 12 个页面场景在 1440 全部 `rows=1`、`liTops=[10]`，与中文/日文/韩文一致；940px 与 860px 下 header 按兜底规则增高到 84 / 75px，导航单行不压字；`check_site` / `check_promo_modal` 11/11 / `check_readme` / `i18n_verify` 全绿。截图 `D:/WorkBuddy-Cache/shots/factcheck-nav/en-1440-head-2x.png` 肉眼确认五项单行、无重叠。
+
 **2026-11-16**（代码提交 `ff1457f`，2026-11-16 15:23）
 
 - **新增中英日韩四语（站长指令：「新增中英日韩，注意手机版显示为 CN、EN、JP、KR，建议还是单独做一个点击可下拉的菜单」）**：按站长确认的「照搬哈韩站·完整四语」方案落地——不接在线机翻，六张中文页是唯一文案源，`scripts/i18n-data.tsv` 收录 **465 条**中文原文 → en / jp / ko 译文（约 1.34 万字），`scripts/i18n_build.py` 生成 `en/`、`jp/`、`ko/` 各 6 页共 **18 张完整独立 HTML**。生成页自带本地化的 `html lang`、`canonical`、`og:url`、`og:locale`，站内资源统一加 `../`，关掉 JS 也能读、URL 可单独分享、零外部依赖。
