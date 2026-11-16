@@ -4,7 +4,7 @@
 
 > 直接在 Pages 地址后面加 `/README.md` 打开本页，得到的是**纯文本**（不渲染排版）。要看渲染效果请走上面第二个链接。
 
-一个纯静态的五页站点，托管在 GitHub Pages 上。
+一个纯静态的五页站点，托管在 GitHub Pages 上；中、英、日、韩四语，每语都是完整独立页面，不依赖在线机翻。
 
 ## 页面
 
@@ -68,6 +68,14 @@
 
 **弹窗的机器强制**：`.github/scripts/check_promo_modal.py` 逐项核对 5 秒常量、× 绑定、遮罩 / Esc 不得绑定 close、推广句原话（反向断言：去注释后的可见文案出现「备注」即判红）、指向 `a-reason-for-korea` 的链接（href + 文字）、到点提示、无冷却逻辑残留、`index.html` 的 `?v=4` 挂载，并内置 **11 组**故障注入自检（每次运行都验证校验器本身能抓到回退）。检查器挂在「站点检查」workflow 里，`*.js` 也在 push 触发路径中。改 `LOCK_MS`、缓存号、推广句或第三个站的链接都要同步改断言与检查器常量。
 
+**四语规则（2026-11-16 站长指令，长期有效）。** 六张中文页（`index / anti-scam / rules / expectations / picks / 404`）是**唯一文案源**；`scripts/i18n-data.tsv` 是「中文原文 → en / jp / ko」的 465 条字典；`scripts/i18n_build.py` 由中文页生成 `en/`、`jp/`、`ko/` 各 6 页共 **18 张完整独立 HTML**。生成页关掉 JS 也能读、URL 可单独分享、零外部依赖，**不接任何在线机翻服务**。改文案只改中文源页 + 字典，随后依次跑 `--inject` 与构建；**不许手改 `en/`、`jp/`、`ko/` 里的任何文件**，CI 会重建并用 `git diff --exit-code` 把改动顶回去。
+
+**语言菜单是单独一个点击可下拉的控件**：`<details class="lang-switch">` 纯 CSS、零 JS。桌面收起态显示 `中文 / English / 日本語 / 한국어` 全称；**手机版（≤640px）必须显示 `CN / EN / JP / KR`**。长名在手机端用 `clip:rect(0,0,0,0)` 视觉隐藏但保留给屏读，**不许改成 `display:none`**（屏读会丢语言名）。当前语种高亮 `is-current` 并带 `aria-current="page"`；四语链接顺序固定 `zh → en → jp → ko`。生成页的 `html lang`、`canonical`、`og:url`、`og:locale` 一律按该语种本地化，站内资源与链接一律加 `../`。
+
+**两处排版红线**：320px 下新增语言按钮不许把站点原有的「菜单」按钮挤成竖排（两个按钮都 `flex:none`，品牌名才收缩）；404 页是居中卡片，语言菜单展开时**占文档流把内容往下顶**，不做浮层遮挡大号 404。
+
+**四语的机器强制（脚本 + 断言 + CI 三层，缺一不可）**：`scripts/i18n_verify.py` 核对字典、六张源页的 CSS / hreflang / 菜单、18 张生成页与 `build_page()` 逐字节一致、SEO 元数据本地化、`../` 路径、菜单顺序与高亮、中文原文残留、脚本块内中文串；另做 **25 组定向故障注入**——每组必须触发它自己那条断言的报错，而不是被「与源页不同步」兜底捞住；还验证 `--inject` 幂等与生成器在源页缺 canonical 时会自动补 9 个本地化 head 标签。CI 里挂两步：`python scripts/i18n_verify.py` 与「重建后 `git diff --exit-code -- en jp ko`」；push 触发路径包含四个语种目录、字典、构建器与校验器。`.gitattributes` 把换行锁成 LF，避免 Windows 的 `core.autocrlf` 让 Ubuntu CI 整页假判红。
+
 ## 结构
 
 ```
@@ -78,16 +86,21 @@
 ├── expectations.html   # 双向约定独立页
 ├── picks.html          # 推荐与避雷页（视频 / 付费 / 抖音推荐 / 避雷）
 ├── shot-vault.js       # .enc 密文本地解密 → blob: 地址写进 img.src
+├── en/ jp/ ko/         # 各 6 张译文页，由 i18n_build.py 生成，禁止手改
 ├── scripts/
-│   └── encrypt-shots.mjs  # 仓库外明文 → assets/*.enc（含往返自检）
+│   ├── encrypt-shots.mjs  # 仓库外明文 → assets/*.enc（含往返自检）
+│   ├── i18n-data.tsv      # 中文原文 → en/jp/ko 字典（465 条）
+│   ├── i18n_build.py      # --inject 注入菜单；默认生成 18 张译文页
+│   └── i18n_verify.py     # 四语断言 + 25 组定向故障注入
 ├── assets/             # 只放密文，不放明文素材
 │   ├── soul-2019-comments-1.jpg.enc
 │   └── soul-2019-comments-2.jpg.enc
-├── 404.html            # GitHub Pages 自定义 404
+├── 404.html            # GitHub Pages 自定义 404（中文源页）
+├── .gitattributes      # 换行锁 LF，保证 CI 重建零 diff
 └── .nojekyll           # 关闭 Jekyll 构建
 ```
 
-无构建步骤、无第三方 CDN、无字体请求。每页 CSS 与主体 JS 内联，唯一的独立脚本是 `shot-vault.js`（本地文件，不是外部依赖）；04 节两张原图在仓库里只有 `.enc` 密文，页面 `<img>` 不写 `src`，解密后才拿到 `blob:` 地址。外链一律 `target="_blank"` 且带 `rel="noopener noreferrer"`，链接失效不影响正文阅读。`check_site.py` 的零外部资源检查对 `http` 开头的 `img src` 不留任何白名单，`script` / `stylesheet` 外链同样一律判红。
+**六张中文源页无构建步骤**：无第三方 CDN、无字体请求，CSS 与主体 JS 内联。四语译文是**离线预先生成后提交的静态 HTML**（`i18n_build.py` 只在本地 / CI 校验时跑，Pages 不做任何构建），因此站点仍然零运行时依赖。唯一的独立页面脚本是 `shot-vault.js`（本地文件，不是外部依赖）；04 节两张原图在仓库里只有 `.enc` 密文，页面 `<img>` 不写 `src`，解密后才拿到 `blob:` 地址。外链一律 `target="_blank"` 且带 `rel="noopener noreferrer"`，链接失效不影响正文阅读。`check_site.py` 的零外部资源检查对 `http` 开头的 `img src` 不留任何白名单，`script` / `stylesheet` 外链同样一律判红。
 
 ## 本地预览
 
@@ -106,11 +119,11 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 
 ## CI 检查失败了怎么修
 
-本仓库有一个自动检查（`.github/workflows/readme-check.yml`，工作流名 **站点检查**），在你改动 README 或任一 HTML 页面后自动运行，分两步：
+本仓库有一个自动检查（`.github/workflows/readme-check.yml`，工作流名 **站点检查**），在你改动 README、任一 HTML 页面、四语字典或构建脚本后自动运行，分五步：
 
 **第一步 `check_readme.py`** 管 README.md：占位符残留、Markdown 表格列数一致性、外链可达性。
 
-**第二步 `check_site.py`** 管所有 HTML 页面，共 12 项：
+**第二步 `check_site.py`** 管**根目录六张中文页**（只扫 `*.html`，子目录译文页不归它管），共 12 项：
 
 - 首行必须是 `<!DOCTYPE html>`（否则进怪异模式）
 - `<html lang>`、`<title>`、viewport meta 是否齐备
@@ -123,6 +136,12 @@ Settings → Pages → Source 选 `Deploy from a branch`，分支 `main`、目�
 - 窄屏溢出风险：按渲染文本算最长不可断词，超过 226px 预算（320px 视口扣除容器内边距与序号区）即告警
 - 外链 HTTP 可达性
 - **跨页一致性**：各页导航与页脚的链接集合必须完全相同；`.nojekyll` 必须存在
+
+**第三步 `check_promo_modal.py`** 管首页新站公告弹窗的 5 秒锁定、唯一关闭入口、推广句与 11 组故障注入。
+
+**第四步 `i18n_verify.py`** 管中英日韩：字典、六张源页菜单、18 张生成页、SEO 元数据本地化、`../` 路径，以及 25 组定向故障注入。
+
+**第五步「重建零 diff」** 跑一次 `i18n_build.py`，再用 `git diff --exit-code -- en jp ko` 断言提交进来的译文页与生成器输出逐字节一致——手改译文页、漏跑构建都会在这里判红。
 
 失败时 CI 显示红叉，输出里用 `✗` 标出文件、行号和原因。
 
@@ -158,17 +177,29 @@ Markdown 表格每一行的竖线数量必须与表头完全相同，分隔行�
 - **HTTP 401 / 403 / 429**：**不会让 CI 变红**，只会列进「疑似限流」提示里。GitHub 自己的页面就经常对检查用的请求返回 403，这不代表链接失效。
 - **抖音链接（`douyin.com` / `v.douyin.com`）**：**CI 一律不去判断**，会列进「无法自动验证」。因为抖音对任何程序化请求都返回 404（包括故意编造的不存在 ID），拿 404 当死链会让 CI 永久红着、检查器当场作废。这类链接只能你在 App 或浏览器里人工确认，目前站内有 6 条。
 
+### 四、四语检查失败 / 重建零 diff 判红
+
+最常见的两条：
+
+- **「与字典/中文源页不同步（需重跑 i18n_build.py）」**：改了中文源页或 `i18n-data.tsv` 却没重建。依次跑 `python scripts/i18n_build.py --inject`、`python scripts/i18n_build.py`，把生成的 18 页一起提交。
+- **「重建零 diff」判红**：多半是手改了 `en/`、`jp/`、`ko/` 里的页面，或者本机把换行转成了 CRLF。前者按上一条重建覆盖；后者检查 `.gitattributes` 是否被删（它把 HTML/TSV/PY/YML/MD 锁成 LF）。
+
+字典里出现新中文片段而没译文时，构建器会直接报「未翻译文本 N 条」并退出，把列出的原文补进 `i18n-data.tsv` 三语译文即可。`i18n_verify.py` 的 `SELF-TEST` 若不是 `25/25`，说明某条断言没被自己的故障注入覆盖，先修断言再提交。
+
 ### 不用等 CI，本地先跑
 
 在仓库目录下执行：
 
 ```bash
 python .github/scripts/check_readme.py README.md
-python .github/scripts/check_site.py
+python .github/scripts/check_site.py --no-remote
+python .github/scripts/check_promo_modal.py
+python scripts/i18n_verify.py
+python scripts/i18n_build.py && git diff --exit-code -- en jp ko
 echo $?
 ```
 
-第一条查 README，第二条查全部 HTML 页面。最后一行输出 `0` 是通过，`1` 是有问题。**推送之前先跑一遍这两条**，比等 CI 红了再回来修快得多。
+前四条分别查 README、根目录中文页、弹窗与四语；第五条模拟 CI 的「重建零 diff」。最后一行输出 `0` 是通过，`1` 是有问题。**推送之前先跑一遍**，比等 CI 红了再回来修快得多。
 
 ### 在 GitHub 上查看失败详情
 
@@ -228,6 +259,15 @@ Actions → README 检查 → 右侧 **Run workflow** → 分支选 `main` → *
 ## 变更记录
 
 按时间倒序，包含做错过又修掉的项，如实记录。
+
+**2026-11-16**（代码提交 `ff1457f`，2026-11-16 15:23）
+
+- **新增中英日韩四语（站长指令：「新增中英日韩，注意手机版显示为 CN、EN、JP、KR，建议还是单独做一个点击可下拉的菜单」）**：按站长确认的「照搬哈韩站·完整四语」方案落地——不接在线机翻，六张中文页是唯一文案源，`scripts/i18n-data.tsv` 收录 **465 条**中文原文 → en / jp / ko 译文（约 1.34 万字），`scripts/i18n_build.py` 生成 `en/`、`jp/`、`ko/` 各 6 页共 **18 张完整独立 HTML**。生成页自带本地化的 `html lang`、`canonical`、`og:url`、`og:locale`，站内资源统一加 `../`，关掉 JS 也能读、URL 可单独分享、零外部依赖。
+- **语言切换器**：`<details class="lang-switch">` 纯 CSS 点击下拉，桌面显示 `中文 / English / 日本語 / 한국어`，**手机 ≤640px 显示 `CN / EN / JP / KR`**；长名用 `clip:rect(0,0,0,0)` 视觉隐藏但保留给屏读，当前语种高亮 `is-current` + `aria-current`。六张中文页各补 4 条 hreflang，菜单只是链接，中文源页不做运行时翻译。
+- **配套机器强制三层**：`scripts/i18n_verify.py` 做纯函数断言（字典、菜单、18 页逐字节同步、SEO 本地化、`../` 路径、中文原文残留、script 内中文串），**25 组定向故障注入**每组都必须命中自己那条断言的报错（不是被「与源页不同步」兜底捞住），另验证 `--inject` 幂等与生成器在源页缺 canonical 时自动补 9 个本地化 head 标签。CI 新增两步：跑校验器、重建后 `git diff --exit-code -- en jp ko`；push 触发路径补四个语种目录、字典、构建器与校验器。新增 `.gitattributes` 把换行锁成 LF，防 Windows `core.autocrlf` 让 Ubuntu CI 整页假判红。
+- **验证**：`check_site.py --no-remote` 六页全绿、`check_promo_modal.py` 11/11、`i18n_verify.py` 全绿（VERIFY / GENERATOR / INJECT / SELF-TEST 25/25）、重建零 diff；无头 Edge + CDP **13 个真渲染场景**（1440px 桌面 + 320px 手机、中/英/日/韩、五张内容页与 404），全部无横向溢出，点击下拉生效，手机收起态只显示短码，中文页点 EN 与译文页点 CN 的来回跳转均落到正确页面且 `html lang` / 高亮同步；截图肉眼验收。
+- **做错过又修掉的项，如实记录**：① `404.html` 中文源页原本没有 canonical / `og:*`，生成器只做「替换已有」不补，三个 404 译文页判红——改为缺标签时在 `</head>` 前自动补本地化元数据，源页不动；② `--inject` 的菜单模板首行自带 4 个空格，每跑一次就在原缩进上再叠一层，文件永远在变（不幂等）——模板首行改为不带缩进并做一次性缩进归一，校验器新增幂等断言 + 故障注入；③ 早期故障注入用裸 URL 做替换，先命中了前面的 hreflang 行，只被「重建不同步」顺带判红，等于那条断言根本没验证到——改成精确标签替换，并给每组故障加「必须命中的报错子串」；④ 320px 下新增语言按钮把站点原有「菜单」按钮挤成竖排两行——两个按钮都设 `flex:none`、品牌名才收缩；⑤ 404 页居中卡片里的浮层下拉压住大号 `404` 数字——改成展开时占文档流、把内容往下顶，桌面与手机均实测 `overlaps404Number: false`；⑥ 全文详见 `CHANGELOG.md` 与 `PITFALLS.md`。
+- **同批未推**：另一仓库 `a-reason-for-korea` 的「抖音 → TikTok」译文修正已本地提交（`19b1330` / `69afbb7`），本仓与本批均**只做本地提交，未推送**，等站长决定。
 
 **2026-11-13**
 
