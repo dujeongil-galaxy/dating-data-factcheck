@@ -215,6 +215,15 @@
   .lang-list a:hover{background:var(--paper,#faf7f2)}
   .lang-list a.is-current{font-weight:700;color:var(--accent,#c9502a)}
   .lang-switch .lang-short{display:none}
+  /* 英文文案比中日韩长（站名 + 5 项导航合计约 959px，940 容器只有 896px），
+     桌面端不收紧就会被 flex 挤成两行、第一行 top 为负往上溢出压住站名。
+     只在英文页桌面宽度收紧间距并略放宽 header 容器，其它语言视觉不变。 */
+  @media (min-width:761px){
+    html[lang="en"] .site-head .wrap{max-width:970px;gap:6px;height:auto;min-height:60px;flex-wrap:wrap}
+    html[lang="en"] .site-head .nav{gap:2px}
+    html[lang="en"] .site-head .nav a{padding:7px 6px}
+    html[lang="en"] .site-head .brand{gap:6px}
+  }
   /* 404 页是居中卡片：菜单展开时占文档流、把内容往下顶，任何宽度都不遮挡大号 404 */
   .box > .lang-switch{display:inline-block;margin:0 auto 18px;text-align:left}
   .box > .lang-switch .lang-list{position:static;width:max-content;min-width:136px;

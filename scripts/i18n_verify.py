@@ -122,6 +122,8 @@ def verify(s):
             e.append(tag + ': 桌面不该显示短码')
         if 'clip:rect(0,0,0,0)' not in src:
             e.append(tag + ': 手机端长名没用 clip 隐藏（屏读会丢）')
+        if 'html[lang="en"] .site-head .nav a{padding:7px 6px}' not in src:
+            e.append(tag + ': 缺英文 header 导航防溢出规则')
         if src.count('rel="alternate" hreflang=') != 4:
             e.append(tag + ': hreflang 不是 4 条')
         menu = MENU_RE.search(src)
@@ -284,6 +286,10 @@ FAULTS = [
     ('CSS 块结束标记丢失', lambda s: edit_src(s, 'rules.html',
      B.CSS_END, ''),
      'zh/rules.html: 缺语言菜单 CSS 块结束标记'),
+    ('英文导航防溢出规则被撤（会折行压站名）', lambda s: edit_src(s, 'index.html',
+     'html[lang="en"] .site-head .nav a{padding:7px 6px}',
+     'html[lang="en"] .site-head .nav a{padding:7px 13px}'),
+     'zh/index.html: 缺英文 header 导航防溢出规则'),
 ]
 
 
