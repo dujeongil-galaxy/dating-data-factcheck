@@ -77,7 +77,13 @@ class Parser(HTMLParser):
             # 页面源码里出现 http 开头的 img src 就是回潮，直接判红。
             self.external_assets.append("img src=" + a["src"])
         if tag == "script" and a.get("src", "").startswith("http"):
-            self.external_assets.append("script src=" + a["src"])
+            # 2026-11-17 站长指令：接入 Google AdSense（Ads.txt 已授权 pub-5270311938787209），
+            # adsbygoogle.js 是唯一放行的外部脚本 —— 广告脚本属内容变现例外，
+            # 不构成页面功能的第三方依赖；其余外链 script 维持判红。
+            if a["src"].startswith("https://pagead2.googlesyndication.com/"):
+                pass
+            else:
+                self.external_assets.append("script src=" + a["src"])
         if tag == "link" and a.get("href", "").startswith("http") and \
                 "stylesheet" in (a.get("rel") or ""):
             self.external_assets.append("link stylesheet=" + a["href"])
