@@ -4,6 +4,12 @@
 > 扩展约定只写长期规则摘要。每条都带**真实提交哈希**；时间取
 > `git log -1 --format="%h|%ad" --date=format:'%Y-%m-%d %H:%M'`（author date，不用 `%cd`）。
 
+## 2026-11-17 22:57 · `448701e` · 接入 Google AdSense：六源页挂载元标记与 Auto Ads 脚本
+
+- **起因**：站长指令「我的其他站点，也推送广告」。AdSense 已以子域名 dujeongil-galaxy.github.io 登记并验证（ca-pub-5270311938787209），本站属同主机子路径，Auto Ads 为主机级开关，过审后四语 24 页自动投放。
+- **改动**：① 六个中文源页 `</head>` 前幂等插入 `google-adsense-account` 元标记与 `adsbygoogle.js`；en/jp/ko 18 张生成页由 `i18n_build.py` 重建（标记无中文字符串、随模板透传，i18n 字典零改动）。② `check_site.py` 的「零外部依赖」检查新增唯一白名单 `pagead2.googlesyndication.com`——广告脚本属内容变现例外，其余外链 script 维持判红。
+- **验证**：`i18n_build.py` 重建 18 页成功；`check_site` / `check_promo_modal` / `check_readme` / `i18n_verify` 四道门禁全绿；生成页与构建器逐字节同步。
+
 ## 2026-11-16 21:16 · `97cb6ad` · 修复英文页顶部导航折行溢出压站名
 
 站长指令：`https://dujeongil-galaxy.github.io/dating-data-factcheck/en/ 这个版本顶部导航栏已经溢出了，但中、日、韩版本，则不会。修复`。

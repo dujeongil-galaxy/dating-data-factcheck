@@ -260,6 +260,10 @@ Actions → README 检查 → 右侧 **Run workflow** → 分支选 `main` → *
 
 按时间倒序，包含做错过又修掉的项，如实记录。
 
+**2026-11-17**（代码提交 `448701e`，2026-11-17 22:57）
+
+- **接入 Google AdSense（站长指令「我的其他站点，也推送广告」）**：六个中文源页 `</head>` 前幂等插入 `google-adsense-account` 元标记（ca-pub-5270311938787209）与 `adsbygoogle.js`；en/jp/ko 18 张生成页由 `i18n_build.py` 重建（标记无中文字符串、随模板透传，i18n 字典零改动）。`check_site.py` 的「零外部依赖」检查新增唯一白名单 `pagead2.googlesyndication.com`——广告脚本属内容变现例外，其余外链 script 维持判红。`check_site` / `check_promo_modal` / `check_readme` / `i18n_verify` 全绿；Auto Ads 为主机级开关，过审后四语 24 页自动投放，如遇遮挡用「排除的区域」避让。
+
 **2026-11-16**（代码提交 `97cb6ad`，2026-11-16 21:16）
 
 - **修复英文页顶部导航折行溢出压站名（站长：「en 版本顶部导航栏已经溢出了，但中、日、韩版本则不会」）**：英文站名 `Dating Data Fact Check` + 五项导航（其中 `Mutual Expectations` / `Owner's Picks` / `Rules of Action` 都比中日韩长）自然宽度约 **959px**，而 `.wrap` 内容区只有 **896px**（940 − 44 padding），超出的 63px 让 flex 容器把导航挤成两行、第一行 `top=-12px` **向上溢出压住站名**；中日韩分别为 714 / 870 / 826px 能塞下，所以只有英文坏。改法：在生成器 `i18n_build.py` 的 CSS 常量里加一段**只对英文桌面宽度（min-width:761px）生效**的规则——header 容器放宽到 970px、导航项 `padding:7px 13px → 7px 6px`、导航 `gap:4px → 2px`、站名 `gap:10px → 6px`，合计压到约 907px < 926px 容器；并给 header 加 `height:auto;min-height:60px;flex-wrap:wrap` 兜底——万一将来文案再变长，也只会把导航**优雅换到第二行**（header 自动增高、第一行 `top` 保持正数），不再压站名。其它三语视觉完全不变。
